@@ -13,13 +13,14 @@ class GoogleMapsPlaces extends GoogleWebService {
   GoogleMapsPlaces(String apiKey, [Client httpClient])
       : super(apiKey, _placesUrl, httpClient);
 
-  Future<PlacesSearchResponse> searchNearbyWithRadius(Location location, num radius,
+  Future<PlacesSearchResponse> searchNearbyWithRadius(
+      Location location, num radius,
       {String type,
-        String keyword,
-        String language,
-        num minprice,
-        num maxprice,
-        String name}) async {
+      String keyword,
+      String language,
+      num minprice,
+      num maxprice,
+      String name}) async {
     String url = builNearbySearchUrl(
         location: location,
         language: language,
@@ -33,15 +34,16 @@ class GoogleMapsPlaces extends GoogleWebService {
     return new PlacesSearchResponse.fromJson(JSON.decode(res.body));
   }
 
-  Future<PlacesSearchResponse> searchNearbyWithRankBy(Location location,
-      String rankby, {
-        String type,
-        String keyword,
-        String language,
-        num minprice,
-        num maxprice,
-        String name,
-      }) async {
+  Future<PlacesSearchResponse> searchNearbyWithRankBy(
+    Location location,
+    String rankby, {
+    String type,
+    String keyword,
+    String language,
+    num minprice,
+    num maxprice,
+    String name,
+  }) async {
     String url = builNearbySearchUrl(
         location: location,
         language: language,
@@ -54,16 +56,17 @@ class GoogleMapsPlaces extends GoogleWebService {
     return new PlacesSearchResponse.fromJson(JSON.decode(res.body));
   }
 
-  String builNearbySearchUrl({Location location,
-    num radius,
-    String type,
-    String keyword,
-    String language,
-    num minprice,
-    num maxprice,
-    String name,
-    String rankby,
-    String pagetoken}) {
+  String builNearbySearchUrl(
+      {Location location,
+      num radius,
+      String type,
+      String keyword,
+      String language,
+      num minprice,
+      num maxprice,
+      String name,
+      String rankby,
+      String pagetoken}) {
     if (radius != null && rankby != null) {
       throw new ArgumentError(
           "'rankby' must not be included if 'radius' is specified.");
@@ -102,7 +105,8 @@ class PlacesSearchResponse extends GoogleResponse<PlacesSearchResult> {
   /// JSON next_page_token
   final String nextPageToken;
 
-  PlacesSearchResponse(String status,
+  PlacesSearchResponse(
+      String status,
       String errorMessage,
       List<PlacesSearchResult> results,
       this.htmlAttributions,
