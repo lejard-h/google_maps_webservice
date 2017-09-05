@@ -7,6 +7,9 @@ import 'package:http/http.dart';
 import 'utils.dart';
 
 const _placesUrl = "/place";
+const _nearbySearchUrl = "/nearbysearch/json";
+const _textSearchUrl = "/textsearch/json";
+const _detailsSearchUrl = "/details/json";
 
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
@@ -21,7 +24,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       PriceLevel minprice,
       PriceLevel maxprice,
       String name}) async {
-    String url = buildNearbySearchUrl(
+    final url = buildNearbySearchUrl(
         location: location,
         language: language,
         radius: radius,
@@ -30,7 +33,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         minprice: minprice,
         maxprice: maxprice,
         name: name);
-    return _decode(await _doGet(url));
+    return _decodeSearchResponse(await _doGet(url));
   }
 
   Future<PlacesSearchResponse> searchNearbyWithRankBy(
@@ -43,7 +46,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     PriceLevel maxprice,
     String name,
   }) async {
-    String url = buildNearbySearchUrl(
+    final url = buildNearbySearchUrl(
         location: location,
         language: language,
         type: type,
@@ -51,7 +54,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         minprice: minprice,
         maxprice: maxprice,
         name: name);
-    return _decode(await _doGet(url));
+    return _decodeSearchResponse(await _doGet(url));
   }
 
   Future<PlacesSearchResponse> searchByText(String query,
@@ -63,7 +66,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       String type,
       String pagetoken,
       String language}) async {
-    String url = buildTextSearchUrl(
+    final url = buildTextSearchUrl(
         query: query,
         location: location,
         language: language,
@@ -73,7 +76,21 @@ class GoogleMapsPlaces extends GoogleWebService {
         maxprice: maxprice,
         pagetoken: pagetoken,
         opennow: opennow);
-    return _decode(await _doGet(url));
+    return _decodeSearchResponse(await _doGet(url));
+  }
+
+  Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
+      {String extensions, String language}) async {
+    final url = buildDetailsUrl(
+        placeId: placeId, extensions: extensions, language: language);
+    return _decodeDetailsResponse(await _doGet(url));
+  }
+
+  Future<PlacesDetailsResponse> getDetailsByReference(String reference,
+      {String extensions, String language}) async {
+    final url = buildDetailsUrl(
+        reference: reference, extensions: extensions, language: language);
+    return _decodeDetailsResponse(await _doGet(url));
   }
 
   String buildNearbySearchUrl(
@@ -114,10 +131,10 @@ class GoogleMapsPlaces extends GoogleWebService {
       "pagetoken": pagetoken
     };
 
-    return "$url/nearbysearch/json?${buildQuery(params)}";
+    return "$url$_nearbySearchUrl?${buildQuery(params)}";
   }
 
-  buildTextSearchUrl(
+  String buildTextSearchUrl(
       {String query,
       Location location,
       num radius,
@@ -140,15 +157,36 @@ class GoogleMapsPlaces extends GoogleWebService {
       "pagetoken": pagetoken
     };
 
-    return "$url/textsearch/json?${buildQuery(params)}";
+    return "$url$_textSearchUrl?${buildQuery(params)}";
+  }
+
+  String buildDetailsUrl(
+      {String placeId, String reference, String extensions, String language}) {
+    if (placeId != null && reference != null) {
+      throw new ArgumentError(
+          "You must supply either 'placeid' or 'reference'");
+    }
+
+    final params = {
+      "key": apiKey,
+      "placeid": placeId,
+      "reference": reference,
+      "language": language,
+      "extensions": extensions
+    };
+
+    return "$url$_detailsSearchUrl?${buildQuery(params)}";
   }
 
   Future<Response> _doGet(String url) => httpClient.get(url);
-  PlacesSearchResponse _decode(Response res) =>
+  PlacesSearchResponse _decodeSearchResponse(Response res) =>
       new PlacesSearchResponse.fromJson(JSON.decode(res.body));
+
+  PlacesDetailsResponse _decodeDetailsResponse(Response res) =>
+      new PlacesDetailsResponse.fromJson(JSON.decode(res.body));
 }
 
-class PlacesSearchResponse extends GoogleResponse<PlacesSearchResult> {
+class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
   /// JSON html_attributions
   final List<String> htmlAttributions;
 
@@ -253,6 +291,96 @@ class PlacesSearchResult {
       : null;
 }
 
+class PlaceDetails {
+  /// JSON address_components
+  final List<AddressComponent> addressComponents;
+
+  /// JSON adr_address
+  final String adrAddress;
+
+  /// JSON formatted_address
+  final String formattedAddress;
+
+  /// JSON formatted_phone_number
+  final String formattedPhoneNumber;
+
+  final String id;
+
+  final String reference;
+
+  final String icon;
+
+  final String name;
+
+  /// JSON place_id
+  final String placeId;
+
+  /// JSON international_phone_number
+  final String internationalPhoneNumber;
+
+  final num rating;
+
+  final String scope;
+
+  final List<String> types;
+
+  final String url;
+
+  final String vicinity;
+
+  /// JSON utc_offset
+  final num utcOffset;
+
+  final String website;
+
+  final List<Review> reviews;
+
+  PlaceDetails(
+      this.addressComponents,
+      this.adrAddress,
+      this.formattedAddress,
+      this.formattedPhoneNumber,
+      this.id,
+      this.reference,
+      this.icon,
+      this.name,
+      this.placeId,
+      this.internationalPhoneNumber,
+      this.rating,
+      this.scope,
+      this.types,
+      this.url,
+      this.vicinity,
+      this.utcOffset,
+      this.website,
+      this.reviews);
+
+  factory PlaceDetails.fromJson(Map json) => json != null
+      ? new PlaceDetails(
+          json["address_components"]
+              .map((addr) => new AddressComponent.fromJson(addr))
+              .toList(),
+          json["adr_address"],
+          json["formatted_address"],
+          json["formatted_phone_number"],
+          json["id"],
+          json["reference"],
+          json["icon"],
+          json["name"],
+          json["place_id"],
+          json["international_phone_number"],
+          json["rating"],
+          json["scope"],
+          json["types"],
+          json["url"],
+          json["vicinity"],
+          json["utc_offset"],
+          json["website"],
+          json["reviews"].map((r) => new Review.fromJson(r)).toList(),
+        )
+      : null;
+}
+
 class OpeningHours {
   /// JSON open_now
   final bool openNow;
@@ -293,3 +421,54 @@ class AlternativeId {
 }
 
 enum PriceLevel { free, inexpensive, moderate, expensive, veryExpensive }
+
+class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
+  /// JSON html_attributions
+  final List<String> htmlAttributions;
+
+  PlacesDetailsResponse(String status, String errorMessage, PlaceDetails result,
+      this.htmlAttributions)
+      : super(status, errorMessage, result);
+
+  factory PlacesDetailsResponse.fromJson(Map json) => json != null
+      ? new PlacesDetailsResponse(json["status"], json["error_message"],
+          new PlaceDetails.fromJson(json["result"]), json["html_attributions"])
+      : null;
+}
+
+class Review {
+  /// JSON author_name
+  final String authorName;
+
+  /// JSON author_url
+  final String authorUrl;
+
+  final String language;
+
+  /// JSON profile_photo_url
+  final String profilePhotoUrl;
+
+  final num rating;
+
+  /// JSON relative_time_description
+  final String relativeTimeDescription;
+
+  final String text;
+
+  final num time;
+
+  Review(this.authorName, this.authorUrl, this.language, this.profilePhotoUrl,
+      this.rating, this.relativeTimeDescription, this.text, this.time);
+
+  factory Review.fromJson(Map json) => json != null
+      ? new Review(
+          json["author_name"],
+          json["author_url"],
+          json["language"],
+          json["profile_photo_url"],
+          json["rating"],
+          json["relative_time_description"],
+          json["text"],
+          json["time"])
+      : null;
+}

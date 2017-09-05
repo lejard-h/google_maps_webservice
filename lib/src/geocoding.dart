@@ -18,7 +18,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
       String language,
       String region,
       List<Component> components}) async {
-    String url = buildUrl(
+    final url = buildUrl(
         address: address,
         bounds: bounds,
         language: language,
@@ -29,7 +29,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
 
   Future<GeocodingResponse> searchByComponents(List<Component> components,
       {Bounds bounds, String language, String region}) async {
-    String url = buildUrl(
+    final url = buildUrl(
         bounds: bounds,
         language: language,
         region: region,
@@ -41,7 +41,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
       {String language,
       List<String> resultType,
       List<String> locationType}) async {
-    String url = buildUrl(
+    final url = buildUrl(
         location: location,
         language: language,
         resultType: resultType,
@@ -53,7 +53,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
       {String language,
       List<String> resultType,
       List<String> locationType}) async {
-    String url = buildUrl(
+    final url = buildUrl(
         placeId: placeId,
         language: language,
         resultType: resultType,
@@ -92,7 +92,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
   Future<Response> _doGet(String url) => httpClient.get(url);
 }
 
-class GeocodingResponse extends GoogleResponse<GeocodingResult> {
+class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
   GeocodingResponse(
       String status, String errorMessage, List<GeocodingResult> results)
       : super(status, errorMessage, results);
@@ -141,23 +141,6 @@ class GeocodingResult {
           new Geometry.fromJson(json["geometry"]),
           json["partial_match"],
           json["place_id"])
-      : null;
-}
-
-class AddressComponent {
-  final List<String> types;
-
-  /// JSON long_name
-  final String longName;
-
-  /// JSON short_name
-  final String shortName;
-
-  AddressComponent(this.types, this.longName, this.shortName);
-
-  factory AddressComponent.fromJson(Map json) => json != null
-      ? new AddressComponent(
-          json["types"], json["long_name"], json["short_name"])
       : null;
 }
 

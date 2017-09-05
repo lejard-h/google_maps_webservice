@@ -9,7 +9,7 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 - [ ] [Places](https://developers.google.com/places/web-service/)
     - [x] nearby search
     - [x] text search
-    - [ ] details
+    - [x] details
     - [ ] add
     - [ ] delete
     - [ ] photo
@@ -47,6 +47,9 @@ final places = new GoogleMapsPlaces("<API_KEY>", new BrowserClient());
 PlacesSearchResponse reponse = await places.searchNearbyWithRadius(new Location(31.0424, 42.421), 500);
 PlacesSearchResponse reponse = await places.searchNearbyWithRankby(new Location(31.0424, 42.421), "distance");
 PlacesSearchResponse reponse = await places.searchByText("123 Main Street");
+
+PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
+PlacesDetailsResponse response = await places.getDetailsByReference("REF");
 ```
 
 Please file feature requests and bugs at the [issue tracker][tracker].

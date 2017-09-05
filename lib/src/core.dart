@@ -48,27 +48,58 @@ class Bounds {
       "${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}";
 }
 
-abstract class GoogleResponse<T> {
-  static const statusOkay = "OK";
-  static const statusZeroResults = "ZERO_RESULTS";
-  static const statusOverQueryLimit = "OVER_QUERY_LIMIT";
-  static const statusRequestDenied = "REQUEST_DENIED";
-  static const statusInvalidRequest = "INVALID_REQUEST";
-  static const statusUnknownError = "UNKNOWN_ERROR";
+abstract class GoogleResponseStatus {
+  static const okay = "OK";
+  static const zeroResults = "ZERO_RESULTS";
+  static const overQueryLimit = "OVER_QUERY_LIMIT";
+  static const requestDenied = "REQUEST_DENIED";
+  static const invalidRequest = "INVALID_REQUEST";
+  static const unknownErrorStatus = "UNKNOWN_ERROR";
+  static const notFound = "NOT_FOUND";
 
   final String status;
 
   /// JSON error_message
   final String errorMessage;
 
+  bool get isOkay => status == okay;
+  bool get hasNoResults => status == zeroResults;
+  bool get isOverQueryLimit => status == overQueryLimit;
+  bool get isDenied => status == requestDenied;
+  bool get isInvalid => status == invalidRequest;
+  bool get unknownError => status == unknownErrorStatus;
+  bool get isNotFound => status == notFound;
+
+  GoogleResponseStatus(this.status, this.errorMessage);
+}
+
+abstract class GoogleResponseList<T> extends GoogleResponseStatus {
   final List<T> results;
 
-  GoogleResponse(this.status, this.errorMessage, this.results);
+  GoogleResponseList(String status, String errorMessage, this.results)
+      : super(status, errorMessage);
+}
 
-  bool get isOkay => status == statusOkay;
-  bool get hasNoResults => status == statusZeroResults;
-  bool get isOverQueryLimit => status == statusOverQueryLimit;
-  bool get isDenied => status == statusRequestDenied;
-  bool get isInvalid => status == statusInvalidRequest;
-  bool get unknownError => status == statusUnknownError;
+abstract class GoogleResponse<T> extends GoogleResponseStatus {
+  final T result;
+
+  GoogleResponse(String status, String errorMessage, this.result)
+      : super(status, errorMessage);
+}
+
+class AddressComponent {
+  final List<String> types;
+
+  /// JSON long_name
+  final String longName;
+
+  /// JSON short_name
+  final String shortName;
+
+  AddressComponent(this.types, this.longName, this.shortName);
+
+  factory AddressComponent.fromJson(Map json) => json != null
+      ? new AddressComponent(
+          json["types"], json["long_name"], json["short_name"])
+      : null;
 }

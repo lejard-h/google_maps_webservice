@@ -177,7 +177,45 @@ launch([Client client]) async {
       });
     });
 
-    group("details", () {});
+    group("details build url", () {
+      test("with place_id", () {
+        expect(
+            places.buildDetailsUrl(placeId: "PLACE_ID"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&placeid=PLACE_ID"));
+      });
+
+      test("with reference", () {
+        expect(
+            places.buildDetailsUrl(reference: "REF"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&reference=REF"));
+      });
+
+      test("with extensions", () {
+        expect(
+            places.buildDetailsUrl(
+                placeId: "PLACE_ID", extensions: "review_summary"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&placeid=PLACE_ID&extensions=review_summary"));
+      });
+
+      test("with extensions", () {
+        expect(
+            places.buildDetailsUrl(placeId: "PLACE_ID", language: "fr"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&placeid=PLACE_ID&language=fr"));
+      });
+
+      test("with place_id and reference", () {
+        try {
+          places.buildDetailsUrl(placeId: "PLACE_ID", reference: "REF");
+        } catch (e) {
+          expect((e as ArgumentError).message,
+              equals("You must supply either 'placeid' or 'reference'"));
+        }
+      });
+    });
 
     group("add", () {});
 
