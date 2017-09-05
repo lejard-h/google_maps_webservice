@@ -6,10 +6,42 @@ class Location {
 
   Location(this.lat, this.lng);
 
-  factory Location.fromJson(Map jsonMap) =>
-      new Location(jsonMap["lat"], jsonMap["lng"]);
+  factory Location.fromJson(Map json) => new Location(json["lat"], json["lng"]);
 
   String toString() => "$lat,$lng";
+}
+
+class Geometry {
+  final Location location;
+
+  /// JSON location_type
+  final String locationType;
+
+  final Bounds viewport;
+
+  final Bounds bounds;
+
+  Geometry(this.location, this.locationType, this.viewport, this.bounds);
+
+  factory Geometry.fromJson(Map json) => new Geometry(
+      new Location.fromJson(json["location"]),
+      json["location_type"],
+      new Bounds.fromJson(json["viewport"]),
+      new Bounds.fromJson(json["bounds"]));
+}
+
+class Bounds {
+  final Location northeast;
+  final Location southwest;
+
+  Bounds(this.northeast, this.southwest);
+
+  factory Bounds.fromJson(Map json) => new Bounds(
+      new Location.fromJson(json["northeast"]),
+      new Location.fromJson(json["southwest"]));
+
+  String toString() =>
+      "${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}";
 }
 
 abstract class GoogleResponse<T> {
@@ -28,4 +60,11 @@ abstract class GoogleResponse<T> {
   final List<T> results;
 
   GoogleResponse(this.status, this.errorMessage, this.results);
+
+  bool get isOkay => status == statusOkay;
+  bool get hasNoResults => status == statusZeroResults;
+  bool get isOverQueryLimit => status == statusOverQueryLimit;
+  bool get isDenied => status == statusRequestDenied;
+  bool get isInvalid => status == statusInvalidRequest;
+  bool get unknownError => status == statusUnknownError;
 }

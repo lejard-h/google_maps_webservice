@@ -113,19 +113,114 @@ class PlacesSearchResponse extends GoogleResponse<PlacesSearchResult> {
       this.nextPageToken)
       : super(status, errorMessage, results);
 
-  factory PlacesSearchResponse.fromJson(Map jsonMap) =>
-      new PlacesSearchResponse(
-          jsonMap["status"],
-          jsonMap["error_message"],
-          jsonMap["results"]
-              .map((r) => new PlacesSearchResult.fromJson(r))
-              .toList(),
-          jsonMap["html_attributions"],
-          jsonMap["next_page_token"]);
+  factory PlacesSearchResponse.fromJson(Map json) => new PlacesSearchResponse(
+      json["status"],
+      json["error_message"],
+      json["results"].map((r) => new PlacesSearchResult.fromJson(r)).toList(),
+      json["html_attributions"],
+      json["next_page_token"]);
 }
 
 class PlacesSearchResult {
-  PlacesSearchResult();
+  final String icon;
+  final Geometry geometry;
+  final String name;
 
-  factory PlacesSearchResult.fromJson(Map jsonMap) => new PlacesSearchResult();
+  /// JSON opening_hours
+  final OpeningHours openingHours;
+
+  final List<Photo> photos;
+
+  /// JSON place_id
+  final String placeId;
+
+  final String scope;
+
+  /// JSON alt_ids
+  final List<AlternativeId> altIds;
+
+  /// JSON price_level
+  final PriceLevel priceLevel;
+
+  final num rating;
+
+  final List<String> types;
+
+  final String vicinity;
+
+  /// JSON formatted_address
+  final String formattedAddress;
+
+  /// JSON permanently_closed
+  final bool permanentlyClosed;
+
+  PlacesSearchResult(
+      this.icon,
+      this.geometry,
+      this.name,
+      this.openingHours,
+      this.photos,
+      this.placeId,
+      this.scope,
+      this.altIds,
+      this.priceLevel,
+      this.rating,
+      this.types,
+      this.vicinity,
+      this.formattedAddress,
+      this.permanentlyClosed);
+
+  factory PlacesSearchResult.fromJson(Map json) => new PlacesSearchResult(
+      json["icon"],
+      new Geometry.fromJson(json["geometry"]),
+      json["name"],
+      new OpeningHours.fromJson(json["opening_hours"]),
+      json["photos"].map((p) => new Photo.fromJson(p)).toList(),
+      json["place_id"],
+      json["scope"],
+      json["alt_ids"].map((a) => new AlternativeId.fromJson(a)).toList(),
+      PriceLevel.values.elementAt(json["price_level"]),
+      json["rating"],
+      json["types"],
+      json["vicinity"],
+      json["formatted_address"],
+      json["permanently_closed"]);
 }
+
+class OpeningHours {
+  /// JSON open_now
+  final bool openNow;
+
+  OpeningHours(this.openNow);
+
+  factory OpeningHours.fromJson(Map json) => new OpeningHours(json["open_now"]);
+}
+
+class Photo {
+  /// JSON photo_reference
+  final String photoReference;
+  final num height;
+  final num width;
+
+  /// JSON html_attributions
+  final List<String> htmlAttributions;
+
+  Photo(this.photoReference, this.height, this.width, this.htmlAttributions);
+
+  factory Photo.fromJson(Map json) => new Photo(json["photo_reference"],
+      json["height"], json["width"], json["html_attributions"]);
+}
+
+class AlternativeId {
+  /// JSON place_id
+  final String placeId;
+
+  final String scope;
+
+  AlternativeId(this.placeId, this.scope);
+
+  factory AlternativeId.fromJson(Map json) =>
+      new AlternativeId(json["place_id"], json["scope"]);
+}
+
+enum PriceLevel { free, inexpensive, moderate, expensive, veryExpensive }

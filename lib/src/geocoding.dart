@@ -155,39 +155,6 @@ class AddressComponent {
       jsonMap["types"], jsonMap["long_name"], jsonMap["short_name"]);
 }
 
-class Geometry {
-  final Location location;
-
-  /// JSON location_type
-  final String locationType;
-
-  final Bounds viewport;
-
-  final Bounds bounds;
-
-  Geometry(this.location, this.locationType, this.viewport, this.bounds);
-
-  factory Geometry.fromJson(Map jsonMap) => new Geometry(
-      new Location.fromJson(jsonMap["location"]),
-      jsonMap["location_type"],
-      new Bounds.fromJson(jsonMap["viewport"]),
-      new Bounds.fromJson(jsonMap["bounds"]));
-}
-
-class Bounds {
-  final Location northeast;
-  final Location southwest;
-
-  Bounds(this.northeast, this.southwest);
-
-  factory Bounds.fromJson(Map jsonMap) => new Bounds(
-      new Location.fromJson(jsonMap["northeast"]),
-      new Location.fromJson(jsonMap["southwest"]));
-
-  String toString() =>
-      "${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}";
-}
-
 class Component {
   static const route = "route";
   static const locality = "locality";
