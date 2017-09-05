@@ -12,6 +12,8 @@ dependencies:
 
 dev_dependencies:
   test: ^0.12.0
+  chrome_travis:
+    git: git://github.com/tekartik/chrome_travis.dart
 
 transformers:
 - test/pub_serve:
