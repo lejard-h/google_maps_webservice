@@ -103,3 +103,18 @@ class AddressComponent {
           json["types"], json["long_name"], json["short_name"])
       : null;
 }
+
+class Component {
+  static const route = "route";
+  static const locality = "locality";
+  static const administrativeArea = "administrative_area";
+  static const postalCode = "postal_code";
+  static const country = "country";
+
+  final String component;
+  final String value;
+
+  Component(this.component, this.value);
+
+  String toString() => "$component:${Uri.encodeComponent(value)}";
+}

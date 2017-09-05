@@ -223,7 +223,68 @@ launch([Client client]) async {
 
     group("photo", () {});
 
-    group("autocomplete", () {});
+    group("autocomplete build url", () {
+      test("basic", () {
+        expect(
+            places.buildAutocompleteUrl(input: "Amoeba"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba"));
+      });
+
+      test("with offset", () {
+        expect(
+            places.buildAutocompleteUrl(input: "Amoeba", offset: 3),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&offset=3"));
+      });
+
+      test("with location", () {
+        expect(
+            places.buildAutocompleteUrl(
+                input: "Amoeba",
+                location: new Location(-33.8670522, 151.1957362)),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&location=-33.8670522,151.1957362"));
+      });
+
+      test("with radius", () {
+        expect(
+            places.buildAutocompleteUrl(input: "Amoeba", radius: 500),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&radius=500"));
+      });
+
+      test("with language", () {
+        expect(
+            places.buildAutocompleteUrl(input: "Amoeba", language: "fr"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&language=fr"));
+      });
+
+      test("with types", () {
+        expect(
+            places.buildAutocompleteUrl(
+                input: "Amoeba", types: ["geocode", "establishment"]),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&types=geocode|establishment"));
+      });
+
+      test("with components", () {
+        expect(
+            places.buildAutocompleteUrl(
+                input: "Amoeba",
+                components: [new Component(Component.country, "fr")]),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&components=country:fr"));
+      });
+
+      test("with strictbounds", () {
+        expect(
+            places.buildAutocompleteUrl(input: "Amoeba", strictbounds: true),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&strictbounds=true"));
+      });
+    });
 
     group("queryautocomplete", () {});
 

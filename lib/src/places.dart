@@ -10,6 +10,7 @@ const _placesUrl = "/place";
 const _nearbySearchUrl = "/nearbysearch/json";
 const _textSearchUrl = "/textsearch/json";
 const _detailsSearchUrl = "/details/json";
+const _autocompleteUrl = "/autocomplete/json";
 
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
@@ -176,6 +177,30 @@ class GoogleMapsPlaces extends GoogleWebService {
     };
 
     return "$url$_detailsSearchUrl?${buildQuery(params)}";
+  }
+
+  String buildAutocompleteUrl(
+      {String input,
+      num offset,
+      Location location,
+      num radius,
+      String language,
+      List<String> types,
+      List<Component> components,
+      bool strictbounds}) {
+    final params = {
+      "key": apiKey,
+      "input": input != null ? Uri.encodeComponent(input) : null,
+      "language": language,
+      "location": location,
+      "radius": radius,
+      "types": types,
+      "components": components,
+      "strictbounds": strictbounds,
+      "offset": offset
+    };
+
+    return "$url$_autocompleteUrl?${buildQuery(params)}";
   }
 
   Future<Response> _doGet(String url) => httpClient.get(url);
@@ -470,5 +495,69 @@ class Review {
           json["relative_time_description"],
           json["text"],
           json["time"])
+      : null;
+}
+
+class PlacesAutocompleteResponse extends GoogleResponseStatus {
+  final List<Prediction> predictions;
+
+  PlacesAutocompleteResponse(
+      String status, String errorMessage, this.predictions)
+      : super(status, errorMessage);
+
+  factory PlacesAutocompleteResponse.fromJson(Map json) => json != null
+      ? new PlacesAutocompleteResponse(json["status"], json["error_message"],
+          json["predictions"].map((p) => new Prediction.fromJson(p)).toList())
+      : null;
+}
+
+class Prediction {
+  final String description;
+  final String id;
+  final List<Term> terms;
+
+  /// JSON place_id
+  final String placeId;
+  final String reference;
+  final List<String> types;
+
+  /// JSON matched_substrings
+  final List<MatchedSubstrings> matchedSubstrings;
+
+  Prediction(this.description, this.id, this.terms, this.placeId,
+      this.reference, this.types, this.matchedSubstrings);
+
+  factory Prediction.fromJson(Map json) => json != null
+      ? new Prediction(
+          json["description"],
+          json["id"],
+          json["terms"]?.map((t) => new Term.fromJson(t))?.toList(),
+          json["place_id"],
+          json["reference"],
+          json["types"],
+          json["matched_substrings"]
+              ?.map((m) => new MatchedSubstrings.fromJson(m))
+              ?.toList())
+      : null;
+}
+
+class Term {
+  final num offset;
+  final String value;
+
+  Term(this.offset, this.value);
+
+  factory Term.fromJson(Map json) =>
+      json != null ? new Term(json["offset"], json["value"]) : null;
+}
+
+class MatchedSubstrings {
+  final num offset;
+  final num length;
+
+  MatchedSubstrings(this.offset, this.length);
+
+  factory MatchedSubstrings.fromJson(Map json) => json != null
+      ? new MatchedSubstrings(json["offset"], json["length"])
       : null;
 }
