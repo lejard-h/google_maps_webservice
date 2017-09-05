@@ -13,3 +13,6 @@ before_script:
  - chmod +x ./tool/travis.sh
 
 script: ./tool/travis.sh
+
+env:
+  - DARTANALYZER_FLAGS=--fatal-warnings

@@ -2,17 +2,28 @@ library google_maps_webservice.geocoding.src;
 
 import 'dart:async';
 import 'dart:convert';
+import 'package:google_maps_webservice/src/core.dart';
 import 'package:http/http.dart';
 import 'utils.dart';
 
 const _geocodeUrl = "/geocode/json";
 
+/// https://developers.google.com/maps/documentation/geocoding/start
 class GoogleMapsGeocoding extends GoogleWebService {
-  GoogleMapsGeocoding(String apiKey, [Client httpClient]) : super(apiKey, _geocodeUrl, httpClient);
+  GoogleMapsGeocoding(String apiKey, [Client httpClient])
+      : super(apiKey, _geocodeUrl, httpClient);
 
   Future<GeocodingResponse> searchByAddress(String address,
-      {Bounds bounds, String language, String region, List<Component> components}) async {
-    String url = buildUrl(address: address, bounds: bounds, language: language, region: region, components: components);
+      {Bounds bounds,
+      String language,
+      String region,
+      List<Component> components}) async {
+    String url = buildUrl(
+        address: address,
+        bounds: bounds,
+        language: language,
+        region: region,
+        components: components);
 
     Response res = await httpClient.get(url);
     return new GeocodingResponse.fromJson(JSON.decode(res.body));
@@ -20,22 +31,38 @@ class GoogleMapsGeocoding extends GoogleWebService {
 
   Future<GeocodingResponse> searchByComponents(List<Component> components,
       {Bounds bounds, String language, String region}) async {
-    String url = buildUrl(bounds: bounds, language: language, region: region, components: components);
+    String url = buildUrl(
+        bounds: bounds,
+        language: language,
+        region: region,
+        components: components);
 
     Response res = await httpClient.get(url);
     return new GeocodingResponse.fromJson(JSON.decode(res.body));
   }
 
   Future<GeocodingResponse> searchByLocation(Location location,
-      {String language, List<String> resultType, List<String> locationType}) async {
-    String url = buildUrl(location: location, language: language, resultType: resultType, locationType: locationType);
+      {String language,
+      List<String> resultType,
+      List<String> locationType}) async {
+    String url = buildUrl(
+        location: location,
+        language: language,
+        resultType: resultType,
+        locationType: locationType);
     Response res = await httpClient.get(url);
     return new GeocodingResponse.fromJson(JSON.decode(res.body));
   }
 
   Future<GeocodingResponse> searchByPlaceId(String placeId,
-      {String language, List<String> resultType, List<String> locationType}) async {
-    String url = buildUrl(placeId: placeId, language: language, resultType: resultType, locationType: locationType);
+      {String language,
+      List<String> resultType,
+      List<String> locationType}) async {
+    String url = buildUrl(
+        placeId: placeId,
+        language: language,
+        resultType: resultType,
+        locationType: locationType);
     Response res = await httpClient.get(url);
     return new GeocodingResponse.fromJson(JSON.decode(res.body));
   }
@@ -51,6 +78,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
       String placeId,
       Location location}) {
     final params = {
+      "key": apiKey,
       "latlng": location,
       "place_id": placeId,
       "address": address != null ? Uri.encodeComponent(address) : null,
@@ -62,28 +90,18 @@ class GoogleMapsGeocoding extends GoogleWebService {
       "location_type": locationType
     };
 
-    return "$url&${buildQuery(params)}";
+    return "$url?${buildQuery(params)}";
   }
 }
 
-class GeocodingResponse {
-  static const statusOkay = "OK";
-  static const statusZeroResults = "ZERO_RESULTS";
-  static const statusOverQueryLimit = "OVER_QUERY_LIMIT";
-  static const statusRequestDenied = "REQUEST_DENIED";
-  static const statusInvalidRequest = "INVALID_REQUEST";
-  static const statusUnknownError = "UNKNOWN_ERROR";
+class GeocodingResponse extends GoogleResponse<GeocodingResult> {
+  GeocodingResponse(
+      String status, String errorMessage, List<GeocodingResult> results)
+      : super(status, errorMessage, results);
 
-  final String status;
-
-  /// JSON error_message
-  final String errorMessage;
-
-  final List<GeocodingResult> results;
-
-  GeocodingResponse(this.status, this.errorMessage, this.results);
-
-  factory GeocodingResponse.fromJson(Map jsonMap) => new GeocodingResponse(jsonMap["status"], jsonMap["error_message"],
+  factory GeocodingResponse.fromJson(Map jsonMap) => new GeocodingResponse(
+      jsonMap["status"],
+      jsonMap["error_message"],
       jsonMap["results"].map((r) => new GeocodingResult.fromJson(r)).toList());
 }
 
@@ -107,13 +125,15 @@ class GeocodingResult {
   /// JSON place_id
   final placeId;
 
-  GeocodingResult(this.types, this.formattedAddress, this.addressComponents, this.postcodeLocalities, this.geometry,
-      this.partialMatch, this.placeId);
+  GeocodingResult(this.types, this.formattedAddress, this.addressComponents,
+      this.postcodeLocalities, this.geometry, this.partialMatch, this.placeId);
 
   factory GeocodingResult.fromJson(Map jsonMap) => new GeocodingResult(
       jsonMap["types"],
       jsonMap["formatted_address"],
-      jsonMap["address_components"].map((addr) => new AddressComponent.fromJson(addr)).toList(),
+      jsonMap["address_components"]
+          .map((addr) => new AddressComponent.fromJson(addr))
+          .toList(),
       jsonMap["postcode_localities"],
       new Geometry.fromJson(jsonMap["geometry"]),
       jsonMap["partial_match"],
@@ -131,8 +151,8 @@ class AddressComponent {
 
   AddressComponent(this.types, this.longName, this.shortName);
 
-  factory AddressComponent.fromJson(Map jsonMap) =>
-      new AddressComponent(jsonMap["types"], jsonMap["long_name"], jsonMap["short_name"]);
+  factory AddressComponent.fromJson(Map jsonMap) => new AddressComponent(
+      jsonMap["types"], jsonMap["long_name"], jsonMap["short_name"]);
 }
 
 class Geometry {
@@ -147,19 +167,11 @@ class Geometry {
 
   Geometry(this.location, this.locationType, this.viewport, this.bounds);
 
-  factory Geometry.fromJson(Map jsonMap) => new Geometry(new Location.fromJson(jsonMap["location"]),
-      jsonMap["location_type"], new Bounds.fromJson(jsonMap["viewport"]), new Bounds.fromJson(jsonMap["bounds"]));
-}
-
-class Location {
-  final double lat;
-  final double lng;
-
-  Location(this.lat, this.lng);
-
-  factory Location.fromJson(Map jsonMap) => new Location(jsonMap["lat"], jsonMap["lng"]);
-
-  String toString() => "$lat,$lng";
+  factory Geometry.fromJson(Map jsonMap) => new Geometry(
+      new Location.fromJson(jsonMap["location"]),
+      jsonMap["location_type"],
+      new Bounds.fromJson(jsonMap["viewport"]),
+      new Bounds.fromJson(jsonMap["bounds"]));
 }
 
 class Bounds {
@@ -168,10 +180,12 @@ class Bounds {
 
   Bounds(this.northeast, this.southwest);
 
-  factory Bounds.fromJson(Map jsonMap) =>
-      new Bounds(new Location.fromJson(jsonMap["northeast"]), new Location.fromJson(jsonMap["southwest"]));
+  factory Bounds.fromJson(Map jsonMap) => new Bounds(
+      new Location.fromJson(jsonMap["northeast"]),
+      new Location.fromJson(jsonMap["southwest"]));
 
-  String toString() => "${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}";
+  String toString() =>
+      "${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}";
 }
 
 class Component {

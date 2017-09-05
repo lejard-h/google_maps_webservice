@@ -8,7 +8,6 @@ const kGMapsUrl = "https://maps.googleapis.com/maps/api";
 bool responseIsSuccessful(Response res) =>
     res != null && res.statusCode >= 200 && res.statusCode < 300;
 
-
 abstract class GoogleWebService {
   @protected
   final Client _httpClient;
@@ -16,13 +15,19 @@ abstract class GoogleWebService {
   @protected
   final String _url;
 
+  @protected
+  final String _apiKey;
+
   String get url => _url;
 
   Client get httpClient => _httpClient;
 
+  String get apiKey => _apiKey;
+
   GoogleWebService(String apiKey, String url, [Client httpClient])
-      : _url = "$kGMapsUrl$url?key=${apiKey}",
-        _httpClient = httpClient ?? new Client();
+      : _url = "$kGMapsUrl$url",
+        _httpClient = httpClient ?? new Client(),
+        _apiKey = apiKey;
 
   @protected
   String buildQuery(Map<String, dynamic> params) {
