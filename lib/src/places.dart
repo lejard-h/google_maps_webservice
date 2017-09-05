@@ -11,6 +11,7 @@ const _nearbySearchUrl = "/nearbysearch/json";
 const _textSearchUrl = "/textsearch/json";
 const _detailsSearchUrl = "/details/json";
 const _autocompleteUrl = "/autocomplete/json";
+const _queryAutocompleteUrl = "/queryautocomplete/json";
 
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
@@ -111,6 +112,17 @@ class GoogleMapsPlaces extends GoogleWebService {
         types: types,
         components: components,
         strictbounds: strictbounds);
+    return _decodeAutocompleteResponse(await _doGet(url));
+  }
+
+  Future<PlacesAutocompleteResponse> queryAutocomplete(String input,
+      {num offset, Location location, num radius, String language}) async {
+    final url = buildQueryAutocompleteUrl(
+        input: input,
+        location: location,
+        offset: offset,
+        radius: radius,
+        language: language);
     return _decodeAutocompleteResponse(await _doGet(url));
   }
 
@@ -221,6 +233,24 @@ class GoogleMapsPlaces extends GoogleWebService {
     };
 
     return "$url$_autocompleteUrl?${buildQuery(params)}";
+  }
+
+  String buildQueryAutocompleteUrl(
+      {String input,
+      num offset,
+      Location location,
+      num radius,
+      String language}) {
+    final params = {
+      "key": apiKey,
+      "input": input != null ? Uri.encodeComponent(input) : null,
+      "language": language,
+      "location": location,
+      "radius": radius,
+      "offset": offset
+    };
+
+    return "$url$_queryAutocompleteUrl?${buildQuery(params)}";
   }
 
   Future<Response> _doGet(String url) => httpClient.get(url);

@@ -286,7 +286,44 @@ launch([Client client]) async {
       });
     });
 
-    group("queryautocomplete", () {});
+    group("queryautocomplete", () {
+      test("basic", () {
+        expect(
+            places.buildQueryAutocompleteUrl(input: "Amoeba"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba"));
+      });
+
+      test("with offset", () {
+        expect(
+            places.buildQueryAutocompleteUrl(input: "Amoeba", offset: 3),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&offset=3"));
+      });
+
+      test("with location", () {
+        expect(
+            places.buildQueryAutocompleteUrl(
+                input: "Amoeba",
+                location: new Location(-33.8670522, 151.1957362)),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&location=-33.8670522,151.1957362"));
+      });
+
+      test("with radius", () {
+        expect(
+            places.buildQueryAutocompleteUrl(input: "Amoeba", radius: 500),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&radius=500"));
+      });
+
+      test("with language", () {
+        expect(
+            places.buildQueryAutocompleteUrl(input: "Amoeba", language: "fr"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&language=fr"));
+      });
+    });
 
     test("decode response", () {
       PlacesSearchResponse response =

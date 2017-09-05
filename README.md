@@ -13,8 +13,8 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
     - [ ] add
     - [ ] delete
     - [ ] photo
-    - [ ] autocomplete
-    - [ ] queryautocomplete
+    - [x] autocomplete
+    - [x] queryautocomplete
 - [ ] [Directions](https://developers.google.com/maps/documentation/directions/)
 - [ ] [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/)
 - [ ] [Geolocation](https://developers.google.com/maps/documentation/geolocation/intro)
