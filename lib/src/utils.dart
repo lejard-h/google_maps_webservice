@@ -40,4 +40,6 @@ abstract class GoogleWebService {
     });
     return query.join("&");
   }
+
+  void dispose() => httpClient.close();
 }

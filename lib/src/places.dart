@@ -94,6 +94,26 @@ class GoogleMapsPlaces extends GoogleWebService {
     return _decodeDetailsResponse(await _doGet(url));
   }
 
+  Future<PlacesAutocompleteResponse> autocomplete(String input,
+      {num offset,
+      Location location,
+      num radius,
+      String language,
+      List<String> types,
+      List<Component> components,
+      bool strictbounds}) async {
+    final url = buildAutocompleteUrl(
+        input: input,
+        location: location,
+        offset: offset,
+        radius: radius,
+        language: language,
+        types: types,
+        components: components,
+        strictbounds: strictbounds);
+    return _decodeAutocompleteResponse(await _doGet(url));
+  }
+
   String buildNearbySearchUrl(
       {Location location,
       num radius,
@@ -209,6 +229,9 @@ class GoogleMapsPlaces extends GoogleWebService {
 
   PlacesDetailsResponse _decodeDetailsResponse(Response res) =>
       new PlacesDetailsResponse.fromJson(JSON.decode(res.body));
+
+  PlacesAutocompleteResponse _decodeAutocompleteResponse(Response res) =>
+      new PlacesAutocompleteResponse.fromJson(JSON.decode(res.body));
 }
 
 class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
