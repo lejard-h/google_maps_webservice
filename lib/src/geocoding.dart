@@ -24,9 +24,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         region: region,
         components: components);
-
-    Response res = await httpClient.get(url);
-    return new GeocodingResponse.fromJson(JSON.decode(res.body));
+    return _decode(await _doGet(url));
   }
 
   Future<GeocodingResponse> searchByComponents(List<Component> components,
@@ -36,9 +34,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         region: region,
         components: components);
-
-    Response res = await httpClient.get(url);
-    return new GeocodingResponse.fromJson(JSON.decode(res.body));
+    return _decode(await _doGet(url));
   }
 
   Future<GeocodingResponse> searchByLocation(Location location,
@@ -50,8 +46,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         resultType: resultType,
         locationType: locationType);
-    Response res = await httpClient.get(url);
-    return new GeocodingResponse.fromJson(JSON.decode(res.body));
+    return _decode(await _doGet(url));
   }
 
   Future<GeocodingResponse> searchByPlaceId(String placeId,
@@ -63,8 +58,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         resultType: resultType,
         locationType: locationType);
-    Response res = await httpClient.get(url);
-    return new GeocodingResponse.fromJson(JSON.decode(res.body));
+    return _decode(await _doGet(url));
   }
 
   String buildUrl(
@@ -92,6 +86,10 @@ class GoogleMapsGeocoding extends GoogleWebService {
 
     return "$url?${buildQuery(params)}";
   }
+
+  GeocodingResponse _decode(Response res) =>
+      new GeocodingResponse.fromJson(JSON.decode(res.body));
+  Future<Response> _doGet(String url) => httpClient.get(url);
 }
 
 class GeocodingResponse extends GoogleResponse<GeocodingResult> {

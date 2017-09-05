@@ -18,10 +18,10 @@ class GoogleMapsPlaces extends GoogleWebService {
       {String type,
       String keyword,
       String language,
-      num minprice,
-      num maxprice,
+      PriceLevel minprice,
+      PriceLevel maxprice,
       String name}) async {
-    String url = builNearbySearchUrl(
+    String url = buildNearbySearchUrl(
         location: location,
         language: language,
         radius: radius,
@@ -30,8 +30,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         minprice: minprice,
         maxprice: maxprice,
         name: name);
-    Response res = await httpClient.get(url);
-    return new PlacesSearchResponse.fromJson(JSON.decode(res.body));
+    return _decode(await _doGet(url));
   }
 
   Future<PlacesSearchResponse> searchNearbyWithRankBy(
@@ -40,11 +39,11 @@ class GoogleMapsPlaces extends GoogleWebService {
     String type,
     String keyword,
     String language,
-    num minprice,
-    num maxprice,
+    PriceLevel minprice,
+    PriceLevel maxprice,
     String name,
   }) async {
-    String url = builNearbySearchUrl(
+    String url = buildNearbySearchUrl(
         location: location,
         language: language,
         type: type,
@@ -52,18 +51,39 @@ class GoogleMapsPlaces extends GoogleWebService {
         minprice: minprice,
         maxprice: maxprice,
         name: name);
-    Response res = await httpClient.get(url);
-    return new PlacesSearchResponse.fromJson(JSON.decode(res.body));
+    return _decode(await _doGet(url));
   }
 
-  String builNearbySearchUrl(
+  Future<PlacesSearchResponse> searchByText(String query,
+      {Location location,
+      num radius,
+      PriceLevel minprice,
+      PriceLevel maxprice,
+      bool opennow,
+      String type,
+      String pagetoken,
+      String language}) async {
+    String url = buildTextSearchUrl(
+        query: query,
+        location: location,
+        language: language,
+        type: type,
+        radius: radius,
+        minprice: minprice,
+        maxprice: maxprice,
+        pagetoken: pagetoken,
+        opennow: opennow);
+    return _decode(await _doGet(url));
+  }
+
+  String buildNearbySearchUrl(
       {Location location,
       num radius,
       String type,
       String keyword,
       String language,
-      num minprice,
-      num maxprice,
+      PriceLevel minprice,
+      PriceLevel maxprice,
       String name,
       String rankby,
       String pagetoken}) {
@@ -87,8 +107,8 @@ class GoogleMapsPlaces extends GoogleWebService {
       "language": language,
       "type": type,
       "keyword": keyword,
-      "minprice": minprice,
-      "maxprice": maxprice,
+      "minprice": minprice?.index,
+      "maxprice": maxprice?.index,
       "name": name,
       "rankby": rankby,
       "pagetoken": pagetoken
@@ -96,6 +116,36 @@ class GoogleMapsPlaces extends GoogleWebService {
 
     return "$url/nearbysearch/json?${buildQuery(params)}";
   }
+
+  buildTextSearchUrl(
+      {String query,
+      Location location,
+      num radius,
+      PriceLevel minprice,
+      PriceLevel maxprice,
+      bool opennow,
+      String type,
+      String pagetoken,
+      String language}) {
+    final params = {
+      "key": apiKey,
+      "query": query != null ? Uri.encodeComponent(query) : null,
+      "language": language,
+      "location": location,
+      "radius": radius,
+      "minprice": minprice?.index,
+      "maxprice": maxprice?.index,
+      "opennow": opennow,
+      "type": type,
+      "pagetoken": pagetoken
+    };
+
+    return "$url/textsearch/json?${buildQuery(params)}";
+  }
+
+  Future<Response> _doGet(String url) => httpClient.get(url);
+  PlacesSearchResponse _decode(Response res) =>
+      new PlacesSearchResponse.fromJson(JSON.decode(res.body));
 }
 
 class PlacesSearchResponse extends GoogleResponse<PlacesSearchResult> {

@@ -9,9 +9,9 @@ launch([Client client]) async {
   GoogleMapsPlaces places = new GoogleMapsPlaces(apiKey, client);
 
   group("Google Maps Places", () {
-    group("bearbysearch", () {
-      test("build basic url", () {
-        String url = places.builNearbySearchUrl(
+    group("nearbysearch build url", () {
+      test("basic", () {
+        String url = places.buildNearbySearchUrl(
             location: new Location(-33.8670522, 151.1957362), radius: 500);
 
         expect(
@@ -20,8 +20,8 @@ launch([Client client]) async {
                 "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500"));
       });
 
-      test("build url with type and keyword", () {
-        String url = places.builNearbySearchUrl(
+      test("with type and keyword", () {
+        String url = places.buildNearbySearchUrl(
             location: new Location(-33.8670522, 151.1957362),
             radius: 500,
             type: "restaurant",
@@ -33,8 +33,8 @@ launch([Client client]) async {
                 "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise"));
       });
 
-      test("build url with language", () {
-        String url = places.builNearbySearchUrl(
+      test("with language", () {
+        String url = places.buildNearbySearchUrl(
             location: new Location(-33.8670522, 151.1957362),
             radius: 500,
             language: "fr");
@@ -45,12 +45,12 @@ launch([Client client]) async {
                 "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500&language=fr"));
       });
 
-      test("build url with min and maxprice", () {
-        String url = places.builNearbySearchUrl(
+      test("with min and maxprice", () {
+        String url = places.buildNearbySearchUrl(
             location: new Location(-33.8670522, 151.1957362),
             radius: 500,
-            minprice: 0,
-            maxprice: 4);
+            minprice: PriceLevel.free,
+            maxprice: PriceLevel.veryExpensive);
 
         expect(
             url,
@@ -59,7 +59,7 @@ launch([Client client]) async {
       });
 
       test("build url with name", () {
-        String url = places.builNearbySearchUrl(
+        String url = places.buildNearbySearchUrl(
             location: new Location(-33.8670522, 151.1957362),
             radius: 500,
             name: "cruise");
@@ -70,8 +70,8 @@ launch([Client client]) async {
                 "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500&name=cruise"));
       });
 
-      test("build url with rankby", () {
-        String url = places.builNearbySearchUrl(
+      test("with rankby", () {
+        String url = places.buildNearbySearchUrl(
             location: new Location(-33.8670522, 151.1957362),
             rankby: "distance",
             name: "cruise");
@@ -82,9 +82,9 @@ launch([Client client]) async {
                 "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&name=cruise&rankby=distance"));
       });
 
-      test("build url with rankby without required params", () {
+      test("with rankby without required params", () {
         try {
-          places.builNearbySearchUrl(
+          places.buildNearbySearchUrl(
               location: new Location(-33.8670522, 151.1957362),
               rankby: "distance",
               name: "cruise");
@@ -96,9 +96,9 @@ launch([Client client]) async {
         }
       });
 
-      test("build url with rankby and radius", () {
+      test("with rankby and radius", () {
         try {
-          places.builNearbySearchUrl(
+          places.buildNearbySearchUrl(
               location: new Location(-33.8670522, 151.1957362),
               radius: 500,
               rankby: "distance");
@@ -111,9 +111,70 @@ launch([Client client]) async {
       });
     });
 
-    group("textsearch", () {});
+    group("textsearch build url", () {
+      test("basic", () {
+        expect(
+            places.buildTextSearchUrl(query: "123 Main Street"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}"));
+      });
 
-    group("radarsearch", () {});
+      test("with location", () {
+        expect(
+            places.buildTextSearchUrl(
+                query: "123 Main Street",
+                location: new Location(-33.8670522, 151.1957362)),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&location=-33.8670522,151.1957362"));
+      });
+
+      test("with radius", () {
+        expect(
+            places.buildTextSearchUrl(query: "123 Main Street", radius: 500),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&radius=500"));
+      });
+
+      test("with language", () {
+        expect(
+            places.buildTextSearchUrl(query: "123 Main Street", language: "fr"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&language=fr"));
+      });
+
+      test("with minprice and maxprice", () {
+        expect(
+            places.buildTextSearchUrl(
+                query: "123 Main Street",
+                minprice: PriceLevel.free,
+                maxprice: PriceLevel.veryExpensive),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&minprice=0&maxprice=4"));
+      });
+
+      test("with opennow", () {
+        expect(
+            places.buildTextSearchUrl(query: "123 Main Street", opennow: true),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&opennow=true"));
+      });
+
+      test("with pagetoken", () {
+        expect(
+            places.buildTextSearchUrl(
+                query: "123 Main Street", pagetoken: "egdsfdsfdsf"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&pagetoken=egdsfdsfdsf"));
+      });
+
+      test("with type", () {
+        expect(
+            places.buildTextSearchUrl(
+                query: "123 Main Street", type: "hospital"),
+            equals(
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&type=hospital"));
+      });
+    });
 
     group("details", () {});
 

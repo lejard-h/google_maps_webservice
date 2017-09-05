@@ -7,6 +7,14 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 
 - [x] [Geocoding](https://developers.google.com/maps/documentation/geocoding/start)
 - [ ] [Places](https://developers.google.com/places/web-service/)
+    - [x] nearby search
+    - [x] text search
+    - [ ] details
+    - [ ] add
+    - [ ] delete
+    - [ ] photo
+    - [ ] autocomplete
+    - [ ] queryautocomplete
 - [ ] [Directions](https://developers.google.com/maps/documentation/directions/)
 - [ ] [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/)
 - [ ] [Geolocation](https://developers.google.com/maps/documentation/geolocation/intro)
@@ -25,7 +33,7 @@ import "package:google_maps_webservice/geocoding.dart";
 final geocoding = new GoogleMapsGeocoding("<API_KEY>");
 final geocoding = new GoogleMapsGeocoding("<API_KEY>", new BrowserClient());
 
-GeocodingResponse response = geocoding.searchByAddress("1600 Amphitheatre Parkway, Mountain View, CA");
+GeocodingResponse response = await geocoding.searchByAddress("1600 Amphitheatre Parkway, Mountain View, CA");
 ```
 
 ### Places
@@ -33,8 +41,12 @@ GeocodingResponse response = geocoding.searchByAddress("1600 Amphitheatre Parkwa
 ```dart
 import "package:google_maps_webservice/places.dart";
 
-final place = new GoogleMapsPlaces("<API_KEY>");
+final places = new GoogleMapsPlaces("<API_KEY>");
 final places = new GoogleMapsPlaces("<API_KEY>", new BrowserClient());
+
+PlacesSearchResponse reponse = await places.searchNearbyWithRadius(new Location(31.0424, 42.421), 500);
+PlacesSearchResponse reponse = await places.searchNearbyWithRankby(new Location(31.0424, 42.421), "distance");
+PlacesSearchResponse reponse = await places.searchByText("123 Main Street");
 ```
 
 Please file feature requests and bugs at the [issue tracker][tracker].
