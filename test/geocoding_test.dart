@@ -1,5 +1,6 @@
 library google_maps_webservice.geocoding.test;
 
+import 'dart:convert';
 import 'package:google_maps_webservice/src/utils.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
@@ -66,5 +67,104 @@ launch([Client client]) async {
                 "https://maps.googleapis.com/maps/api/geocode/json?key=$apiKey&place_id=f2hf1pn1rjr1"));
       });
     });
+
+    test("decode response", () {
+      GeocodingResponse response =
+          new GeocodingResponse.fromJson(JSON.decode(_responseExample));
+
+      expect(response.isOkay, isTrue);
+      expect(response.results, hasLength(equals(1)));
+      expect(response.results.first.addressComponents, hasLength(equals(7)));
+      expect(response.results.first.addressComponents.first.longName,
+          equals("1600"));
+      expect(response.results.first.addressComponents.first.shortName,
+          equals("1600"));
+      expect(response.results.first.addressComponents.first.types,
+          equals(["street_number"]));
+      expect(response.results.first.formattedAddress,
+          equals("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA"));
+      expect(response.results.first.geometry.location.lat, equals(37.4224764));
+      expect(
+          response.results.first.geometry.location.lng, equals(-122.0842499));
+      expect(response.results.first.geometry.locationType, equals("ROOFTOP"));
+      expect(response.results.first.geometry.viewport.northeast.lat,
+          equals(37.4238253802915));
+      expect(response.results.first.geometry.viewport.northeast.lng,
+          equals(-122.0829009197085));
+      expect(response.results.first.geometry.viewport.southwest.lat,
+          equals(37.4211274197085));
+      expect(response.results.first.geometry.viewport.southwest.lng,
+          equals(-122.0855988802915));
+      expect(response.results.first.placeId,
+          equals("ChIJ2eUgeAK6j4ARbn5u_wAGqWA"));
+      expect(response.results.first.types, equals(["street_address"]));
+    });
   });
 }
+
+final _responseExample = '''
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "1600",
+               "short_name" : "1600",
+               "types" : [ "street_number" ]
+            },
+            {
+               "long_name" : "Amphitheatre Pkwy",
+               "short_name" : "Amphitheatre Pkwy",
+               "types" : [ "route" ]
+            },
+            {
+               "long_name" : "Mountain View",
+               "short_name" : "Mountain View",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Santa Clara County",
+               "short_name" : "Santa Clara County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "California",
+               "short_name" : "CA",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "94043",
+               "short_name" : "94043",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "1600 Amphitheatre Parkway, Mountain View, CA 94043, USA",
+         "geometry" : {
+            "location" : {
+               "lat" : 37.4224764,
+               "lng" : -122.0842499
+            },
+            "location_type" : "ROOFTOP",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 37.4238253802915,
+                  "lng" : -122.0829009197085
+               },
+               "southwest" : {
+                  "lat" : 37.4211274197085,
+                  "lng" : -122.0855988802915
+               }
+            }
+         },
+         "place_id" : "ChIJ2eUgeAK6j4ARbn5u_wAGqWA",
+         "types" : [ "street_address" ]
+      }
+   ],
+   "status" : "OK"
+}
+''';

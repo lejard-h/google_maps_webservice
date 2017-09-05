@@ -6,7 +6,8 @@ class Location {
 
   Location(this.lat, this.lng);
 
-  factory Location.fromJson(Map json) => new Location(json["lat"], json["lng"]);
+  factory Location.fromJson(Map json) =>
+      json != null ? new Location(json["lat"], json["lng"]) : null;
 
   String toString() => "$lat,$lng";
 }
@@ -23,11 +24,13 @@ class Geometry {
 
   Geometry(this.location, this.locationType, this.viewport, this.bounds);
 
-  factory Geometry.fromJson(Map json) => new Geometry(
-      new Location.fromJson(json["location"]),
-      json["location_type"],
-      new Bounds.fromJson(json["viewport"]),
-      new Bounds.fromJson(json["bounds"]));
+  factory Geometry.fromJson(Map json) => json != null
+      ? new Geometry(
+          new Location.fromJson(json["location"]),
+          json["location_type"],
+          new Bounds.fromJson(json["viewport"]),
+          new Bounds.fromJson(json["bounds"]))
+      : null;
 }
 
 class Bounds {
@@ -36,9 +39,10 @@ class Bounds {
 
   Bounds(this.northeast, this.southwest);
 
-  factory Bounds.fromJson(Map json) => new Bounds(
-      new Location.fromJson(json["northeast"]),
-      new Location.fromJson(json["southwest"]));
+  factory Bounds.fromJson(Map json) => json != null
+      ? new Bounds(new Location.fromJson(json["northeast"]),
+          new Location.fromJson(json["southwest"]))
+      : null;
 
   String toString() =>
       "${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}";

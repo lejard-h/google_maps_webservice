@@ -163,12 +163,16 @@ class PlacesSearchResponse extends GoogleResponse<PlacesSearchResult> {
       this.nextPageToken)
       : super(status, errorMessage, results);
 
-  factory PlacesSearchResponse.fromJson(Map json) => new PlacesSearchResponse(
-      json["status"],
-      json["error_message"],
-      json["results"].map((r) => new PlacesSearchResult.fromJson(r)).toList(),
-      json["html_attributions"],
-      json["next_page_token"]);
+  factory PlacesSearchResponse.fromJson(Map json) => json != null
+      ? new PlacesSearchResponse(
+          json["status"],
+          json["error_message"],
+          json["results"]
+              .map((r) => new PlacesSearchResult.fromJson(r))
+              .toList(),
+          json["html_attributions"],
+          json["next_page_token"])
+      : null;
 }
 
 class PlacesSearchResult {
@@ -204,6 +208,10 @@ class PlacesSearchResult {
   /// JSON permanently_closed
   final bool permanentlyClosed;
 
+  final String id;
+
+  final String reference;
+
   PlacesSearchResult(
       this.icon,
       this.geometry,
@@ -218,23 +226,31 @@ class PlacesSearchResult {
       this.types,
       this.vicinity,
       this.formattedAddress,
-      this.permanentlyClosed);
+      this.permanentlyClosed,
+      this.id,
+      this.reference);
 
-  factory PlacesSearchResult.fromJson(Map json) => new PlacesSearchResult(
-      json["icon"],
-      new Geometry.fromJson(json["geometry"]),
-      json["name"],
-      new OpeningHours.fromJson(json["opening_hours"]),
-      json["photos"].map((p) => new Photo.fromJson(p)).toList(),
-      json["place_id"],
-      json["scope"],
-      json["alt_ids"].map((a) => new AlternativeId.fromJson(a)).toList(),
-      PriceLevel.values.elementAt(json["price_level"]),
-      json["rating"],
-      json["types"],
-      json["vicinity"],
-      json["formatted_address"],
-      json["permanently_closed"]);
+  factory PlacesSearchResult.fromJson(Map json) => json != null
+      ? new PlacesSearchResult(
+          json["icon"],
+          new Geometry.fromJson(json["geometry"]),
+          json["name"],
+          new OpeningHours.fromJson(json["opening_hours"]),
+          json["photos"]?.map((p) => new Photo.fromJson(p))?.toList(),
+          json["place_id"],
+          json["scope"],
+          json["alt_ids"]?.map((a) => new AlternativeId.fromJson(a))?.toList(),
+          json["price_level"] != null
+              ? PriceLevel.values.elementAt(json["price_level"])
+              : null,
+          json["rating"],
+          json["types"],
+          json["vicinity"],
+          json["formatted_address"],
+          json["permanently_closed"],
+          json["id"],
+          json["reference"])
+      : null;
 }
 
 class OpeningHours {
@@ -243,7 +259,8 @@ class OpeningHours {
 
   OpeningHours(this.openNow);
 
-  factory OpeningHours.fromJson(Map json) => new OpeningHours(json["open_now"]);
+  factory OpeningHours.fromJson(Map json) =>
+      json != null ? new OpeningHours(json["open_now"]) : null;
 }
 
 class Photo {
@@ -257,8 +274,10 @@ class Photo {
 
   Photo(this.photoReference, this.height, this.width, this.htmlAttributions);
 
-  factory Photo.fromJson(Map json) => new Photo(json["photo_reference"],
-      json["height"], json["width"], json["html_attributions"]);
+  factory Photo.fromJson(Map json) => json != null
+      ? new Photo(json["photo_reference"], json["height"], json["width"],
+          json["html_attributions"])
+      : null;
 }
 
 class AlternativeId {
@@ -270,7 +289,7 @@ class AlternativeId {
   AlternativeId(this.placeId, this.scope);
 
   factory AlternativeId.fromJson(Map json) =>
-      new AlternativeId(json["place_id"], json["scope"]);
+      json != null ? new AlternativeId(json["place_id"], json["scope"]) : null;
 }
 
 enum PriceLevel { free, inexpensive, moderate, expensive, veryExpensive }

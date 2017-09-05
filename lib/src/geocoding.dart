@@ -97,10 +97,14 @@ class GeocodingResponse extends GoogleResponse<GeocodingResult> {
       String status, String errorMessage, List<GeocodingResult> results)
       : super(status, errorMessage, results);
 
-  factory GeocodingResponse.fromJson(Map jsonMap) => new GeocodingResponse(
-      jsonMap["status"],
-      jsonMap["error_message"],
-      jsonMap["results"].map((r) => new GeocodingResult.fromJson(r)).toList());
+  factory GeocodingResponse.fromJson(Map json) => json != null
+      ? new GeocodingResponse(
+          json["status"],
+          json["error_message"],
+          json["results"].map((r) {
+            return new GeocodingResult.fromJson(r);
+          }).toList())
+      : null;
 }
 
 class GeocodingResult {
@@ -126,16 +130,18 @@ class GeocodingResult {
   GeocodingResult(this.types, this.formattedAddress, this.addressComponents,
       this.postcodeLocalities, this.geometry, this.partialMatch, this.placeId);
 
-  factory GeocodingResult.fromJson(Map jsonMap) => new GeocodingResult(
-      jsonMap["types"],
-      jsonMap["formatted_address"],
-      jsonMap["address_components"]
-          .map((addr) => new AddressComponent.fromJson(addr))
-          .toList(),
-      jsonMap["postcode_localities"],
-      new Geometry.fromJson(jsonMap["geometry"]),
-      jsonMap["partial_match"],
-      jsonMap["place_id"]);
+  factory GeocodingResult.fromJson(Map json) => json != null
+      ? new GeocodingResult(
+          json["types"],
+          json["formatted_address"],
+          json["address_components"]
+              .map((addr) => new AddressComponent.fromJson(addr))
+              .toList(),
+          json["postcode_localities"],
+          new Geometry.fromJson(json["geometry"]),
+          json["partial_match"],
+          json["place_id"])
+      : null;
 }
 
 class AddressComponent {
@@ -149,8 +155,10 @@ class AddressComponent {
 
   AddressComponent(this.types, this.longName, this.shortName);
 
-  factory AddressComponent.fromJson(Map jsonMap) => new AddressComponent(
-      jsonMap["types"], jsonMap["long_name"], jsonMap["short_name"]);
+  factory AddressComponent.fromJson(Map json) => json != null
+      ? new AddressComponent(
+          json["types"], json["long_name"], json["short_name"])
+      : null;
 }
 
 class Component {
