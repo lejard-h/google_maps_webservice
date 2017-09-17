@@ -18,32 +18,37 @@ launch([Client client]) async {
   group("Google Maps Directions", () {
     group("build url", () {
       test("simple with String origin/destination", () {
-        expect(directions.buildUrl(
-            origin: "Paris, France", destination: "Marseilles, France"), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=${Uri
+        expect(
+            directions.buildUrl(
+                origin: "Paris, France", destination: "Marseilles, France"),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=${Uri
                 .encodeComponent("Paris, France")}&destination=${Uri
                 .encodeComponent("Marseilles, France")}"));
       });
 
       test("simple with Location origin/destination", () {
-        expect(directions.buildUrl(
-            origin: new Location(23.43, 65.1),
-            destination: new Location(62.323, 53.1)), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=23.43,65.1&destination=62.323,53.1"));
+        expect(
+            directions.buildUrl(
+                origin: new Location(23.43, 65.1),
+                destination: new Location(62.323, 53.1)),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=23.43,65.1&destination=62.323,53.1"));
       });
 
       test("simple with String/Location origin/destination", () {
-        expect(directions.buildUrl(
-            origin: new Location(23.43, 65.1),
-            destination: "Marseilles, France"), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=23.43,65.1&destination=${Uri
+        expect(
+            directions.buildUrl(
+                origin: new Location(23.43, 65.1),
+                destination: "Marseilles, France"),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=23.43,65.1&destination=${Uri
                 .encodeComponent("Marseilles, France")}"));
       });
 
       test("simple with bad type for origin/destination", () {
         try {
-          directions.buildUrl(
-              origin: 10, destination: "Marseilles, France");
+          directions.buildUrl(origin: 10, destination: "Marseilles, France");
         } catch (e) {
           expect((e as ArgumentError).message,
               equals("'origin' must be a '$String' or a '$Location'"));
@@ -59,142 +64,198 @@ launch([Client client]) async {
       });
 
       test("avoid", () {
-        expect(directions.buildUrl(
-            origin: "Toronto", destination: "Montreal", avoid: RouteType.tolls),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                avoid: RouteType.tolls),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&avoid=tolls"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            avoid: RouteType.highways), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&avoid=highways"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            avoid: RouteType.indoor), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&avoid=indoor"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            avoid: RouteType.ferries), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&avoid=ferries"));
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                avoid: RouteType.highways),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&avoid=highways"));
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                avoid: RouteType.indoor),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&avoid=indoor"));
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                avoid: RouteType.ferries),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&avoid=ferries"));
       });
 
       test("travel_mode", () {
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            travelMode: TravelMode.bicycling), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=bicycling"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            travelMode: TravelMode.driving), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=driving"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            travelMode: TravelMode.transit), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=transit"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            travelMode: TravelMode.walking), equals(
-            "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=walking"));
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                travelMode: TravelMode.bicycling),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=bicycling"));
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                travelMode: TravelMode.driving),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=driving"));
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                travelMode: TravelMode.transit),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=transit"));
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                travelMode: TravelMode.walking),
+            equals(
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&mode=walking"));
       });
 
       test("departure_time", () {
         int d = 1343641500;
-        expect(directions.buildUrl(
-            origin: "Toronto", destination: "Montreal", departureTime: d),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto", destination: "Montreal", departureTime: d),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&departure_time=$d"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            departureTime: new DateTime.fromMillisecondsSinceEpoch(d * 1000)),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                departureTime:
+                    new DateTime.fromMillisecondsSinceEpoch(d * 1000)),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&departure_time=$d"));
       });
 
       test("arrival_time", () {
         int d = 1343641500;
-        expect(directions.buildUrl(
-            origin: "Toronto", destination: "Montreal", arrivalTime: d),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto", destination: "Montreal", arrivalTime: d),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&arrival_time=$d"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            arrivalTime: new DateTime.fromMillisecondsSinceEpoch(d * 1000)),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                arrivalTime: new DateTime.fromMillisecondsSinceEpoch(d * 1000)),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&arrival_time=$d"));
       });
 
       test("units", () {
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            units: Unit.metric),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto", destination: "Montreal", units: Unit.metric),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&units=metric"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            units: Unit.imperial),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                units: Unit.imperial),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&units=imperial"));
       });
 
       test("traffic_model", () {
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            trafficModel: TrafficModel.bestGuess),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                trafficModel: TrafficModel.bestGuess),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&traffic_model=best_guess"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            trafficModel: TrafficModel.pessimistic),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                trafficModel: TrafficModel.pessimistic),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&traffic_model=pessimistic"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            trafficModel: TrafficModel.optimistic),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                trafficModel: TrafficModel.optimistic),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&traffic_model=optimistic"));
       });
 
       test("transit_mode", () {
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            transitMode: [TransitMode.rail]),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                transitMode: [TransitMode.rail]),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&transit_mode=rail"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            transitMode: [TransitMode.bus]),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                transitMode: [TransitMode.bus]),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&transit_mode=bus"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            transitMode: [
-              TransitMode.tram, TransitMode.train, TransitMode.subway]),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                transitMode: [
+                  TransitMode.tram,
+                  TransitMode.train,
+                  TransitMode.subway
+                ]),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&transit_mode=tram|train|subway"));
       });
 
       test("transit_routing_preference", () {
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            transitRoutingPreference: TransitRoutingPreferences.lessWalking),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                transitRoutingPreference:
+                    TransitRoutingPreferences.lessWalking),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&transit_routing_preference=less_walking"));
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            transitRoutingPreference: TransitRoutingPreferences.fewerTransfers),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                transitRoutingPreference:
+                    TransitRoutingPreferences.fewerTransfers),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&transit_routing_preference=fewer_transfers"));
       });
 
       test("waypoints", () {
-        expect(directions.buildUrl(origin: "Toronto",
-            destination: "Montreal",
-            waypoints: [
-              Waypoint.optimize(),
-              Waypoint.fromAddress("Paris"),
-              Waypoint.fromLocation(new Location(42.2, 21.3)),
-              Waypoint.fromPlaceId("ChIJ3S-JXmauEmsRUcIaWtf4MzE"),
-              Waypoint.fromEncodedPolyline("gfo}EtohhU")
-            ]),
+        expect(
+            directions.buildUrl(
+                origin: "Toronto",
+                destination: "Montreal",
+                waypoints: [
+                  Waypoint.optimize(),
+                  Waypoint.fromAddress("Paris"),
+                  Waypoint.fromLocation(new Location(42.2, 21.3)),
+                  Waypoint.fromPlaceId("ChIJ3S-JXmauEmsRUcIaWtf4MzE"),
+                  Waypoint.fromEncodedPolyline("gfo}EtohhU")
+                ]),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=Toronto&destination=Montreal&waypoints=optimize:true|Paris|42.2,21.3|place_id:ChIJ3S-JXmauEmsRUcIaWtf4MzE|enc:gfo}EtohhU:"));
       });
@@ -202,7 +263,7 @@ launch([Client client]) async {
 
     test("decode response", () {
       DirectionsResponse response =
-      new DirectionsResponse.fromJson(JSON.decode(_responseExample));
+          new DirectionsResponse.fromJson(JSON.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.routes, hasLength(equals(1)));
@@ -250,101 +311,29 @@ launch([Client client]) async {
           equals(
               "Head \u003cb\u003enorth\u003c/b\u003e on \u003cb\u003eS Morgan St\u003c/b\u003e toward \u003cb\u003eW Cermak Rd\u003c/b\u003e"));
 
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .polyline
-          .points,
+      expect(response.routes.first.legs.first.steps.first.polyline.points,
           equals("a~l~Fjk~uOwHJy@P"));
 
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .duration
-          .text,
+      expect(response.routes.first.legs.first.steps.first.duration.text,
           equals("1 min"));
 
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .duration
-          .value,
+      expect(response.routes.first.legs.first.steps.first.duration.value,
           equals(19));
 
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .distance
-          .text,
+      expect(response.routes.first.legs.first.steps.first.distance.text,
           equals("0.1 mi"));
 
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .distance
-          .value,
+      expect(response.routes.first.legs.first.steps.first.distance.value,
           equals(207));
 
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .startLocation
-          .lat,
+      expect(response.routes.first.legs.first.steps.first.startLocation.lat,
           equals(41.8507300));
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .startLocation
-          .lng,
+      expect(response.routes.first.legs.first.steps.first.startLocation.lng,
           equals(-87.6512600));
 
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .endLocation
-          .lat,
+      expect(response.routes.first.legs.first.steps.first.endLocation.lat,
           equals(41.8525800));
-      expect(response
-          .routes
-          .first
-          .legs
-          .first
-          .steps
-          .first
-          .endLocation
-          .lng,
+      expect(response.routes.first.legs.first.steps.first.endLocation.lng,
           equals(-87.6514100));
 
       expect(response.routes.first.legs.first.steps.first.travelMode,
