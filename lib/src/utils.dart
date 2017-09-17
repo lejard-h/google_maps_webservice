@@ -1,5 +1,6 @@
 library google_maps_webservice.utils;
 
+import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart';
 
@@ -42,4 +43,7 @@ abstract class GoogleWebService {
   }
 
   void dispose() => httpClient.close();
+
+  @protected
+  Future<Response> doGet(String url) => httpClient.get(url);
 }

@@ -10,6 +10,10 @@ launch([Client client]) async {
   final apiKey = "MY_API_KEY";
   GoogleMapsGeocoding geocoding = new GoogleMapsGeocoding(apiKey, client);
 
+  tearDownAll(() {
+    geocoding.dispose();
+  });
+
   group("Google Maps Geocoding", () {
     group("build url", () {
       test("address", () {

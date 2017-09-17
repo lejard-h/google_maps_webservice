@@ -2,8 +2,8 @@ library google_maps_webservice.places.src;
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:google_maps_webservice/src/core.dart';
 import 'package:http/http.dart';
+import 'core.dart';
 import 'utils.dart';
 
 const _placesUrl = "/place";
@@ -35,7 +35,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         minprice: minprice,
         maxprice: maxprice,
         name: name);
-    return _decodeSearchResponse(await _doGet(url));
+    return _decodeSearchResponse(await doGet(url));
   }
 
   Future<PlacesSearchResponse> searchNearbyWithRankBy(
@@ -56,7 +56,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         minprice: minprice,
         maxprice: maxprice,
         name: name);
-    return _decodeSearchResponse(await _doGet(url));
+    return _decodeSearchResponse(await doGet(url));
   }
 
   Future<PlacesSearchResponse> searchByText(String query,
@@ -78,21 +78,21 @@ class GoogleMapsPlaces extends GoogleWebService {
         maxprice: maxprice,
         pagetoken: pagetoken,
         opennow: opennow);
-    return _decodeSearchResponse(await _doGet(url));
+    return _decodeSearchResponse(await doGet(url));
   }
 
   Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
       {String extensions, String language}) async {
     final url = buildDetailsUrl(
         placeId: placeId, extensions: extensions, language: language);
-    return _decodeDetailsResponse(await _doGet(url));
+    return _decodeDetailsResponse(await doGet(url));
   }
 
   Future<PlacesDetailsResponse> getDetailsByReference(String reference,
       {String extensions, String language}) async {
     final url = buildDetailsUrl(
         reference: reference, extensions: extensions, language: language);
-    return _decodeDetailsResponse(await _doGet(url));
+    return _decodeDetailsResponse(await doGet(url));
   }
 
   Future<PlacesAutocompleteResponse> autocomplete(String input,
@@ -112,7 +112,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         types: types,
         components: components,
         strictbounds: strictbounds);
-    return _decodeAutocompleteResponse(await _doGet(url));
+    return _decodeAutocompleteResponse(await doGet(url));
   }
 
   Future<PlacesAutocompleteResponse> queryAutocomplete(String input,
@@ -123,7 +123,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         offset: offset,
         radius: radius,
         language: language);
-    return _decodeAutocompleteResponse(await _doGet(url));
+    return _decodeAutocompleteResponse(await doGet(url));
   }
 
   String buildNearbySearchUrl(
@@ -253,7 +253,6 @@ class GoogleMapsPlaces extends GoogleWebService {
     return "$url$_queryAutocompleteUrl?${buildQuery(params)}";
   }
 
-  Future<Response> _doGet(String url) => httpClient.get(url);
   PlacesSearchResponse _decodeSearchResponse(Response res) =>
       new PlacesSearchResponse.fromJson(JSON.decode(res.body));
 
@@ -285,8 +284,8 @@ class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
           json["error_message"],
           json["results"]
               .map((r) => new PlacesSearchResult.fromJson(r))
-              .toList(),
-          json["html_attributions"],
+              .toList() as List<PlacesSearchResult>,
+          json["html_attributions"] as List<String>,
           json["next_page_token"])
       : null;
 }
@@ -352,15 +351,17 @@ class PlacesSearchResult {
           new Geometry.fromJson(json["geometry"]),
           json["name"],
           new OpeningHours.fromJson(json["opening_hours"]),
-          json["photos"]?.map((p) => new Photo.fromJson(p))?.toList(),
+          json["photos"]?.map((p) => new Photo.fromJson(p))?.toList()
+              as List<Photo>,
           json["place_id"],
           json["scope"],
-          json["alt_ids"]?.map((a) => new AlternativeId.fromJson(a))?.toList(),
+          json["alt_ids"]?.map((a) => new AlternativeId.fromJson(a))?.toList()
+              as List<AlternativeId>,
           json["price_level"] != null
               ? PriceLevel.values.elementAt(json["price_level"])
               : null,
           json["rating"],
-          json["types"],
+          json["types"] as List<String>,
           json["vicinity"],
           json["formatted_address"],
           json["permanently_closed"],
@@ -437,7 +438,7 @@ class PlaceDetails {
       ? new PlaceDetails(
           json["address_components"]
               .map((addr) => new AddressComponent.fromJson(addr))
-              .toList(),
+              .toList() as List<AddressComponent>,
           json["adr_address"],
           json["formatted_address"],
           json["formatted_phone_number"],
@@ -449,12 +450,13 @@ class PlaceDetails {
           json["international_phone_number"],
           json["rating"],
           json["scope"],
-          json["types"],
+          json["types"] as List<String>,
           json["url"],
           json["vicinity"],
           json["utc_offset"],
           json["website"],
-          json["reviews"].map((r) => new Review.fromJson(r)).toList(),
+          json["reviews"].map((r) => new Review.fromJson(r)).toList()
+              as List<Review>,
         )
       : null;
 }
@@ -482,7 +484,7 @@ class Photo {
 
   factory Photo.fromJson(Map json) => json != null
       ? new Photo(json["photo_reference"], json["height"], json["width"],
-          json["html_attributions"])
+          json["html_attributions"] as List<String>)
       : null;
 }
 
@@ -509,8 +511,11 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
       : super(status, errorMessage, result);
 
   factory PlacesDetailsResponse.fromJson(Map json) => json != null
-      ? new PlacesDetailsResponse(json["status"], json["error_message"],
-          new PlaceDetails.fromJson(json["result"]), json["html_attributions"])
+      ? new PlacesDetailsResponse(
+          json["status"],
+          json["error_message"],
+          new PlaceDetails.fromJson(json["result"]),
+          json["html_attributions"] as List<String>)
       : null;
 }
 
@@ -559,8 +564,11 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
       : super(status, errorMessage);
 
   factory PlacesAutocompleteResponse.fromJson(Map json) => json != null
-      ? new PlacesAutocompleteResponse(json["status"], json["error_message"],
-          json["predictions"].map((p) => new Prediction.fromJson(p)).toList())
+      ? new PlacesAutocompleteResponse(
+          json["status"],
+          json["error_message"],
+          json["predictions"].map((p) => new Prediction.fromJson(p)).toList()
+              as List<Prediction>)
       : null;
 }
 
@@ -575,7 +583,7 @@ class Prediction {
   final List<String> types;
 
   /// JSON matched_substrings
-  final List<MatchedSubstrings> matchedSubstrings;
+  final List<MatchedSubstring> matchedSubstrings;
 
   Prediction(this.description, this.id, this.terms, this.placeId,
       this.reference, this.types, this.matchedSubstrings);
@@ -584,13 +592,14 @@ class Prediction {
       ? new Prediction(
           json["description"],
           json["id"],
-          json["terms"]?.map((t) => new Term.fromJson(t))?.toList(),
+          json["terms"]?.map((t) => new Term.fromJson(t))?.toList()
+              as List<Term>,
           json["place_id"],
           json["reference"],
-          json["types"],
+          json["types"] as List<String>,
           json["matched_substrings"]
-              ?.map((m) => new MatchedSubstrings.fromJson(m))
-              ?.toList())
+              ?.map((m) => new MatchedSubstring.fromJson(m))
+              ?.toList() as List<MatchedSubstring>)
       : null;
 }
 
@@ -604,13 +613,13 @@ class Term {
       json != null ? new Term(json["offset"], json["value"]) : null;
 }
 
-class MatchedSubstrings {
+class MatchedSubstring {
   final num offset;
   final num length;
 
-  MatchedSubstrings(this.offset, this.length);
+  MatchedSubstring(this.offset, this.length);
 
-  factory MatchedSubstrings.fromJson(Map json) => json != null
-      ? new MatchedSubstrings(json["offset"], json["length"])
+  factory MatchedSubstring.fromJson(Map json) => json != null
+      ? new MatchedSubstring(json["offset"], json["length"])
       : null;
 }

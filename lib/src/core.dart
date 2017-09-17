@@ -56,6 +56,8 @@ abstract class GoogleResponseStatus {
   static const invalidRequest = "INVALID_REQUEST";
   static const unknownErrorStatus = "UNKNOWN_ERROR";
   static const notFound = "NOT_FOUND";
+  static const maxWaypointsExceeded = "MAX_WAYPOINTS_EXCEEDED";
+  static const maxRouteLengthExceeded = "MAX_ROUTE_LENGTH_EXCEEDED";
 
   final String status;
 
@@ -100,7 +102,7 @@ class AddressComponent {
 
   factory AddressComponent.fromJson(Map json) => json != null
       ? new AddressComponent(
-          json["types"], json["long_name"], json["short_name"])
+          json["types"] as List<String>, json["long_name"], json["short_name"])
       : null;
 }
 

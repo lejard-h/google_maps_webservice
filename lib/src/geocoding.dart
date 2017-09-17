@@ -2,8 +2,8 @@ library google_maps_webservice.geocoding.src;
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:google_maps_webservice/src/core.dart';
 import 'package:http/http.dart';
+import 'core.dart';
 import 'utils.dart';
 
 const _geocodeUrl = "/geocode/json";
@@ -24,7 +24,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         region: region,
         components: components);
-    return _decode(await _doGet(url));
+    return _decode(await doGet(url));
   }
 
   Future<GeocodingResponse> searchByComponents(List<Component> components,
@@ -34,7 +34,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         region: region,
         components: components);
-    return _decode(await _doGet(url));
+    return _decode(await doGet(url));
   }
 
   Future<GeocodingResponse> searchByLocation(Location location,
@@ -46,7 +46,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         resultType: resultType,
         locationType: locationType);
-    return _decode(await _doGet(url));
+    return _decode(await doGet(url));
   }
 
   Future<GeocodingResponse> searchByPlaceId(String placeId,
@@ -58,7 +58,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         resultType: resultType,
         locationType: locationType);
-    return _decode(await _doGet(url));
+    return _decode(await doGet(url));
   }
 
   String buildUrl(
@@ -89,7 +89,6 @@ class GoogleMapsGeocoding extends GoogleWebService {
 
   GeocodingResponse _decode(Response res) =>
       new GeocodingResponse.fromJson(JSON.decode(res.body));
-  Future<Response> _doGet(String url) => httpClient.get(url);
 }
 
 class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
@@ -103,7 +102,7 @@ class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
           json["error_message"],
           json["results"].map((r) {
             return new GeocodingResult.fromJson(r);
-          }).toList())
+          }).toList() as List<GeocodingResult>)
       : null;
 }
 
@@ -132,12 +131,12 @@ class GeocodingResult {
 
   factory GeocodingResult.fromJson(Map json) => json != null
       ? new GeocodingResult(
-          json["types"],
+          json["types"] as List<String>,
           json["formatted_address"],
           json["address_components"]
               .map((addr) => new AddressComponent.fromJson(addr))
-              .toList(),
-          json["postcode_localities"],
+              .toList() as List<AddressComponent>,
+          json["postcode_localities"] as List<String>,
           new Geometry.fromJson(json["geometry"]),
           json["partial_match"],
           json["place_id"])

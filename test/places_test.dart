@@ -9,6 +9,10 @@ launch([Client client]) async {
   final apiKey = "MY_API_KEY";
   GoogleMapsPlaces places = new GoogleMapsPlaces(apiKey, client);
 
+  tearDownAll(() {
+    places.dispose();
+  });
+
   group("Google Maps Places", () {
     group("nearbysearch build url", () {
       test("basic", () {

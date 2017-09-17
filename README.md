@@ -15,7 +15,7 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
     - [ ] photo
     - [x] autocomplete
     - [x] queryautocomplete
-- [ ] [Directions](https://developers.google.com/maps/documentation/directions/)
+- [x] [Directions](https://developers.google.com/maps/documentation/directions/)
 - [ ] [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/)
 - [ ] [Geolocation](https://developers.google.com/maps/documentation/geolocation/intro)
 - [ ] [Elevation](https://developers.google.com/maps/documentation/elevation/start)
