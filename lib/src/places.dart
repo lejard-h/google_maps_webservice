@@ -414,6 +414,8 @@ class PlaceDetails {
 
   final List<Review> reviews;
 
+  final Geometry geometry;
+
   PlaceDetails(
       this.addressComponents,
       this.adrAddress,
@@ -432,7 +434,8 @@ class PlaceDetails {
       this.vicinity,
       this.utcOffset,
       this.website,
-      this.reviews);
+      this.reviews,
+      this.geometry);
 
   factory PlaceDetails.fromJson(Map json) => json != null
       ? new PlaceDetails(
@@ -455,9 +458,9 @@ class PlaceDetails {
           json["vicinity"],
           json["utc_offset"],
           json["website"],
-          json["reviews"].map((r) => new Review.fromJson(r)).toList()
+          json["reviews"]?.map((r) => new Review.fromJson(r))?.toList()
               as List<Review>,
-        )
+          new Geometry.fromJson(json["geometry"]))
       : null;
 }
 

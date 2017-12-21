@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.3
+- parse Geometry field in place details response
+
 ## 0.0.2
 
 - Directions API
