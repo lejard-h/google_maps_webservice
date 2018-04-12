@@ -88,7 +88,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
   }
 
   GeocodingResponse _decode(Response res) =>
-      new GeocodingResponse.fromJson(JSON.decode(res.body));
+      new GeocodingResponse.fromJson(json.decode(res.body));
 }
 
 class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
@@ -102,7 +102,7 @@ class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
           json["error_message"],
           json["results"].map((r) {
             return new GeocodingResult.fromJson(r);
-          }).toList() as List<GeocodingResult>)
+          }).toList().cast<GeocodingResult>())
       : null;
 }
 
@@ -131,12 +131,12 @@ class GeocodingResult {
 
   factory GeocodingResult.fromJson(Map json) => json != null
       ? new GeocodingResult(
-          json["types"] as List<String>,
+          (json["types"] as List)?.cast<String>(),
           json["formatted_address"],
           json["address_components"]
               .map((addr) => new AddressComponent.fromJson(addr))
-              .toList() as List<AddressComponent>,
-          json["postcode_localities"] as List<String>,
+              .toList().cast<AddressComponent>(),
+          (json["postcode_localities"] as List)?.cast<String>(),
           new Geometry.fromJson(json["geometry"]),
           json["partial_match"],
           json["place_id"])

@@ -262,7 +262,7 @@ launch([Client client]) async {
 
     test("decode response", () {
       DirectionsResponse response =
-          new DirectionsResponse.fromJson(JSON.decode(_responseExample));
+          new DirectionsResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.routes, hasLength(equals(1)));

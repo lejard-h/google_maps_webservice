@@ -102,7 +102,9 @@ class AddressComponent {
 
   factory AddressComponent.fromJson(Map json) => json != null
       ? new AddressComponent(
-          json["types"] as List<String>, json["long_name"], json["short_name"])
+          (json["types"] as List)?.cast<String>(),
+          json["long_name"],
+          json["short_name"])
       : null;
 }
 

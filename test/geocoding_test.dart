@@ -74,7 +74,7 @@ launch([Client client]) async {
 
     test("decode response", () {
       GeocodingResponse response =
-          new GeocodingResponse.fromJson(JSON.decode(_responseExample));
+          new GeocodingResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.results, hasLength(equals(1)));

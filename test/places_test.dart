@@ -331,7 +331,7 @@ launch([Client client]) async {
 
     test("decode response", () {
       PlacesSearchResponse response =
-          new PlacesSearchResponse.fromJson(JSON.decode(_responseExample));
+          new PlacesSearchResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.results, hasLength(equals(4)));
