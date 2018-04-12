@@ -165,7 +165,7 @@ class GoogleMapsDirections extends GoogleWebService {
   }
 
   DirectionsResponse _decode(Response res) =>
-      new DirectionsResponse.fromJson(JSON.decode(res.body));
+      new DirectionsResponse.fromJson(json.decode(res.body));
 }
 
 class DirectionsResponse extends GoogleResponseStatus {

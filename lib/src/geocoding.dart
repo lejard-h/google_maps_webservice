@@ -88,7 +88,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
   }
 
   GeocodingResponse _decode(Response res) =>
-      new GeocodingResponse.fromJson(JSON.decode(res.body));
+      new GeocodingResponse.fromJson(json.decode(res.body));
 }
 
 class GeocodingResponse extends GoogleResponseList<GeocodingResult> {

@@ -254,13 +254,13 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   PlacesSearchResponse _decodeSearchResponse(Response res) =>
-      new PlacesSearchResponse.fromJson(JSON.decode(res.body));
+      new PlacesSearchResponse.fromJson(json.decode(res.body));
 
   PlacesDetailsResponse _decodeDetailsResponse(Response res) =>
-      new PlacesDetailsResponse.fromJson(JSON.decode(res.body));
+      new PlacesDetailsResponse.fromJson(json.decode(res.body));
 
   PlacesAutocompleteResponse _decodeAutocompleteResponse(Response res) =>
-      new PlacesAutocompleteResponse.fromJson(JSON.decode(res.body));
+      new PlacesAutocompleteResponse.fromJson(json.decode(res.body));
 }
 
 class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
