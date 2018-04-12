@@ -183,10 +183,10 @@ class DirectionsResponse extends GoogleResponseStatus {
       json["error_message"],
       json["geocoded_waypoints"]?.map((r) {
         return new GeocodedWaypoint.fromJson(r);
-      })?.toList() as List<GeocodedWaypoint>,
+      })?.toList()?.cast<GeocodedWaypoint>(),
       json["routes"]?.map((r) {
         return new Route.fromJson(r);
-      })?.toList() as List<Route>);
+      })?.toList()?.cast<Route>());
 }
 
 class Waypoint {
@@ -226,7 +226,7 @@ class GeocodedWaypoint {
   factory GeocodedWaypoint.fromJson(Map json) => new GeocodedWaypoint(
       json["geocoder_status"],
       json["place_id"],
-      json["types"] as List<String>,
+      (json["types"] as List)?.cast<String>(),
       json["partial_match"]);
 }
 
@@ -255,11 +255,11 @@ class Route {
           json["summary"],
           json["legs"]?.map((r) {
             return new Leg.fromJson(r);
-          })?.toList() as List<Leg>,
+          })?.toList()?.cast<Leg>(),
           json["copyrights"],
           new Polyline.fromJson(json["overview_polyline"]),
           json["warnings"] as List,
-          json["waypoint_order"] as List<num>,
+          (json["waypoint_order"] as List)?.cast<num>(),
           new Bounds.fromJson(json["bounds"]),
           new Fare.fromJson(json["fare"]))
       : null;
@@ -314,7 +314,7 @@ class Leg extends _Step {
       ? new Leg(
           json["steps"]?.map((r) {
             return new Step.fromJson(r);
-          })?.toList() as List<Step>,
+          })?.toList()?.cast<Step>(),
           json["start_address"],
           json["end_address"],
           new Value.fromJson(json["duration_in_traffic"]),
