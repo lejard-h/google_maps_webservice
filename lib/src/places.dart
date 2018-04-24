@@ -284,7 +284,8 @@ class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
           json["error_message"],
           json["results"]
               .map((r) => new PlacesSearchResult.fromJson(r))
-              .toList().cast<PlacesSearchResult>(),
+              .toList()
+              .cast<PlacesSearchResult>(),
           (json["html_attributions"] as List).cast<String>(),
           json["next_page_token"])
       : null;
@@ -351,11 +352,15 @@ class PlacesSearchResult {
           new Geometry.fromJson(json["geometry"]),
           json["name"],
           new OpeningHours.fromJson(json["opening_hours"]),
-          json["photos"]?.map((p) => new Photo.fromJson(p))?.toList()
+          json["photos"]
+              ?.map((p) => new Photo.fromJson(p))
+              ?.toList()
               ?.cast<Photo>(),
           json["place_id"],
           json["scope"],
-          json["alt_ids"]?.map((a) => new AlternativeId.fromJson(a))?.toList()
+          json["alt_ids"]
+              ?.map((a) => new AlternativeId.fromJson(a))
+              ?.toList()
               ?.cast<AlternativeId>(),
           json["price_level"] != null
               ? PriceLevel.values.elementAt(json["price_level"])
@@ -441,7 +446,8 @@ class PlaceDetails {
       ? new PlaceDetails(
           json["address_components"]
               .map((addr) => new AddressComponent.fromJson(addr))
-              .toList().cast<AddressComponent>(),
+              .toList()
+              .cast<AddressComponent>(),
           json["adr_address"],
           json["formatted_address"],
           json["formatted_phone_number"],
@@ -458,7 +464,9 @@ class PlaceDetails {
           json["vicinity"],
           json["utc_offset"],
           json["website"],
-          json["reviews"]?.map((r) => new Review.fromJson(r))?.toList()
+          json["reviews"]
+              ?.map((r) => new Review.fromJson(r))
+              ?.toList()
               ?.cast<Review>(),
           new Geometry.fromJson(json["geometry"]))
       : null;
@@ -518,7 +526,7 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
           json["status"],
           json["error_message"],
           new PlaceDetails.fromJson(json["result"]),
-              (json["html_attributions"] as List)?.cast<String>())
+          (json["html_attributions"] as List)?.cast<String>())
       : null;
 }
 
@@ -570,7 +578,9 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
       ? new PlacesAutocompleteResponse(
           json["status"],
           json["error_message"],
-          json["predictions"].map((p) => new Prediction.fromJson(p)).toList()
+          json["predictions"]
+              .map((p) => new Prediction.fromJson(p))
+              .toList()
               .cast<Prediction>())
       : null;
 }
@@ -595,14 +605,17 @@ class Prediction {
       ? new Prediction(
           json["description"],
           json["id"],
-          json["terms"]?.map((t) => new Term.fromJson(t))?.toList()
+          json["terms"]
+              ?.map((t) => new Term.fromJson(t))
+              ?.toList()
               ?.cast<Term>(),
           json["place_id"],
           json["reference"],
           (json["types"] as List)?.cast<String>(),
           json["matched_substrings"]
               ?.map((m) => new MatchedSubstring.fromJson(m))
-              ?.toList()?.cast<MatchedSubstring>())
+              ?.toList()
+              ?.cast<MatchedSubstring>())
       : null;
 }
 

@@ -100,9 +100,12 @@ class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
       ? new GeocodingResponse(
           json["status"],
           json["error_message"],
-          json["results"].map((r) {
-            return new GeocodingResult.fromJson(r);
-          }).toList().cast<GeocodingResult>())
+          json["results"]
+              .map((r) {
+                return new GeocodingResult.fromJson(r);
+              })
+              .toList()
+              .cast<GeocodingResult>())
       : null;
 }
 
@@ -135,7 +138,8 @@ class GeocodingResult {
           json["formatted_address"],
           json["address_components"]
               .map((addr) => new AddressComponent.fromJson(addr))
-              .toList().cast<AddressComponent>(),
+              .toList()
+              .cast<AddressComponent>(),
           (json["postcode_localities"] as List)?.cast<String>(),
           new Geometry.fromJson(json["geometry"]),
           json["partial_match"],
