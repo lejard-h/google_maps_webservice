@@ -52,6 +52,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         location: location,
         language: language,
         type: type,
+        rankby: rankby,
         keyword: keyword,
         minprice: minprice,
         maxprice: maxprice,
