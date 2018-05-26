@@ -1,6 +1,6 @@
 name: google_maps_webservice
 description: Google Maps Web Services [API](https://developers.google.com/maps/web-services)
-version: 0.0.3
+version: 0.0.5
 homepage: https://github.com/lejard-h/google_maps_webservice
 author: Hadrien Lejard <hadrien.lejard@gmail.com>
 
@@ -9,14 +9,9 @@ environment:
 
 dependencies:
   http: ">=0.11.0 < 1.0.0"
+  meta: ^1.1.0
 
 dev_dependencies:
   test: ^0.12.0
   chrome_travis:
     git: git://github.com/tekartik/chrome_travis.dart
-
-transformers:
-- test/pub_serve:
-    $include: test/all_browser_test.dart
-- $dart2js:
-    minify: true
