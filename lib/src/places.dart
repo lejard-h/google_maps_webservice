@@ -397,6 +397,9 @@ class PlaceDetails {
 
   final String name;
 
+  /// JSON opening_hours
+  final OpeningHoursDetail openingHours;
+
   /// JSON place_id
   final String placeId;
 
@@ -431,6 +434,7 @@ class PlaceDetails {
       this.reference,
       this.icon,
       this.name,
+      this.openingHours,
       this.placeId,
       this.internationalPhoneNumber,
       this.rating,
@@ -456,6 +460,7 @@ class PlaceDetails {
           json["reference"],
           json["icon"],
           json["name"],
+          json["opening_hours"],
           json["place_id"],
           json["international_phone_number"],
           json["rating"],
@@ -481,6 +486,44 @@ class OpeningHours {
 
   factory OpeningHours.fromJson(Map json) =>
       json != null ? new OpeningHours(json["open_now"]) : null;
+}
+
+class OpeningHoursDetail extends OpeningHours {
+  final List<OpeningHoursPeriod> periods;
+  final List<String> weekdayText;
+
+  OpeningHoursDetail(openNow, this.periods, this.weekdayText) : super(openNow);
+
+  factory OpeningHoursDetail.fromJson(Map json) => json != null
+    ? new OpeningHoursDetail(
+        json["open_now"],
+        json["periods"]
+          ?.map((p) => new OpeningHoursPeriod.fromJSON(p))
+          ?.toList()
+          ?.cast<OpeningHoursPeriod>(),
+        json["weekday_text"]
+      )
+    : null;
+}
+
+class OpeningHoursPeriod {
+  final DateTime open;
+  final DateTime close;
+
+  OpeningHoursPeriod(this.open, this.close);
+
+  static DateTime _jsonToDateTime(Map<String, dynamic> json) {
+    final _now = new DateTime.now();
+    // Maps is 0-index DOW
+    final _weekday = _now.weekday - 1;
+    final _mondayOfThisWeek = _now.day - _weekday;
+    final _computedWeekday = _mondayOfThisWeek + json["day"] as int;
+
+    return new DateTime(_now.year, _now.month, _computedWeekday, json["time"] as int);
+  }
+
+  factory OpeningHoursPeriod.fromJSON(Map json) =>
+    json != null ? OpeningHoursPeriod(_jsonToDateTime(json["open"]), _jsonToDateTime(json["close"])) : null;
 }
 
 class Photo {
