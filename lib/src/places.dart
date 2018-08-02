@@ -400,6 +400,8 @@ class PlaceDetails {
   /// JSON opening_hours
   final OpeningHoursDetail openingHours;
 
+  final List<Photo> photos;
+
   /// JSON place_id
   final String placeId;
 
@@ -438,6 +440,7 @@ class PlaceDetails {
       this.icon,
       this.name,
       this.openingHours,
+      this.photos,
       this.placeId,
       this.internationalPhoneNumber,
       this.priceLevel,
@@ -465,6 +468,10 @@ class PlaceDetails {
           json["icon"],
           json["name"],
           json["opening_hours"],
+          json["photos"]
+              ?.map((p) => new Photo.fromJson(p))
+              ?.toList()
+              ?.cast<Photo>(),
           json["place_id"],
           json["international_phone_number"],
           json["price_level"] != null
