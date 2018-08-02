@@ -406,6 +406,9 @@ class PlaceDetails {
   /// JSON international_phone_number
   final String internationalPhoneNumber;
 
+  /// JSON price_level
+  final PriceLevel priceLevel;
+
   final num rating;
 
   final String scope;
@@ -437,6 +440,7 @@ class PlaceDetails {
       this.openingHours,
       this.placeId,
       this.internationalPhoneNumber,
+      this.priceLevel,
       this.rating,
       this.scope,
       this.types,
@@ -463,6 +467,9 @@ class PlaceDetails {
           json["opening_hours"],
           json["place_id"],
           json["international_phone_number"],
+          json["price_level"] != null
+              ? PriceLevel.values.elementAt(json["price_level"])
+              : null,
           json["rating"],
           json["scope"],
           (json["types"] as List)?.cast<String>(),
