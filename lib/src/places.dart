@@ -521,7 +521,9 @@ class OpeningHoursDetail extends OpeningHours {
 }
 
 class OpeningHoursPeriod {
+  /// UTC Time
   final DateTime open;
+  /// UTC Time
   final DateTime close;
 
   OpeningHoursPeriod(this.open, this.close);
@@ -533,7 +535,10 @@ class OpeningHoursPeriod {
     final _mondayOfThisWeek = _now.day - _weekday;
     final _computedWeekday = _mondayOfThisWeek + json["day"];
 
-    return new DateTime(_now.year, _now.month, _computedWeekday, int.parse(json["time"]));
+    final _hour = int.parse((json["time"] as String).substring(0, 2));
+    final _minute = int.parse((json["time"] as String).substring(2));
+
+    return new DateTime.utc(_now.year, _now.month, _computedWeekday, _hour, _minute);
   }
 
   factory OpeningHoursPeriod.fromJSON(Map json) =>
