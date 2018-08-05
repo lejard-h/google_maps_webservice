@@ -512,7 +512,7 @@ class OpeningHoursDetail extends OpeningHours {
     ? new OpeningHoursDetail(
         json["open_now"],
         json["periods"]
-          ?.map((p) => new OpeningHoursPeriod.fromJSON(p))
+          ?.map((p) => new OpeningHoursPeriod.fromJson(p))
           ?.toList()
           ?.cast<OpeningHoursPeriod>(),
         (json["weekday_text"] as List)?.cast<String>()
@@ -520,29 +520,33 @@ class OpeningHoursDetail extends OpeningHours {
     : null;
 }
 
-class OpeningHoursPeriod {
+class OpeningHoursPeriodDate extends GoogleDateTime {
+  final int day;
+  final String time;
+
   /// UTC Time
-  final DateTime open;
-  /// UTC Time
-  final DateTime close;
+  DateTime dateTime;
+
+  OpeningHoursPeriodDate(this.day, this.time) {
+    dateTime = dayTimeToDateTime(this.day, this.time);
+  }
+
+  factory OpeningHoursPeriodDate.fromJson(Map json) =>
+    json != null ? OpeningHoursPeriodDate(json["day"], json["time"]) : null;
+}
+
+class OpeningHoursPeriod extends GoogleDateTime {
+  final OpeningHoursPeriodDate open;
+  final OpeningHoursPeriodDate close;
 
   OpeningHoursPeriod(this.open, this.close);
 
-  static DateTime _jsonToDateTime(Map<String, dynamic> json) {
-    final _now = new DateTime.now();
-    // Maps is 0-index DOW
-    final _weekday = _now.weekday - 1;
-    final _mondayOfThisWeek = _now.day - _weekday;
-    final _computedWeekday = _mondayOfThisWeek + json["day"];
-
-    final _hour = int.parse((json["time"] as String).substring(0, 2));
-    final _minute = int.parse((json["time"] as String).substring(2));
-
-    return new DateTime.utc(_now.year, _now.month, _computedWeekday, _hour, _minute);
-  }
-
-  factory OpeningHoursPeriod.fromJSON(Map json) =>
-    json != null ? OpeningHoursPeriod(_jsonToDateTime(json["open"]), _jsonToDateTime(json["close"])) : null;
+  factory OpeningHoursPeriod.fromJson(Map json) => json != null
+    ? OpeningHoursPeriod(
+        OpeningHoursPeriodDate.fromJson(json["open"]),
+        OpeningHoursPeriodDate.fromJson(json["close"])
+      )
+    : null;
 }
 
 class Photo {
