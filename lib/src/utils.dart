@@ -47,3 +47,25 @@ abstract class GoogleWebService {
   @protected
   Future<Response> doGet(String url) => httpClient.get(url);
 }
+
+abstract class GoogleDateTime {
+  @visibleForTesting
+  @protected
+  DateTime dayTimeToDateTime(int day, String time) {
+    if (time.length < 4) {
+      throw new ArgumentError(
+          "'time' is not a valid string. It must be four integers.");
+    }
+
+    final _now = new DateTime.now();
+    // Maps is 0-index DOW
+    final _weekday = _now.weekday - 1;
+    final _mondayOfThisWeek = _now.day - _weekday;
+    final _computedWeekday = _mondayOfThisWeek + day;
+
+    final _hour = int.parse(time.substring(0, 2));
+    final _minute = int.parse(time.substring(2));
+
+    return new DateTime.utc(_now.year, _now.month, _computedWeekday, _hour, _minute);
+  }
+}
