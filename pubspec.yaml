@@ -1,6 +1,6 @@
 name: google_maps_webservice
 description: Google Maps Web Services [API](https://developers.google.com/maps/web-services)
-version: 0.0.6
+version: 0.0.7
 homepage: https://github.com/lejard-h/google_maps_webservice
 author: Hadrien Lejard <hadrien.lejard@gmail.com>
 

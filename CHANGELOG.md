@@ -1,6 +1,12 @@
 # Changelog
 
-## update dart sdk
+## 0.0.7
+
+- fix opening hours
+
+## 0.0.6
+
+-  update dart sdk
 
 ## 0.0.5
 
