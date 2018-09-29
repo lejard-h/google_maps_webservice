@@ -19,24 +19,13 @@ launch([Client client]) async {
         test("basic", () {
           final DateTime mondayAt1130 = utility.dayTimeToDateTime(0, "2330");
 
-          expect(
-            mondayAt1130.weekday,
-            equals(1)
-          );
-          expect(
-            mondayAt1130.hour,
-            equals(23)
-          );
-          expect(
-            mondayAt1130.minute,
-            equals(30)
-          );
+          expect(mondayAt1130.weekday, equals(1));
+          expect(mondayAt1130.hour, equals(23));
+          expect(mondayAt1130.minute, equals(30));
         });
         test("throws for an invalid time argument", () {
           expect(
-            () => utility.dayTimeToDateTime(0, "230"),
-            throwsArgumentError
-          );
+              () => utility.dayTimeToDateTime(0, "230"), throwsArgumentError);
         });
       });
     });

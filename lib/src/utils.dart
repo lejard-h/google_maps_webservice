@@ -66,6 +66,7 @@ abstract class GoogleDateTime {
     final _hour = int.parse(time.substring(0, 2));
     final _minute = int.parse(time.substring(2));
 
-    return new DateTime.utc(_now.year, _now.month, _computedWeekday, _hour, _minute);
+    return new DateTime.utc(
+        _now.year, _now.month, _computedWeekday, _hour, _minute);
   }
 }

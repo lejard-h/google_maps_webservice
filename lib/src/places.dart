@@ -509,15 +509,14 @@ class OpeningHoursDetail extends OpeningHours {
   OpeningHoursDetail(openNow, this.periods, this.weekdayText) : super(openNow);
 
   factory OpeningHoursDetail.fromJson(Map<String, dynamic> json) => json != null
-    ? new OpeningHoursDetail(
-        json["open_now"],
-        json["periods"]
-          ?.map((p) => new OpeningHoursPeriod.fromJson(p))
-          ?.toList()
-          ?.cast<OpeningHoursPeriod>(),
-        (json["weekday_text"] as List)?.cast<String>()
-      )
-    : null;
+      ? new OpeningHoursDetail(
+          json["open_now"],
+          json["periods"]
+              ?.map((p) => new OpeningHoursPeriod.fromJson(p))
+              ?.toList()
+              ?.cast<OpeningHoursPeriod>(),
+          (json["weekday_text"] as List)?.cast<String>())
+      : null;
 }
 
 class OpeningHoursPeriodDate extends GoogleDateTime {
@@ -532,7 +531,7 @@ class OpeningHoursPeriodDate extends GoogleDateTime {
   }
 
   factory OpeningHoursPeriodDate.fromJson(Map json) =>
-    json != null ? OpeningHoursPeriodDate(json["day"], json["time"]) : null;
+      json != null ? OpeningHoursPeriodDate(json["day"], json["time"]) : null;
 }
 
 class OpeningHoursPeriod extends GoogleDateTime {
@@ -542,11 +541,9 @@ class OpeningHoursPeriod extends GoogleDateTime {
   OpeningHoursPeriod(this.open, this.close);
 
   factory OpeningHoursPeriod.fromJson(Map json) => json != null
-    ? OpeningHoursPeriod(
-        OpeningHoursPeriodDate.fromJson(json["open"]),
-        OpeningHoursPeriodDate.fromJson(json["close"])
-      )
-    : null;
+      ? OpeningHoursPeriod(OpeningHoursPeriodDate.fromJson(json["open"]),
+          OpeningHoursPeriodDate.fromJson(json["close"]))
+      : null;
 }
 
 class Photo {

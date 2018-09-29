@@ -21,9 +21,7 @@ launch([Client client]) async {
             directions.buildUrl(
                 origin: "Paris, France", destination: "Marseilles, France"),
             equals(
-                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=${Uri
-                .encodeComponent("Paris, France")}&destination=${Uri
-                .encodeComponent("Marseilles, France")}"));
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=${Uri.encodeComponent("Paris, France")}&destination=${Uri.encodeComponent("Marseilles, France")}"));
       });
 
       test("simple with Location origin/destination", () {
@@ -41,8 +39,7 @@ launch([Client client]) async {
                 origin: new Location(23.43, 65.1),
                 destination: "Marseilles, France"),
             equals(
-                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=23.43,65.1&destination=${Uri
-                .encodeComponent("Marseilles, France")}"));
+                "https://maps.googleapis.com/maps/api/directions/json?key=$apiKey&origin=23.43,65.1&destination=${Uri.encodeComponent("Marseilles, France")}"));
       });
 
       test("simple with bad type for origin/destination", () {
