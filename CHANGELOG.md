@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.9
+
+- fix partial match type in geocoding
+
 ## 0.0.8
 
 - fix 'Int' is not double

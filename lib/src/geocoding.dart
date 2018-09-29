@@ -124,7 +124,7 @@ class GeocodingResult {
   final Geometry geometry;
 
   /// JSON partial_match
-  final String partialMatch;
+  final bool partialMatch;
 
   /// JSON place_id
   final placeId;
