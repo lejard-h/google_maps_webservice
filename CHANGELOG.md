@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8
+
+- fix 'Int' is not double
+
 ## 0.0.7
 
 - fix opening hours

@@ -6,8 +6,12 @@ class Location {
 
   Location(this.lat, this.lng);
 
-  factory Location.fromJson(Map json) =>
-      json != null ? new Location(json["lat"], json["lng"]) : null;
+  factory Location.fromJson(Map json) => json != null
+      ? new Location(
+          (json["lat"] as num).toDouble(),
+          (json["lng"] as num).toDouble(),
+        )
+      : null;
 
   String toString() => "$lat,$lng";
 }

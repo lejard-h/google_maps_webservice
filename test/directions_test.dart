@@ -338,6 +338,16 @@ launch([Client client]) async {
       expect(response.routes.first.legs.first.steps.first.travelMode,
           equals(TravelMode.driving));
     });
+
+    test('Location handle all number', () {
+      final loc = Location.fromJson({
+        'lat': 1,
+        'lng': 2.1,
+      });
+
+      expect(loc.lat, equals(1.0));
+      expect(loc.lng, equals(2.1));
+    });
   });
 }
 

@@ -10,7 +10,6 @@ cache:
     - $HOME/.pub-cache
 
 before_script:
-  - source $(pub run chrome_travis:env_rc)
   - chmod +x ./tool/travis.sh
 
 script: ./tool/travis.sh
