@@ -664,8 +664,14 @@ class Prediction {
 
   final StructuredFormatting structuredFormatting;
 
-  Prediction(this.description, this.id, this.terms, this.placeId,
-      this.reference, this.types, this.matchedSubstrings,
+  Prediction(
+      this.description,
+      this.id,
+      this.terms,
+      this.placeId,
+      this.reference,
+      this.types,
+      this.matchedSubstrings,
       this.structuredFormatting);
 
   factory Prediction.fromJson(Map json) => json != null
