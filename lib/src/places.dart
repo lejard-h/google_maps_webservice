@@ -15,8 +15,8 @@ const _queryAutocompleteUrl = "/queryautocomplete/json";
 
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
-  GoogleMapsPlaces(String apiKey, [Client httpClient])
-      : super(apiKey, _placesUrl, httpClient);
+  GoogleMapsPlaces({String apiKey, String baseUrl, Client httpClient})
+      : super(apiKey: apiKey, baseUrl: baseUrl, url: _placesUrl, httpClient: httpClient);
 
   Future<PlacesSearchResponse> searchNearbyWithRadius(
       Location location, num radius,
@@ -152,7 +152,6 @@ class GoogleMapsPlaces extends GoogleWebService {
     }
 
     final params = {
-      "key": apiKey,
       "location": location,
       "radius": radius,
       "language": language,
@@ -164,6 +163,10 @@ class GoogleMapsPlaces extends GoogleWebService {
       "rankby": rankby,
       "pagetoken": pagetoken
     };
+
+    if(apiKey != null){
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url$_nearbySearchUrl?${buildQuery(params)}";
   }
@@ -179,7 +182,6 @@ class GoogleMapsPlaces extends GoogleWebService {
       String pagetoken,
       String language}) {
     final params = {
-      "key": apiKey,
       "query": query != null ? Uri.encodeComponent(query) : null,
       "language": language,
       "location": location,
@@ -190,6 +192,10 @@ class GoogleMapsPlaces extends GoogleWebService {
       "type": type,
       "pagetoken": pagetoken
     };
+
+    if(apiKey != null){
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url$_textSearchUrl?${buildQuery(params)}";
   }
@@ -202,12 +208,15 @@ class GoogleMapsPlaces extends GoogleWebService {
     }
 
     final params = {
-      "key": apiKey,
       "placeid": placeId,
       "reference": reference,
       "language": language,
       "extensions": extensions
     };
+
+    if(apiKey != null){
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url$_detailsSearchUrl?${buildQuery(params)}";
   }
@@ -222,7 +231,6 @@ class GoogleMapsPlaces extends GoogleWebService {
       List<Component> components,
       bool strictbounds}) {
     final params = {
-      "key": apiKey,
       "input": input != null ? Uri.encodeComponent(input) : null,
       "language": language,
       "location": location,
@@ -232,6 +240,9 @@ class GoogleMapsPlaces extends GoogleWebService {
       "strictbounds": strictbounds,
       "offset": offset
     };
+    if(apiKey != null){
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url$_autocompleteUrl?${buildQuery(params)}";
   }
@@ -243,13 +254,16 @@ class GoogleMapsPlaces extends GoogleWebService {
       num radius,
       String language}) {
     final params = {
-      "key": apiKey,
       "input": input != null ? Uri.encodeComponent(input) : null,
       "language": language,
       "location": location,
       "radius": radius,
       "offset": offset
     };
+
+    if(apiKey != null){
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url$_queryAutocompleteUrl?${buildQuery(params)}";
   }

@@ -7,7 +7,7 @@ import 'package:google_maps_webservice/places.dart';
 
 launch([Client client]) async {
   final apiKey = "MY_API_KEY";
-  GoogleMapsPlaces places = new GoogleMapsPlaces(apiKey, client);
+  GoogleMapsPlaces places = new GoogleMapsPlaces(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     places.dispose();

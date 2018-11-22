@@ -30,8 +30,9 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 ```dart
 import "package:google_maps_webservice/geocoding.dart";
 
-final geocoding = new GoogleMapsGeocoding("<API_KEY>");
-final geocoding = new GoogleMapsGeocoding("<API_KEY>", new BrowserClient());
+final geocoding = new GoogleMapsGeocoding(apiKey: "<API_KEY>");
+final geocoding = new GoogleMapsGeocoding(apiKey: "<API_KEY>", httpClient: new BrowserClient());
+final geocoding = new GoogleMapsGeocoding(baseUrl: "http://myProxy.com");
 
 GeocodingResponse response = await geocoding.searchByAddress("1600 Amphitheatre Parkway, Mountain View, CA");
 ```
@@ -41,8 +42,9 @@ GeocodingResponse response = await geocoding.searchByAddress("1600 Amphitheatre 
 ```dart
 import "package:google_maps_webservice/places.dart";
 
-final places = new GoogleMapsPlaces("<API_KEY>");
-final places = new GoogleMapsPlaces("<API_KEY>", new BrowserClient());
+final places = new GoogleMapsPlaces(apiKey: "<API_KEY>");
+final places = new GoogleMapsPlaces(apiKey: "<API_KEY>", httpClient: new BrowserClient());
+final places = new GoogleMapsPlaces(baseUrl: "http://myProxy.com");
 
 PlacesSearchResponse reponse = await places.searchNearbyWithRadius(new Location(31.0424, 42.421), 500);
 PlacesSearchResponse reponse = await places.searchNearbyWithRankby(new Location(31.0424, 42.421), "distance");
@@ -51,6 +53,13 @@ PlacesSearchResponse reponse = await places.searchByText("123 Main Street");
 PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
 PlacesDetailsResponse response = await places.getDetailsByReference("REF");
 ```
+
+### Proxy
+
+In case of using a proxy the baseUrl can be set.
+The apiKey is not required in case the proxy sets it. (Not storing the apiKey in the app is good practice)
+
+### Feature Requests and Issues
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 

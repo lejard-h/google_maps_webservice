@@ -3,7 +3,7 @@ library google_maps_webservice.places.autocomplete.example;
 import 'dart:io';
 import 'package:google_maps_webservice/places.dart';
 
-final places = new GoogleMapsPlaces(Platform.environment["API_KEY"]);
+final places = new GoogleMapsPlaces(apiKey: Platform.environment["API_KEY"]);
 
 main() async {
   PlacesAutocompleteResponse res = await places.autocomplete("Amoeba");
