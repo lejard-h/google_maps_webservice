@@ -8,7 +8,8 @@ import 'package:google_maps_webservice/geocoding.dart';
 
 launch([Client client]) async {
   final apiKey = "MY_API_KEY";
-  GoogleMapsGeocoding geocoding = new GoogleMapsGeocoding(apiKey: apiKey, httpClient: client);
+  GoogleMapsGeocoding geocoding =
+      new GoogleMapsGeocoding(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     geocoding.dispose();

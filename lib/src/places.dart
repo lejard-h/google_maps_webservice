@@ -16,7 +16,11 @@ const _queryAutocompleteUrl = "/queryautocomplete/json";
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
   GoogleMapsPlaces({String apiKey, String baseUrl, Client httpClient})
-      : super(apiKey: apiKey, baseUrl: baseUrl, url: _placesUrl, httpClient: httpClient);
+      : super(
+            apiKey: apiKey,
+            baseUrl: baseUrl,
+            url: _placesUrl,
+            httpClient: httpClient);
 
   Future<PlacesSearchResponse> searchNearbyWithRadius(
       Location location, num radius,
@@ -164,7 +168,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "pagetoken": pagetoken
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
@@ -193,7 +197,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "pagetoken": pagetoken
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
@@ -214,7 +218,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "extensions": extensions
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
@@ -240,7 +244,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "strictbounds": strictbounds,
       "offset": offset
     };
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
@@ -261,7 +265,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "offset": offset
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
