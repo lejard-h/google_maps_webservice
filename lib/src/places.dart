@@ -2,7 +2,9 @@ library google_maps_webservice.places.src;
 
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart';
+
 import 'core.dart';
 import 'utils.dart';
 
@@ -16,7 +18,11 @@ const _queryAutocompleteUrl = "/queryautocomplete/json";
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
   GoogleMapsPlaces({String apiKey, String baseUrl, Client httpClient})
-      : super(apiKey: apiKey, baseUrl: baseUrl, url: _placesUrl, httpClient: httpClient);
+      : super(
+            apiKey: apiKey,
+            baseUrl: baseUrl,
+            url: _placesUrl,
+            httpClient: httpClient);
 
   Future<PlacesSearchResponse> searchNearbyWithRadius(
       Location location, num radius,
@@ -172,7 +178,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "pagetoken": pagetoken
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
@@ -201,7 +207,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "pagetoken": pagetoken
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
@@ -225,11 +231,8 @@ class GoogleMapsPlaces extends GoogleWebService {
       "language": language,
       "extensions": extensions
     };
-    if (sessionToken != null) {
-      params.putIfAbsent("sessiontoken", () => sessionToken);
-    }
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
@@ -256,10 +259,10 @@ class GoogleMapsPlaces extends GoogleWebService {
       "strictbounds": strictbounds,
       "offset": offset
     };
-    if(apiKey != null) {
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
-    if(sessionToken != null){
+    if (sessionToken != null) {
       params.putIfAbsent("sessiontoken", () => sessionToken);
     }
     return "$url$_autocompleteUrl?${buildQuery(params)}";
@@ -279,7 +282,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "offset": offset
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 

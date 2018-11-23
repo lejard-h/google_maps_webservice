@@ -8,7 +8,8 @@ import 'package:test/test.dart';
 
 launch([Client client]) async {
   final apiKey = "MY_API_KEY";
-  GoogleMapsDirections directions = new GoogleMapsDirections(apiKey: apiKey, httpClient: client);
+  GoogleMapsDirections directions =
+      new GoogleMapsDirections(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     directions.dispose();

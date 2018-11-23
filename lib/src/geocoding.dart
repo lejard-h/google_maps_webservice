@@ -11,7 +11,11 @@ const _geocodeUrl = "/geocode/json";
 /// https://developers.google.com/maps/documentation/geocoding/start
 class GoogleMapsGeocoding extends GoogleWebService {
   GoogleMapsGeocoding({String apiKey, String baseUrl, Client httpClient})
-      : super(apiKey: apiKey, baseUrl: baseUrl, url: _geocodeUrl, httpClient: httpClient);
+      : super(
+            apiKey: apiKey,
+            baseUrl: baseUrl,
+            url: _geocodeUrl,
+            httpClient: httpClient);
 
   Future<GeocodingResponse> searchByAddress(String address,
       {Bounds bounds,
@@ -83,7 +87,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
       "location_type": locationType
     };
 
-    if(apiKey != null){
+    if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
 
