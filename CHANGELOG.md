@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.10
+
+- added session token parameter for autocomplete search
+
 ## 0.0.9
 
 - fix partial match type in geocoding
