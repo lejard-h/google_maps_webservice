@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.10
+
+- introduced configurable base url
+- changed apiKey to an optional named parameter
+
 ## 0.0.9
 
 - fix partial match type in geocoding
