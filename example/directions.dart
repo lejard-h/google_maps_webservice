@@ -3,7 +3,8 @@ library google_maps_webservice.directions.example;
 import 'dart:io';
 import 'package:google_maps_webservice/directions.dart';
 
-final directions = new GoogleMapsDirections(apiKey: Platform.environment["API_KEY"]);
+final directions =
+    new GoogleMapsDirections(apiKey: Platform.environment["API_KEY"]);
 
 main() async {
   DirectionsResponse res =
