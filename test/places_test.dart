@@ -7,7 +7,8 @@ import 'package:google_maps_webservice/places.dart';
 
 launch([Client client]) async {
   final apiKey = "MY_API_KEY";
-  GoogleMapsPlaces places = new GoogleMapsPlaces(apiKey, client);
+  GoogleMapsPlaces places =
+      new GoogleMapsPlaces(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     places.dispose();
@@ -22,7 +23,7 @@ launch([Client client]) async {
         expect(
             url,
             equals(
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500"));
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&key=$apiKey"));
       });
 
       test("with type and keyword", () {
@@ -35,7 +36,7 @@ launch([Client client]) async {
         expect(
             url,
             equals(
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise"));
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=cruise&key=$apiKey"));
       });
 
       test("with language", () {
@@ -47,7 +48,7 @@ launch([Client client]) async {
         expect(
             url,
             equals(
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500&language=fr"));
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&language=fr&key=$apiKey"));
       });
 
       test("with min and maxprice", () {
@@ -60,7 +61,7 @@ launch([Client client]) async {
         expect(
             url,
             equals(
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500&minprice=0&maxprice=4"));
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&minprice=0&maxprice=4&key=$apiKey"));
       });
 
       test("build url with name", () {
@@ -72,7 +73,7 @@ launch([Client client]) async {
         expect(
             url,
             equals(
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&radius=500&name=cruise"));
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&name=cruise&key=$apiKey"));
       });
 
       test("with rankby", () {
@@ -84,7 +85,7 @@ launch([Client client]) async {
         expect(
             url,
             equals(
-                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=$apiKey&location=-33.8670522,151.1957362&name=cruise&rankby=distance"));
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&name=cruise&rankby=distance&key=$apiKey"));
       });
 
       test("with rankby without required params", () {
@@ -121,7 +122,7 @@ launch([Client client]) async {
         expect(
             places.buildTextSearchUrl(query: "123 Main Street"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&key=$apiKey"));
       });
 
       test("with location", () {
@@ -130,21 +131,21 @@ launch([Client client]) async {
                 query: "123 Main Street",
                 location: new Location(-33.8670522, 151.1957362)),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&location=-33.8670522,151.1957362"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&location=-33.8670522,151.1957362&key=$apiKey"));
       });
 
       test("with radius", () {
         expect(
             places.buildTextSearchUrl(query: "123 Main Street", radius: 500),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&radius=500"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&radius=500&key=$apiKey"));
       });
 
       test("with language", () {
         expect(
             places.buildTextSearchUrl(query: "123 Main Street", language: "fr"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&language=fr"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&language=fr&key=$apiKey"));
       });
 
       test("with minprice and maxprice", () {
@@ -154,14 +155,14 @@ launch([Client client]) async {
                 minprice: PriceLevel.free,
                 maxprice: PriceLevel.veryExpensive),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&minprice=0&maxprice=4"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&minprice=0&maxprice=4&key=$apiKey"));
       });
 
       test("with opennow", () {
         expect(
             places.buildTextSearchUrl(query: "123 Main Street", opennow: true),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&opennow=true"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&opennow=true&key=$apiKey"));
       });
 
       test("with pagetoken", () {
@@ -169,7 +170,7 @@ launch([Client client]) async {
             places.buildTextSearchUrl(
                 query: "123 Main Street", pagetoken: "egdsfdsfdsf"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&pagetoken=egdsfdsfdsf"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&pagetoken=egdsfdsfdsf&key=$apiKey"));
       });
 
       test("with type", () {
@@ -177,7 +178,7 @@ launch([Client client]) async {
             places.buildTextSearchUrl(
                 query: "123 Main Street", type: "hospital"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/textsearch/json?key=$apiKey&query=${Uri.encodeComponent("123 Main Street")}&type=hospital"));
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&type=hospital&key=$apiKey"));
       });
     });
 
@@ -186,14 +187,14 @@ launch([Client client]) async {
         expect(
             places.buildDetailsUrl(placeId: "PLACE_ID"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&placeid=PLACE_ID"));
+                "https://maps.googleapis.com/maps/api/place/details/json?placeid=PLACE_ID&key=$apiKey"));
       });
 
       test("with reference", () {
         expect(
             places.buildDetailsUrl(reference: "REF"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&reference=REF"));
+                "https://maps.googleapis.com/maps/api/place/details/json?reference=REF&key=$apiKey"));
       });
 
       test("with extensions", () {
@@ -201,14 +202,14 @@ launch([Client client]) async {
             places.buildDetailsUrl(
                 placeId: "PLACE_ID", extensions: "review_summary"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&placeid=PLACE_ID&extensions=review_summary"));
+                "https://maps.googleapis.com/maps/api/place/details/json?placeid=PLACE_ID&extensions=review_summary&key=$apiKey"));
       });
 
       test("with extensions", () {
         expect(
             places.buildDetailsUrl(placeId: "PLACE_ID", language: "fr"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/details/json?key=$apiKey&placeid=PLACE_ID&language=fr"));
+                "https://maps.googleapis.com/maps/api/place/details/json?placeid=PLACE_ID&language=fr&key=$apiKey"));
       });
 
       test("with place_id and reference", () {
@@ -232,14 +233,14 @@ launch([Client client]) async {
         expect(
             places.buildAutocompleteUrl(input: "Amoeba"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&key=$apiKey"));
       });
 
       test("with offset", () {
         expect(
             places.buildAutocompleteUrl(input: "Amoeba", offset: 3),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&offset=3"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&offset=3&key=$apiKey"));
       });
 
       test("with location", () {
@@ -248,21 +249,21 @@ launch([Client client]) async {
                 input: "Amoeba",
                 location: new Location(-33.8670522, 151.1957362)),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&location=-33.8670522,151.1957362"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey"));
       });
 
       test("with radius", () {
         expect(
             places.buildAutocompleteUrl(input: "Amoeba", radius: 500),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&radius=500"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&radius=500&key=$apiKey"));
       });
 
       test("with language", () {
         expect(
             places.buildAutocompleteUrl(input: "Amoeba", language: "fr"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&language=fr"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&language=fr&key=$apiKey"));
       });
 
       test("with types", () {
@@ -270,7 +271,7 @@ launch([Client client]) async {
             places.buildAutocompleteUrl(
                 input: "Amoeba", types: ["geocode", "establishment"]),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&types=geocode|establishment"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&types=geocode|establishment&key=$apiKey"));
       });
 
       test("with components", () {
@@ -279,14 +280,14 @@ launch([Client client]) async {
                 input: "Amoeba",
                 components: [new Component(Component.country, "fr")]),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&components=country:fr"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&components=country:fr&key=$apiKey"));
       });
 
       test("with strictbounds", () {
         expect(
             places.buildAutocompleteUrl(input: "Amoeba", strictbounds: true),
             equals(
-                "https://maps.googleapis.com/maps/api/place/autocomplete/json?key=$apiKey&input=Amoeba&strictbounds=true"));
+                "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&strictbounds=true&key=$apiKey"));
       });
     });
 
@@ -295,14 +296,14 @@ launch([Client client]) async {
         expect(
             places.buildQueryAutocompleteUrl(input: "Amoeba"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba"));
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&key=$apiKey"));
       });
 
       test("with offset", () {
         expect(
             places.buildQueryAutocompleteUrl(input: "Amoeba", offset: 3),
             equals(
-                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&offset=3"));
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&offset=3&key=$apiKey"));
       });
 
       test("with location", () {
@@ -311,21 +312,21 @@ launch([Client client]) async {
                 input: "Amoeba",
                 location: new Location(-33.8670522, 151.1957362)),
             equals(
-                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&location=-33.8670522,151.1957362"));
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey"));
       });
 
       test("with radius", () {
         expect(
             places.buildQueryAutocompleteUrl(input: "Amoeba", radius: 500),
             equals(
-                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&radius=500"));
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&radius=500&key=$apiKey"));
       });
 
       test("with language", () {
         expect(
             places.buildQueryAutocompleteUrl(input: "Amoeba", language: "fr"),
             equals(
-                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?key=$apiKey&input=Amoeba&language=fr"));
+                "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&language=fr&key=$apiKey"));
       });
     });
 

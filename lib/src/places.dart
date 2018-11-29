@@ -15,8 +15,12 @@ const _queryAutocompleteUrl = "/queryautocomplete/json";
 
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
-  GoogleMapsPlaces(String apiKey, [Client httpClient])
-      : super(apiKey, _placesUrl, httpClient);
+  GoogleMapsPlaces({String apiKey, String baseUrl, Client httpClient})
+      : super(
+            apiKey: apiKey,
+            baseUrl: baseUrl,
+            url: _placesUrl,
+            httpClient: httpClient);
 
   Future<PlacesSearchResponse> searchNearbyWithRadius(
       Location location, num radius,
@@ -83,28 +87,21 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
-      {String sessionToken, String extensions, String language}) async {
+      {String extensions, String language}) async {
     final url = buildDetailsUrl(
-        placeId: placeId,
-        sessionToken: sessionToken,
-        extensions: extensions,
-        language: language);
+        placeId: placeId, extensions: extensions, language: language);
     return _decodeDetailsResponse(await doGet(url));
   }
 
   Future<PlacesDetailsResponse> getDetailsByReference(String reference,
-      {String sessionToken, String extensions, String language}) async {
+      {String extensions, String language}) async {
     final url = buildDetailsUrl(
-        reference: reference,
-        sessionToken: sessionToken,
-        extensions: extensions,
-        language: language);
+        reference: reference, extensions: extensions, language: language);
     return _decodeDetailsResponse(await doGet(url));
   }
 
   Future<PlacesAutocompleteResponse> autocomplete(String input,
-      {String sessionToken,
-      num offset,
+      {num offset,
       Location location,
       num radius,
       String language,
@@ -112,7 +109,6 @@ class GoogleMapsPlaces extends GoogleWebService {
       List<Component> components,
       bool strictbounds}) async {
     final url = buildAutocompleteUrl(
-        sessionToken: sessionToken,
         input: input,
         location: location,
         offset: offset,
@@ -160,7 +156,6 @@ class GoogleMapsPlaces extends GoogleWebService {
     }
 
     final params = {
-      "key": apiKey,
       "location": location,
       "radius": radius,
       "language": language,
@@ -172,6 +167,10 @@ class GoogleMapsPlaces extends GoogleWebService {
       "rankby": rankby,
       "pagetoken": pagetoken
     };
+
+    if (apiKey != null) {
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url$_nearbySearchUrl?${buildQuery(params)}";
   }
@@ -187,7 +186,6 @@ class GoogleMapsPlaces extends GoogleWebService {
       String pagetoken,
       String language}) {
     final params = {
-      "key": apiKey,
       "query": query != null ? Uri.encodeComponent(query) : null,
       "language": language,
       "location": location,
@@ -199,29 +197,29 @@ class GoogleMapsPlaces extends GoogleWebService {
       "pagetoken": pagetoken
     };
 
+    if (apiKey != null) {
+      params.putIfAbsent("key", () => apiKey);
+    }
+
     return "$url$_textSearchUrl?${buildQuery(params)}";
   }
 
   String buildDetailsUrl(
-      {String placeId,
-      String reference,
-      String sessionToken,
-      String extensions,
-      String language}) {
+      {String placeId, String reference, String extensions, String language}) {
     if (placeId != null && reference != null) {
       throw new ArgumentError(
           "You must supply either 'placeid' or 'reference'");
     }
 
     final params = {
-      "key": apiKey,
       "placeid": placeId,
       "reference": reference,
       "language": language,
       "extensions": extensions
     };
-    if (sessionToken != null) {
-      params.putIfAbsent("sessiontoken", () => sessionToken);
+
+    if (apiKey != null) {
+      params.putIfAbsent("key", () => apiKey);
     }
 
     return "$url$_detailsSearchUrl?${buildQuery(params)}";
@@ -229,7 +227,6 @@ class GoogleMapsPlaces extends GoogleWebService {
 
   String buildAutocompleteUrl(
       {String input,
-      String sessionToken,
       num offset,
       Location location,
       num radius,
@@ -238,7 +235,6 @@ class GoogleMapsPlaces extends GoogleWebService {
       List<Component> components,
       bool strictbounds}) {
     final params = {
-      "key": apiKey,
       "input": input != null ? Uri.encodeComponent(input) : null,
       "language": language,
       "location": location,
@@ -248,8 +244,8 @@ class GoogleMapsPlaces extends GoogleWebService {
       "strictbounds": strictbounds,
       "offset": offset
     };
-    if (sessionToken != null) {
-      params.putIfAbsent("sessiontoken", () => sessionToken);
+    if (apiKey != null) {
+      params.putIfAbsent("key", () => apiKey);
     }
 
     return "$url$_autocompleteUrl?${buildQuery(params)}";
@@ -262,13 +258,16 @@ class GoogleMapsPlaces extends GoogleWebService {
       num radius,
       String language}) {
     final params = {
-      "key": apiKey,
       "input": input != null ? Uri.encodeComponent(input) : null,
       "language": language,
       "location": location,
       "radius": radius,
       "offset": offset
     };
+
+    if (apiKey != null) {
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url$_queryAutocompleteUrl?${buildQuery(params)}";
   }

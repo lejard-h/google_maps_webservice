@@ -3,11 +3,10 @@ library google_maps_webservice.places.autocomplete.example;
 import 'dart:io';
 import 'package:google_maps_webservice/places.dart';
 
-final places = new GoogleMapsPlaces(Platform.environment["API_KEY"]);
+final places = new GoogleMapsPlaces(apiKey: Platform.environment["API_KEY"]);
 
 main() async {
-  String sessionToken = "xyzabc_1234";
-  PlacesAutocompleteResponse res = await places.autocomplete("Amoeba", sessionToken: sessionToken);
+  PlacesAutocompleteResponse res = await places.autocomplete("Amoeba");
 
   if (res.isOkay) {
     // list autocomplete prediction
@@ -17,7 +16,7 @@ main() async {
 
     // get detail of the first result
     PlacesDetailsResponse details =
-        await places.getDetailsByPlaceId(res.predictions.first.placeId, sessionToken: sessionToken);
+        await places.getDetailsByPlaceId(res.predictions.first.placeId);
 
     print("\nDetails :");
     print(details.result.formattedAddress);

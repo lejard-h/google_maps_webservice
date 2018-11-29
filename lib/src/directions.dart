@@ -10,8 +10,12 @@ const _directionsUrl = "/directions/json";
 
 /// https://developers.google.com/maps/documentation/directions/start
 class GoogleMapsDirections extends GoogleWebService {
-  GoogleMapsDirections(String apiKey, [Client httpClient])
-      : super(apiKey, _directionsUrl, httpClient);
+  GoogleMapsDirections({String apiKey, String baseUrl, Client httpClient})
+      : super(
+            apiKey: apiKey,
+            baseUrl: baseUrl,
+            url: _directionsUrl,
+            httpClient: httpClient);
 
   Future<DirectionsResponse> directions(origin, destination,
       {TravelMode travelMode,
@@ -134,7 +138,6 @@ class GoogleMapsDirections extends GoogleWebService {
           "'arrivalTime' must be a '$num' or a '$DateTime'");
     }
     final params = {
-      "key": apiKey,
       "origin": origin != null && origin is String
           ? Uri.encodeComponent(origin)
           : origin,
@@ -160,6 +163,10 @@ class GoogleMapsDirections extends GoogleWebService {
       "transit_routing_preference":
           transitRoutingPreferencesToString(transitRoutingPreference)
     };
+
+    if (apiKey != null) {
+      params.putIfAbsent("key", () => apiKey);
+    }
 
     return "$url?${buildQuery(params)}";
   }

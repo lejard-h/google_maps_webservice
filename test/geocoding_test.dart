@@ -8,7 +8,8 @@ import 'package:google_maps_webservice/geocoding.dart';
 
 launch([Client client]) async {
   final apiKey = "MY_API_KEY";
-  GoogleMapsGeocoding geocoding = new GoogleMapsGeocoding(apiKey, client);
+  GoogleMapsGeocoding geocoding =
+      new GoogleMapsGeocoding(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     geocoding.dispose();
@@ -21,7 +22,7 @@ launch([Client client]) async {
             geocoding.buildUrl(
                 address: "1600 Amphitheatre Parkway, Mountain View, CA"),
             equals(
-                "$kGMapsUrl/geocode/json?key=$apiKey&address=1600%20Amphitheatre%20Parkway%2C%20Mountain%20View%2C%20CA"));
+                "$kGMapsUrl/geocode/json?address=1600%20Amphitheatre%20Parkway%2C%20Mountain%20View%2C%20CA&key=$apiKey"));
       });
 
       test("address with bound", () {
@@ -31,21 +32,21 @@ launch([Client client]) async {
                 bounds: new Bounds(new Location(34.172684, -118.604794),
                     new Location(34.236144, -118.500938))),
             equals(
-                "$kGMapsUrl/geocode/json?key=$apiKey&address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938"));
+                "$kGMapsUrl/geocode/json?address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938&key=$apiKey"));
       });
 
       test("address with language", () {
         expect(
             geocoding.buildUrl(address: "Paris", language: "fr"),
             equals(
-                "$kGMapsUrl/geocode/json?key=$apiKey&address=Paris&language=fr"));
+                "$kGMapsUrl/geocode/json?address=Paris&language=fr&key=$apiKey"));
       });
 
       test("address with region", () {
         expect(
             geocoding.buildUrl(address: "Toledo", region: "es"),
             equals(
-                "$kGMapsUrl/geocode/json?key=$apiKey&address=Toledo&region=es"));
+                "$kGMapsUrl/geocode/json?address=Toledo&region=es&key=$apiKey"));
       });
 
       test("address with components", () {
@@ -54,21 +55,21 @@ launch([Client client]) async {
               new Component(Component.administrativeArea, "Toledo")
             ]),
             equals(
-                "$kGMapsUrl/geocode/json?key=$apiKey&address=Spain&components=administrative_area:Toledo"));
+                "$kGMapsUrl/geocode/json?address=Spain&components=administrative_area:Toledo&key=$apiKey"));
       });
 
       test("location", () {
         expect(
             geocoding.buildUrl(location: new Location(34.172684, -118.604794)),
             equals(
-                "https://maps.googleapis.com/maps/api/geocode/json?key=$apiKey&latlng=34.172684,-118.604794"));
+                "https://maps.googleapis.com/maps/api/geocode/json?latlng=34.172684,-118.604794&key=$apiKey"));
       });
 
       test("place_id", () {
         expect(
             geocoding.buildUrl(placeId: "f2hf1pn1rjr1"),
             equals(
-                "https://maps.googleapis.com/maps/api/geocode/json?key=$apiKey&place_id=f2hf1pn1rjr1"));
+                "https://maps.googleapis.com/maps/api/geocode/json?place_id=f2hf1pn1rjr1&key=$apiKey"));
       });
     });
 
