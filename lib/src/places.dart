@@ -680,8 +680,17 @@ class Prediction {
   /// JSON matched_substrings
   final List<MatchedSubstring> matchedSubstrings;
 
-  Prediction(this.description, this.id, this.terms, this.placeId,
-      this.reference, this.types, this.matchedSubstrings);
+  final StructuredFormatting structuredFormatting;
+
+  Prediction(
+      this.description,
+      this.id,
+      this.terms,
+      this.placeId,
+      this.reference,
+      this.types,
+      this.matchedSubstrings,
+      this.structuredFormatting);
 
   factory Prediction.fromJson(Map json) => json != null
       ? new Prediction(
@@ -697,7 +706,9 @@ class Prediction {
           json["matched_substrings"]
               ?.map((m) => new MatchedSubstring.fromJson(m))
               ?.toList()
-              ?.cast<MatchedSubstring>())
+              ?.cast<MatchedSubstring>(),
+          StructuredFormatting.fromJson(json["structured_formatting"]),
+        )
       : null;
 }
 
@@ -719,5 +730,24 @@ class MatchedSubstring {
 
   factory MatchedSubstring.fromJson(Map json) => json != null
       ? new MatchedSubstring(json["offset"], json["length"])
+      : null;
+}
+
+class StructuredFormatting {
+  final String mainText;
+  final List<MatchedSubstring> mainTextMatchedSubstrings;
+  final String secondaryText;
+
+  StructuredFormatting(
+      this.mainText, this.mainTextMatchedSubstrings, this.secondaryText);
+
+  factory StructuredFormatting.fromJson(Map json) => json != null
+      ? new StructuredFormatting(
+          json["main_text"],
+          json["main_text_matched_substrings"]
+              ?.map((m) => new MatchedSubstring.fromJson(m))
+              ?.toList()
+              ?.cast<MatchedSubstring>(),
+          json["secondary_text"])
       : null;
 }
