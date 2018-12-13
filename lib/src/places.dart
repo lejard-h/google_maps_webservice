@@ -231,6 +231,9 @@ class GoogleMapsPlaces extends GoogleWebService {
       "language": language,
       "extensions": extensions
     };
+    if (sessionToken != null) {
+      params.putIfAbsent("sessiontoken", () => sessionToken);
+    }
 
     if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
