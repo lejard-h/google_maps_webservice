@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.10
+
+- introduced configurable base url
+- changed apiKey to an optional named parameter
+- added session token parameter for autocomplete search
+
 ## 0.0.9
 
 - fix partial match type in geocoding
