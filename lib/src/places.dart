@@ -29,7 +29,8 @@ class GoogleMapsPlaces extends GoogleWebService {
       String language,
       PriceLevel minprice,
       PriceLevel maxprice,
-      String name}) async {
+      String name,
+      String pagetoken}) async {
     final url = buildNearbySearchUrl(
         location: location,
         language: language,
@@ -38,7 +39,8 @@ class GoogleMapsPlaces extends GoogleWebService {
         keyword: keyword,
         minprice: minprice,
         maxprice: maxprice,
-        name: name);
+        name: name,
+        pagetoken: pagetoken);
     return _decodeSearchResponse(await doGet(url));
   }
 
@@ -51,6 +53,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     PriceLevel minprice,
     PriceLevel maxprice,
     String name,
+    String pagetoken
   }) async {
     final url = buildNearbySearchUrl(
         location: location,
@@ -60,7 +63,9 @@ class GoogleMapsPlaces extends GoogleWebService {
         keyword: keyword,
         minprice: minprice,
         maxprice: maxprice,
-        name: name);
+        name: name
+        pagetoken: pagetoken
+    );
     return _decodeSearchResponse(await doGet(url));
   }
 
