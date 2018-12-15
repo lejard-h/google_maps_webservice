@@ -45,16 +45,14 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   Future<PlacesSearchResponse> searchNearbyWithRankBy(
-    Location location,
-    String rankby, {
-    String type,
-    String keyword,
-    String language,
-    PriceLevel minprice,
-    PriceLevel maxprice,
-    String name,
-    String pagetoken
-  }) async {
+      Location location, String rankby,
+      {String type,
+      String keyword,
+      String language,
+      PriceLevel minprice,
+      PriceLevel maxprice,
+      String name,
+      String pagetoken}) async {
     final url = buildNearbySearchUrl(
         location: location,
         language: language,
@@ -63,9 +61,8 @@ class GoogleMapsPlaces extends GoogleWebService {
         keyword: keyword,
         minprice: minprice,
         maxprice: maxprice,
-        name: name
-        pagetoken: pagetoken
-    );
+        name: name,
+        pagetoken: pagetoken);
     return _decodeSearchResponse(await doGet(url));
   }
 
