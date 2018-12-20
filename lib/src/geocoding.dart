@@ -10,18 +10,24 @@ const _geocodeUrl = "/geocode/json";
 
 /// https://developers.google.com/maps/documentation/geocoding/start
 class GoogleMapsGeocoding extends GoogleWebService {
-  GoogleMapsGeocoding({String apiKey, String baseUrl, Client httpClient})
-      : super(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            url: _geocodeUrl,
-            httpClient: httpClient);
+  GoogleMapsGeocoding({
+    String apiKey,
+    String baseUrl,
+    Client httpClient,
+  }) : super(
+          apiKey: apiKey,
+          baseUrl: baseUrl,
+          url: _geocodeUrl,
+          httpClient: httpClient,
+        );
 
-  Future<GeocodingResponse> searchByAddress(String address,
-      {Bounds bounds,
-      String language,
-      String region,
-      List<Component> components}) async {
+  Future<GeocodingResponse> searchByAddress(
+    String address, {
+    Bounds bounds,
+    String language,
+    String region,
+    List<Component> components,
+  }) async {
     final url = buildUrl(
         address: address,
         bounds: bounds,
@@ -31,8 +37,12 @@ class GoogleMapsGeocoding extends GoogleWebService {
     return _decode(await doGet(url));
   }
 
-  Future<GeocodingResponse> searchByComponents(List<Component> components,
-      {Bounds bounds, String language, String region}) async {
+  Future<GeocodingResponse> searchByComponents(
+    List<Component> components, {
+    Bounds bounds,
+    String language,
+    String region,
+  }) async {
     final url = buildUrl(
         bounds: bounds,
         language: language,
@@ -41,10 +51,12 @@ class GoogleMapsGeocoding extends GoogleWebService {
     return _decode(await doGet(url));
   }
 
-  Future<GeocodingResponse> searchByLocation(Location location,
-      {String language,
-      List<String> resultType,
-      List<String> locationType}) async {
+  Future<GeocodingResponse> searchByLocation(
+    Location location, {
+    String language,
+    List<String> resultType,
+    List<String> locationType,
+  }) async {
     final url = buildUrl(
         location: location,
         language: language,
@@ -53,10 +65,12 @@ class GoogleMapsGeocoding extends GoogleWebService {
     return _decode(await doGet(url));
   }
 
-  Future<GeocodingResponse> searchByPlaceId(String placeId,
-      {String language,
-      List<String> resultType,
-      List<String> locationType}) async {
+  Future<GeocodingResponse> searchByPlaceId(
+    String placeId, {
+    String language,
+    List<String> resultType,
+    List<String> locationType,
+  }) async {
     final url = buildUrl(
         placeId: placeId,
         language: language,
@@ -65,16 +79,17 @@ class GoogleMapsGeocoding extends GoogleWebService {
     return _decode(await doGet(url));
   }
 
-  String buildUrl(
-      {String address,
-      Bounds bounds,
-      String language,
-      String region,
-      List<Component> components,
-      List<String> resultType,
-      List<String> locationType,
-      String placeId,
-      Location location}) {
+  String buildUrl({
+    String address,
+    Bounds bounds,
+    String language,
+    String region,
+    List<Component> components,
+    List<String> resultType,
+    List<String> locationType,
+    String placeId,
+    Location location,
+  }) {
     final params = {
       "latlng": location,
       "place_id": placeId,
@@ -100,8 +115,14 @@ class GoogleMapsGeocoding extends GoogleWebService {
 
 class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
   GeocodingResponse(
-      String status, String errorMessage, List<GeocodingResult> results)
-      : super(status, errorMessage, results);
+    String status,
+    String errorMessage,
+    List<GeocodingResult> results,
+  ) : super(
+          status,
+          errorMessage,
+          results,
+        );
 
   factory GeocodingResponse.fromJson(Map json) => json != null
       ? new GeocodingResponse(
@@ -136,8 +157,15 @@ class GeocodingResult {
   /// JSON place_id
   final placeId;
 
-  GeocodingResult(this.types, this.formattedAddress, this.addressComponents,
-      this.postcodeLocalities, this.geometry, this.partialMatch, this.placeId);
+  GeocodingResult(
+    this.types,
+    this.formattedAddress,
+    this.addressComponents,
+    this.postcodeLocalities,
+    this.geometry,
+    this.partialMatch,
+    this.placeId,
+  );
 
   factory GeocodingResult.fromJson(Map json) => json != null
       ? new GeocodingResult(

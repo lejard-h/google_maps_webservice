@@ -7,7 +7,8 @@ final places = new GoogleMapsPlaces(apiKey: Platform.environment["API_KEY"]);
 
 main() async {
   String sessionToken = "xyzabc_1234";
-  PlacesAutocompleteResponse res = await places.autocomplete("Amoeba", sessionToken: sessionToken);
+  PlacesAutocompleteResponse res =
+      await places.autocomplete("Amoeba", sessionToken: sessionToken);
 
   if (res.isOkay) {
     // list autocomplete prediction
@@ -16,8 +17,9 @@ main() async {
     });
 
     // get detail of the first result
-    PlacesDetailsResponse details =
-        await places.getDetailsByPlaceId(res.predictions.first.placeId, sessionToken: sessionToken);
+    PlacesDetailsResponse details = await places.getDetailsByPlaceId(
+        res.predictions.first.placeId,
+        sessionToken: sessionToken);
 
     print("\nDetails :");
     print(details.result.formattedAddress);

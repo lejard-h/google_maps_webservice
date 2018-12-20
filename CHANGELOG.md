@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.11
+
+- fix session token
+- add pagetoken for searchNearby 
+
 ## 0.0.10
 
 - introduced configurable base url

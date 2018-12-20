@@ -26,7 +26,12 @@ class Geometry {
 
   final Bounds bounds;
 
-  Geometry(this.location, this.locationType, this.viewport, this.bounds);
+  Geometry(
+    this.location,
+    this.locationType,
+    this.viewport,
+    this.bounds,
+  );
 
   factory Geometry.fromJson(Map json) => json != null
       ? new Geometry(
@@ -102,7 +107,11 @@ class AddressComponent {
   /// JSON short_name
   final String shortName;
 
-  AddressComponent(this.types, this.longName, this.shortName);
+  AddressComponent(
+    this.types,
+    this.longName,
+    this.shortName,
+  );
 
   factory AddressComponent.fromJson(Map json) => json != null
       ? new AddressComponent((json["types"] as List)?.cast<String>(),

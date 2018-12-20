@@ -22,9 +22,12 @@ abstract class GoogleWebService {
 
   String get apiKey => _apiKey;
 
-  GoogleWebService(
-      {String apiKey, String baseUrl, @required String url, Client httpClient})
-      : assert(url != null),
+  GoogleWebService({
+    String apiKey,
+    String baseUrl,
+    @required String url,
+    Client httpClient,
+  })  : assert(url != null),
         _url = "${baseUrl ?? kGMapsUrl}$url",
         _httpClient = httpClient ?? new Client(),
         _apiKey = apiKey;

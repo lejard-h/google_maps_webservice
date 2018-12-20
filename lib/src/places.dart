@@ -17,76 +17,88 @@ const _queryAutocompleteUrl = "/queryautocomplete/json";
 
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
-  GoogleMapsPlaces({String apiKey, String baseUrl, Client httpClient})
-      : super(
+  GoogleMapsPlaces({
+    String apiKey,
+    String baseUrl,
+    Client httpClient,
+  }) : super(
             apiKey: apiKey,
             baseUrl: baseUrl,
             url: _placesUrl,
             httpClient: httpClient);
 
   Future<PlacesSearchResponse> searchNearbyWithRadius(
-      Location location, num radius,
-      {String type,
-      String keyword,
-      String language,
-      PriceLevel minprice,
-      PriceLevel maxprice,
-      String name,
-      String pagetoken}) async {
+    Location location,
+    num radius, {
+    String type,
+    String keyword,
+    String language,
+    PriceLevel minprice,
+    PriceLevel maxprice,
+    String name,
+    String pagetoken,
+  }) async {
     final url = buildNearbySearchUrl(
-        location: location,
-        language: language,
-        radius: radius,
-        type: type,
-        keyword: keyword,
-        minprice: minprice,
-        maxprice: maxprice,
-        name: name,
-        pagetoken: pagetoken);
+      location: location,
+      language: language,
+      radius: radius,
+      type: type,
+      keyword: keyword,
+      minprice: minprice,
+      maxprice: maxprice,
+      name: name,
+      pagetoken: pagetoken,
+    );
     return _decodeSearchResponse(await doGet(url));
   }
 
   Future<PlacesSearchResponse> searchNearbyWithRankBy(
-      Location location, String rankby,
-      {String type,
-      String keyword,
-      String language,
-      PriceLevel minprice,
-      PriceLevel maxprice,
-      String name,
-      String pagetoken}) async {
+    Location location,
+    String rankby, {
+    String type,
+    String keyword,
+    String language,
+    PriceLevel minprice,
+    PriceLevel maxprice,
+    String name,
+    String pagetoken,
+  }) async {
     final url = buildNearbySearchUrl(
-        location: location,
-        language: language,
-        type: type,
-        rankby: rankby,
-        keyword: keyword,
-        minprice: minprice,
-        maxprice: maxprice,
-        name: name,
-        pagetoken: pagetoken);
+      location: location,
+      language: language,
+      type: type,
+      rankby: rankby,
+      keyword: keyword,
+      minprice: minprice,
+      maxprice: maxprice,
+      name: name,
+      pagetoken: pagetoken,
+    );
     return _decodeSearchResponse(await doGet(url));
   }
 
-  Future<PlacesSearchResponse> searchByText(String query,
-      {Location location,
-      num radius,
-      PriceLevel minprice,
-      PriceLevel maxprice,
-      bool opennow,
-      String type,
-      String pagetoken,
-      String language}) async {
+  Future<PlacesSearchResponse> searchByText(
+    String query, {
+    Location location,
+    num radius,
+    PriceLevel minprice,
+    PriceLevel maxprice,
+    bool opennow,
+    String type,
+    String pagetoken,
+    String language,
+  }) async {
     final url = buildTextSearchUrl(
-        query: query,
-        location: location,
-        language: language,
-        type: type,
-        radius: radius,
-        minprice: minprice,
-        maxprice: maxprice,
-        pagetoken: pagetoken,
-        opennow: opennow);
+      query: query,
+      location: location,
+      language: language,
+      type: type,
+      radius: radius,
+      minprice: minprice,
+      maxprice: maxprice,
+      pagetoken: pagetoken,
+      opennow: opennow,
+    );
     return _decodeSearchResponse(await doGet(url));
   }
 
@@ -100,60 +112,70 @@ class GoogleMapsPlaces extends GoogleWebService {
     return _decodeDetailsResponse(await doGet(url));
   }
 
-  Future<PlacesDetailsResponse> getDetailsByReference(String reference,
-      {String sessionToken, String extensions, String language}) async {
+  Future<PlacesDetailsResponse> getDetailsByReference(
+    String reference, {
+    String sessionToken,
+    String extensions,
+    String language,
+  }) async {
     final url = buildDetailsUrl(
-        reference: reference,
-        sessionToken: sessionToken,
-        extensions: extensions,
-        language: language);
+      reference: reference,
+      sessionToken: sessionToken,
+      extensions: extensions,
+      language: language,
+    );
     return _decodeDetailsResponse(await doGet(url));
   }
 
-  Future<PlacesAutocompleteResponse> autocomplete(String input,
-      {String sessionToken,
-      num offset,
-      Location location,
-      num radius,
-      String language,
-      List<String> types,
-      List<Component> components,
-      bool strictbounds}) async {
+  Future<PlacesAutocompleteResponse> autocomplete(
+    String input, {
+    String sessionToken,
+    num offset,
+    Location location,
+    num radius,
+    String language,
+    List<String> types,
+    List<Component> components,
+    bool strictbounds,
+  }) async {
     final url = buildAutocompleteUrl(
-        sessionToken: sessionToken,
-        input: input,
-        location: location,
-        offset: offset,
-        radius: radius,
-        language: language,
-        types: types,
-        components: components,
-        strictbounds: strictbounds);
+      sessionToken: sessionToken,
+      input: input,
+      location: location,
+      offset: offset,
+      radius: radius,
+      language: language,
+      types: types,
+      components: components,
+      strictbounds: strictbounds,
+    );
     return _decodeAutocompleteResponse(await doGet(url));
   }
 
   Future<PlacesAutocompleteResponse> queryAutocomplete(String input,
       {num offset, Location location, num radius, String language}) async {
     final url = buildQueryAutocompleteUrl(
-        input: input,
-        location: location,
-        offset: offset,
-        radius: radius,
-        language: language);
+      input: input,
+      location: location,
+      offset: offset,
+      radius: radius,
+      language: language,
+    );
     return _decodeAutocompleteResponse(await doGet(url));
   }
 
-  String buildNearbySearchUrl(
-      {Location location,
-      num radius,
-      String type,
-      String keyword,
-      String language,
-      PriceLevel minprice,
-      PriceLevel maxprice,
-      String name,
-      String rankby,
-      String pagetoken}) {
+  String buildNearbySearchUrl({
+    Location location,
+    num radius,
+    String type,
+    String keyword,
+    String language,
+    PriceLevel minprice,
+    PriceLevel maxprice,
+    String name,
+    String rankby,
+    String pagetoken,
+  }) {
     if (radius != null && rankby != null) {
       throw new ArgumentError(
           "'rankby' must not be included if 'radius' is specified.");
@@ -177,7 +199,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "maxprice": maxprice?.index,
       "name": name,
       "rankby": rankby,
-      "pagetoken": pagetoken
+      "pagetoken": pagetoken,
     };
 
     if (apiKey != null) {
@@ -187,16 +209,17 @@ class GoogleMapsPlaces extends GoogleWebService {
     return "$url$_nearbySearchUrl?${buildQuery(params)}";
   }
 
-  String buildTextSearchUrl(
-      {String query,
-      Location location,
-      num radius,
-      PriceLevel minprice,
-      PriceLevel maxprice,
-      bool opennow,
-      String type,
-      String pagetoken,
-      String language}) {
+  String buildTextSearchUrl({
+    String query,
+    Location location,
+    num radius,
+    PriceLevel minprice,
+    PriceLevel maxprice,
+    bool opennow,
+    String type,
+    String pagetoken,
+    String language,
+  }) {
     final params = {
       "query": query != null ? Uri.encodeComponent(query) : null,
       "language": language,
@@ -206,7 +229,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "maxprice": maxprice?.index,
       "opennow": opennow,
       "type": type,
-      "pagetoken": pagetoken
+      "pagetoken": pagetoken,
     };
 
     if (apiKey != null) {
@@ -216,12 +239,13 @@ class GoogleMapsPlaces extends GoogleWebService {
     return "$url$_textSearchUrl?${buildQuery(params)}";
   }
 
-  String buildDetailsUrl(
-      {String placeId,
-      String reference,
-      String sessionToken,
-      String extensions,
-      String language}) {
+  String buildDetailsUrl({
+    String placeId,
+    String reference,
+    String sessionToken,
+    String extensions,
+    String language,
+  }) {
     if (placeId != null && reference != null) {
       throw new ArgumentError(
           "You must supply either 'placeid' or 'reference'");
@@ -231,7 +255,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "placeid": placeId,
       "reference": reference,
       "language": language,
-      "extensions": extensions
+      "extensions": extensions,
     };
     if (sessionToken != null) {
       params.putIfAbsent("sessiontoken", () => sessionToken);
@@ -244,16 +268,17 @@ class GoogleMapsPlaces extends GoogleWebService {
     return "$url$_detailsSearchUrl?${buildQuery(params)}";
   }
 
-  String buildAutocompleteUrl(
-      {String input,
-      String sessionToken,
-      num offset,
-      Location location,
-      num radius,
-      String language,
-      List<String> types,
-      List<Component> components,
-      bool strictbounds}) {
+  String buildAutocompleteUrl({
+    String input,
+    String sessionToken,
+    num offset,
+    Location location,
+    num radius,
+    String language,
+    List<String> types,
+    List<Component> components,
+    bool strictbounds,
+  }) {
     final params = {
       "input": input != null ? Uri.encodeComponent(input) : null,
       "language": language,
@@ -262,7 +287,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       "types": types,
       "components": components,
       "strictbounds": strictbounds,
-      "offset": offset
+      "offset": offset,
     };
     if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
@@ -273,18 +298,19 @@ class GoogleMapsPlaces extends GoogleWebService {
     return "$url$_autocompleteUrl?${buildQuery(params)}";
   }
 
-  String buildQueryAutocompleteUrl(
-      {String input,
-      num offset,
-      Location location,
-      num radius,
-      String language}) {
+  String buildQueryAutocompleteUrl({
+    String input,
+    num offset,
+    Location location,
+    num radius,
+    String language,
+  }) {
     final params = {
       "input": input != null ? Uri.encodeComponent(input) : null,
       "language": language,
       "location": location,
       "radius": radius,
-      "offset": offset
+      "offset": offset,
     };
 
     if (apiKey != null) {
@@ -312,12 +338,16 @@ class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
   final String nextPageToken;
 
   PlacesSearchResponse(
-      String status,
-      String errorMessage,
-      List<PlacesSearchResult> results,
-      this.htmlAttributions,
-      this.nextPageToken)
-      : super(status, errorMessage, results);
+    String status,
+    String errorMessage,
+    List<PlacesSearchResult> results,
+    this.htmlAttributions,
+    this.nextPageToken,
+  ) : super(
+          status,
+          errorMessage,
+          results,
+        );
 
   factory PlacesSearchResponse.fromJson(Map json) => json != null
       ? new PlacesSearchResponse(
@@ -370,22 +400,23 @@ class PlacesSearchResult {
   final String reference;
 
   PlacesSearchResult(
-      this.icon,
-      this.geometry,
-      this.name,
-      this.openingHours,
-      this.photos,
-      this.placeId,
-      this.scope,
-      this.altIds,
-      this.priceLevel,
-      this.rating,
-      this.types,
-      this.vicinity,
-      this.formattedAddress,
-      this.permanentlyClosed,
-      this.id,
-      this.reference);
+    this.icon,
+    this.geometry,
+    this.name,
+    this.openingHours,
+    this.photos,
+    this.placeId,
+    this.scope,
+    this.altIds,
+    this.priceLevel,
+    this.rating,
+    this.types,
+    this.vicinity,
+    this.formattedAddress,
+    this.permanentlyClosed,
+    this.id,
+    this.reference,
+  );
 
   factory PlacesSearchResult.fromJson(Map json) => json != null
       ? new PlacesSearchResult(
@@ -471,28 +502,29 @@ class PlaceDetails {
   final Geometry geometry;
 
   PlaceDetails(
-      this.addressComponents,
-      this.adrAddress,
-      this.formattedAddress,
-      this.formattedPhoneNumber,
-      this.id,
-      this.reference,
-      this.icon,
-      this.name,
-      this.openingHours,
-      this.photos,
-      this.placeId,
-      this.internationalPhoneNumber,
-      this.priceLevel,
-      this.rating,
-      this.scope,
-      this.types,
-      this.url,
-      this.vicinity,
-      this.utcOffset,
-      this.website,
-      this.reviews,
-      this.geometry);
+    this.addressComponents,
+    this.adrAddress,
+    this.formattedAddress,
+    this.formattedPhoneNumber,
+    this.id,
+    this.reference,
+    this.icon,
+    this.name,
+    this.openingHours,
+    this.photos,
+    this.placeId,
+    this.internationalPhoneNumber,
+    this.priceLevel,
+    this.rating,
+    this.scope,
+    this.types,
+    this.url,
+    this.vicinity,
+    this.utcOffset,
+    this.website,
+    this.reviews,
+    this.geometry,
+  );
 
   factory PlaceDetails.fromJson(Map json) => json != null
       ? new PlaceDetails(
@@ -546,7 +578,11 @@ class OpeningHoursDetail extends OpeningHours {
   final List<OpeningHoursPeriod> periods;
   final List<String> weekdayText;
 
-  OpeningHoursDetail(openNow, this.periods, this.weekdayText) : super(openNow);
+  OpeningHoursDetail(
+    openNow,
+    this.periods,
+    this.weekdayText,
+  ) : super(openNow);
 
   factory OpeningHoursDetail.fromJson(Map<String, dynamic> json) => json != null
       ? new OpeningHoursDetail(
@@ -595,7 +631,12 @@ class Photo {
   /// JSON html_attributions
   final List<String> htmlAttributions;
 
-  Photo(this.photoReference, this.height, this.width, this.htmlAttributions);
+  Photo(
+    this.photoReference,
+    this.height,
+    this.width,
+    this.htmlAttributions,
+  );
 
   factory Photo.fromJson(Map json) => json != null
       ? new Photo(json["photo_reference"], json["height"], json["width"],
@@ -621,9 +662,16 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
   /// JSON html_attributions
   final List<String> htmlAttributions;
 
-  PlacesDetailsResponse(String status, String errorMessage, PlaceDetails result,
-      this.htmlAttributions)
-      : super(status, errorMessage, result);
+  PlacesDetailsResponse(
+    String status,
+    String errorMessage,
+    PlaceDetails result,
+    this.htmlAttributions,
+  ) : super(
+          status,
+          errorMessage,
+          result,
+        );
 
   factory PlacesDetailsResponse.fromJson(Map json) => json != null
       ? new PlacesDetailsResponse(
@@ -655,8 +703,16 @@ class Review {
 
   final num time;
 
-  Review(this.authorName, this.authorUrl, this.language, this.profilePhotoUrl,
-      this.rating, this.relativeTimeDescription, this.text, this.time);
+  Review(
+    this.authorName,
+    this.authorUrl,
+    this.language,
+    this.profilePhotoUrl,
+    this.rating,
+    this.relativeTimeDescription,
+    this.text,
+    this.time,
+  );
 
   factory Review.fromJson(Map json) => json != null
       ? new Review(
@@ -675,8 +731,13 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
   final List<Prediction> predictions;
 
   PlacesAutocompleteResponse(
-      String status, String errorMessage, this.predictions)
-      : super(status, errorMessage);
+    String status,
+    String errorMessage,
+    this.predictions,
+  ) : super(
+          status,
+          errorMessage,
+        );
 
   factory PlacesAutocompleteResponse.fromJson(Map json) => json != null
       ? new PlacesAutocompleteResponse(
@@ -761,7 +822,10 @@ class StructuredFormatting {
   final String secondaryText;
 
   StructuredFormatting(
-      this.mainText, this.mainTextMatchedSubstrings, this.secondaryText);
+    this.mainText,
+    this.mainTextMatchedSubstrings,
+    this.secondaryText,
+  );
 
   factory StructuredFormatting.fromJson(Map json) => json != null
       ? new StructuredFormatting(

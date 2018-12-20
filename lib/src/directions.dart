@@ -10,57 +10,67 @@ const _directionsUrl = "/directions/json";
 
 /// https://developers.google.com/maps/documentation/directions/start
 class GoogleMapsDirections extends GoogleWebService {
-  GoogleMapsDirections({String apiKey, String baseUrl, Client httpClient})
-      : super(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            url: _directionsUrl,
-            httpClient: httpClient);
+  GoogleMapsDirections({
+    String apiKey,
+    String baseUrl,
+    Client httpClient,
+  }) : super(
+          apiKey: apiKey,
+          baseUrl: baseUrl,
+          url: _directionsUrl,
+          httpClient: httpClient,
+        );
 
-  Future<DirectionsResponse> directions(origin, destination,
-      {TravelMode travelMode,
-      List<Waypoint> waypoints,
-      bool alternatives,
-      RouteType avoid,
-      String language,
-      Unit units,
-      String region,
-      arrivalTime,
-      departureTime,
-      List<TransitMode> transitMode,
-      TrafficModel trafficModel,
-      TransitRoutingPreferences transitRoutingPreference}) async {
+  Future<DirectionsResponse> directions(
+    origin,
+    destination, {
+    TravelMode travelMode,
+    List<Waypoint> waypoints,
+    bool alternatives,
+    RouteType avoid,
+    String language,
+    Unit units,
+    String region,
+    arrivalTime,
+    departureTime,
+    List<TransitMode> transitMode,
+    TrafficModel trafficModel,
+    TransitRoutingPreferences transitRoutingPreference,
+  }) async {
     final url = buildUrl(
-        origin: origin,
-        destination: destination,
-        travelMode: travelMode,
-        waypoints: waypoints,
-        avoid: avoid,
-        language: language,
-        units: units,
-        region: region,
-        arrivalTime: arrivalTime,
-        departureTime: departureTime,
-        transitMode: transitMode,
-        trafficModel: trafficModel,
-        transitRoutingPreference: transitRoutingPreference);
+      origin: origin,
+      destination: destination,
+      travelMode: travelMode,
+      waypoints: waypoints,
+      avoid: avoid,
+      language: language,
+      units: units,
+      region: region,
+      arrivalTime: arrivalTime,
+      departureTime: departureTime,
+      transitMode: transitMode,
+      trafficModel: trafficModel,
+      transitRoutingPreference: transitRoutingPreference,
+    );
     return _decode(await doGet(url));
   }
 
   Future<DirectionsResponse> directionsWithLocation(
-      Location origin, Location destination,
-      {TravelMode travelMode,
-      List<Waypoint> waypoints,
-      bool alternatives,
-      RouteType avoid,
-      String language,
-      Unit units,
-      String region,
-      arrivalTime,
-      departureTime,
-      List<TransitMode> transitMode,
-      TrafficModel trafficModel,
-      TransitRoutingPreferences transitRoutingPreference}) async {
+    Location origin,
+    Location destination, {
+    TravelMode travelMode,
+    List<Waypoint> waypoints,
+    bool alternatives,
+    RouteType avoid,
+    String language,
+    Unit units,
+    String region,
+    arrivalTime,
+    departureTime,
+    List<TransitMode> transitMode,
+    TrafficModel trafficModel,
+    TransitRoutingPreferences transitRoutingPreference,
+  }) async {
     return directions(origin, destination,
         travelMode: travelMode,
         waypoints: waypoints,
@@ -76,48 +86,54 @@ class GoogleMapsDirections extends GoogleWebService {
   }
 
   Future<DirectionsResponse> directionsWithAddress(
-      String origin, String destination,
-      {TravelMode travelMode,
-      List<Waypoint> waypoints,
-      bool alternatives,
-      RouteType avoid,
-      String language,
-      Unit units,
-      String region,
-      arrivalTime,
-      departureTime,
-      List<TransitMode> transitMode,
-      TrafficModel trafficModel,
-      TransitRoutingPreferences transitRoutingPreference}) async {
-    return directions(origin, destination,
-        travelMode: travelMode,
-        waypoints: waypoints,
-        avoid: avoid,
-        language: language,
-        units: units,
-        region: region,
-        arrivalTime: arrivalTime,
-        departureTime: departureTime,
-        transitMode: transitMode,
-        trafficModel: trafficModel,
-        transitRoutingPreference: transitRoutingPreference);
+    String origin,
+    String destination, {
+    TravelMode travelMode,
+    List<Waypoint> waypoints,
+    bool alternatives,
+    RouteType avoid,
+    String language,
+    Unit units,
+    String region,
+    arrivalTime,
+    departureTime,
+    List<TransitMode> transitMode,
+    TrafficModel trafficModel,
+    TransitRoutingPreferences transitRoutingPreference,
+  }) async {
+    return directions(
+      origin,
+      destination,
+      travelMode: travelMode,
+      waypoints: waypoints,
+      avoid: avoid,
+      language: language,
+      units: units,
+      region: region,
+      arrivalTime: arrivalTime,
+      departureTime: departureTime,
+      transitMode: transitMode,
+      trafficModel: trafficModel,
+      transitRoutingPreference: transitRoutingPreference,
+    );
   }
 
-  String buildUrl(
-      {origin,
-      destination,
-      TravelMode travelMode,
-      List<Waypoint> waypoints,
-      bool alternatives,
-      RouteType avoid,
-      String language,
-      Unit units,
-      String region,
-      arrivalTime,
-      departureTime,
-      List<TransitMode> transitMode,
-      TrafficModel trafficModel,
-      TransitRoutingPreferences transitRoutingPreference}) {
+  String buildUrl({
+    origin,
+    destination,
+    TravelMode travelMode,
+    List<Waypoint> waypoints,
+    bool alternatives,
+    RouteType avoid,
+    String language,
+    Unit units,
+    String region,
+    arrivalTime,
+    departureTime,
+    List<TransitMode> transitMode,
+    TrafficModel trafficModel,
+    TransitRoutingPreferences transitRoutingPreference,
+  }) {
     if (origin is! Location && origin is! String) {
       throw new ArgumentError("'origin' must be a '$String' or a '$Location'");
     }
@@ -182,8 +198,11 @@ class DirectionsResponse extends GoogleResponseStatus {
   final List<Route> routes;
 
   DirectionsResponse(
-      String status, String errorMessage, this.geocodedWaypoints, this.routes)
-      : super(status, errorMessage);
+    String status,
+    String errorMessage,
+    this.geocodedWaypoints,
+    this.routes,
+  ) : super(status, errorMessage);
 
   factory DirectionsResponse.fromJson(Map json) => new DirectionsResponse(
       json["status"],
@@ -234,7 +253,11 @@ class GeocodedWaypoint {
   final String partialMatch;
 
   GeocodedWaypoint(
-      this.geocoderStatus, this.placeId, this.types, this.partialMatch);
+    this.geocoderStatus,
+    this.placeId,
+    this.types,
+    this.partialMatch,
+  );
 
   factory GeocodedWaypoint.fromJson(Map json) => new GeocodedWaypoint(
       json["geocoder_status"],
@@ -260,8 +283,16 @@ class Route {
 
   final Fare fare;
 
-  Route(this.summary, this.legs, this.copyrights, this.overviewPolyline,
-      this.warnings, this.waypointOrder, this.bounds, this.fare);
+  Route(
+    this.summary,
+    this.legs,
+    this.copyrights,
+    this.overviewPolyline,
+    this.warnings,
+    this.waypointOrder,
+    this.bounds,
+    this.fare,
+  );
 
   factory Route.fromJson(Map json) => json != null
       ? new Route(
@@ -292,7 +323,12 @@ abstract class _Step {
 
   final Value distance;
 
-  _Step(this.startLocation, this.endLocation, this.duration, this.distance);
+  _Step(
+    this.startLocation,
+    this.endLocation,
+    this.duration,
+    this.distance,
+  );
 }
 
 class Leg extends _Step {
@@ -314,17 +350,22 @@ class Leg extends _Step {
   final Time departureTime;
 
   Leg(
-      this.steps,
-      this.startAddress,
-      this.endAddress,
-      this.durationInTraffic,
-      this.arrivalTime,
-      this.departureTime,
-      Location startLocation,
-      Location endLocation,
-      Value duration,
-      Value distance)
-      : super(startLocation, endLocation, duration, distance);
+    this.steps,
+    this.startAddress,
+    this.endAddress,
+    this.durationInTraffic,
+    this.arrivalTime,
+    this.departureTime,
+    Location startLocation,
+    Location endLocation,
+    Value duration,
+    Value distance,
+  ) : super(
+          startLocation,
+          endLocation,
+          duration,
+          distance,
+        );
 
   factory Leg.fromJson(Map json) => json != null
       ? new Leg(
@@ -359,15 +400,20 @@ class Step extends _Step {
   final TransitDetails transitDetails;
 
   Step(
-      this.travelMode,
-      this.htmlInstructions,
-      this.polyline,
-      this.transitDetails,
-      Location startLocation,
-      Location endLocation,
-      Value duration,
-      Value distance)
-      : super(startLocation, endLocation, duration, distance);
+    this.travelMode,
+    this.htmlInstructions,
+    this.polyline,
+    this.transitDetails,
+    Location startLocation,
+    Location endLocation,
+    Value duration,
+    Value distance,
+  ) : super(
+          startLocation,
+          endLocation,
+          duration,
+          distance,
+        );
 
   factory Step.fromJson(Map json) => json != null
       ? new Step(
@@ -545,8 +591,15 @@ class TransitDetails {
   /// JSON num_stops
   final num numStops;
 
-  TransitDetails(this.arrivalStop, this.departureStop, this.arrivalTime,
-      this.departureTime, this.headsign, this.headway, this.numStops);
+  TransitDetails(
+    this.arrivalStop,
+    this.departureStop,
+    this.arrivalTime,
+    this.departureTime,
+    this.headsign,
+    this.headway,
+    this.numStops,
+  );
 
   factory TransitDetails.fromJson(Map json) => json != null
       ? new TransitDetails(
@@ -590,8 +643,16 @@ class Line {
 
   final VehicleType vehicle;
 
-  Line(this.name, this.shortName, this.color, this.agencies, this.url,
-      this.icon, this.textColor, this.vehicle);
+  Line(
+    this.name,
+    this.shortName,
+    this.color,
+    this.agencies,
+    this.url,
+    this.icon,
+    this.textColor,
+    this.vehicle,
+  );
 
   factory Line.fromJson(Map json) => json != null
       ? new Line(
@@ -626,7 +687,12 @@ class VehicleType {
   /// JSON local_icon
   final String localIcon;
 
-  VehicleType(this.name, this.type, this.icon, this.localIcon);
+  VehicleType(
+    this.name,
+    this.type,
+    this.icon,
+    this.localIcon,
+  );
 
   factory VehicleType.fromJson(Map json) => json != null
       ? new VehicleType(
