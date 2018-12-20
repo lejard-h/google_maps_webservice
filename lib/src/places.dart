@@ -2,7 +2,9 @@ library google_maps_webservice.places.src;
 
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart';
+
 import 'core.dart';
 import 'utils.dart';
 
@@ -87,21 +89,28 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
-      {String extensions, String language}) async {
+      {String sessionToken, String extensions, String language}) async {
     final url = buildDetailsUrl(
-        placeId: placeId, extensions: extensions, language: language);
+        placeId: placeId,
+        sessionToken: sessionToken,
+        extensions: extensions,
+        language: language);
     return _decodeDetailsResponse(await doGet(url));
   }
 
   Future<PlacesDetailsResponse> getDetailsByReference(String reference,
-      {String extensions, String language}) async {
+      {String sessionToken, String extensions, String language}) async {
     final url = buildDetailsUrl(
-        reference: reference, extensions: extensions, language: language);
+        reference: reference,
+        sessionToken: sessionToken,
+        extensions: extensions,
+        language: language);
     return _decodeDetailsResponse(await doGet(url));
   }
 
   Future<PlacesAutocompleteResponse> autocomplete(String input,
-      {num offset,
+      {String sessionToken,
+      num offset,
       Location location,
       num radius,
       String language,
@@ -109,6 +118,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       List<Component> components,
       bool strictbounds}) async {
     final url = buildAutocompleteUrl(
+        sessionToken: sessionToken,
         input: input,
         location: location,
         offset: offset,
@@ -205,7 +215,11 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   String buildDetailsUrl(
-      {String placeId, String reference, String extensions, String language}) {
+      {String placeId,
+      String reference,
+      String sessionToken,
+      String extensions,
+      String language}) {
     if (placeId != null && reference != null) {
       throw new ArgumentError(
           "You must supply either 'placeid' or 'reference'");
@@ -217,6 +231,9 @@ class GoogleMapsPlaces extends GoogleWebService {
       "language": language,
       "extensions": extensions
     };
+    if (sessionToken != null) {
+      params.putIfAbsent("sessiontoken", () => sessionToken);
+    }
 
     if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
@@ -227,6 +244,7 @@ class GoogleMapsPlaces extends GoogleWebService {
 
   String buildAutocompleteUrl(
       {String input,
+      String sessionToken,
       num offset,
       Location location,
       num radius,
@@ -247,7 +265,9 @@ class GoogleMapsPlaces extends GoogleWebService {
     if (apiKey != null) {
       params.putIfAbsent("key", () => apiKey);
     }
-
+    if (sessionToken != null) {
+      params.putIfAbsent("sessiontoken", () => sessionToken);
+    }
     return "$url$_autocompleteUrl?${buildQuery(params)}";
   }
 
