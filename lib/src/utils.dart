@@ -51,6 +51,10 @@ abstract class GoogleWebService {
 
   @protected
   Future<Response> doGet(String url) => httpClient.get(url);
+
+  @protected
+  Future<Response> doPost(String url, Map<String, String> body) =>
+      httpClient.post(url, body: body);
 }
 
 abstract class GoogleDateTime {
