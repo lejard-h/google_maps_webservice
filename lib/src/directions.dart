@@ -219,6 +219,15 @@ class DirectionsResponse extends GoogleResponseStatus {
           })
           ?.toList()
           ?.cast<Route>());
+
+    Map<String, dynamic> toJson() {
+      Map map = super.toJson();
+      map['status'] = status;
+      map['error_message'] = errorMessage;
+      map['geocoded_waypoints'] = jsonEncode(geocodedWaypoints);
+      map['routes'] = jsonEncode(routes);
+      return map;
+    }
 }
 
 class Waypoint {
@@ -264,6 +273,15 @@ class GeocodedWaypoint {
       json["place_id"],
       (json["types"] as List)?.cast<String>(),
       json["partial_match"]);
+
+    Map<String, dynamic> toJson() {
+      Map map = new Map<String, dynamic>();
+      map['geocoder_status'] = geocoderStatus;
+      map['place_id'] = placeId;
+      map['types'] = jsonEncode(types);
+      map['partial_match'] = partialMatch;
+      return map;
+    }
 }
 
 class Route {
@@ -310,6 +328,19 @@ class Route {
           new Bounds.fromJson(json["bounds"]),
           new Fare.fromJson(json["fare"]))
       : null;
+
+    Map<String, dynamic> toJson() {
+      Map map = new Map<String, dynamic>();
+      map['summary'] = summary;
+      map['legs'] = jsonEncode(legs);
+      map['copyrights'] = copyrights;
+      map['overview_polyline'] = jsonEncode(overviewPolyline);
+      map['warnings'] = jsonEncode(warnings);
+      map['waypointOrder'] = jsonEncode(waypointOrder);
+      map['bounds'] = jsonEncode(bounds);
+      map['fare'] = jsonEncode(fare);
+      return map;
+    }
 }
 
 abstract class _Step {
@@ -385,6 +416,21 @@ class Leg extends _Step {
           new Value.fromJson(json["duration"]),
           new Value.fromJson(json["distance"]))
       : null;
+
+    Map<String, dynamic> toJson() {
+      Map map = new Map<String, dynamic>();
+      map['steps'] = jsonEncode(steps);
+      map['start_address'] = startAddress;
+      map['end_address'] = endAddress;
+      map['duration_in_traffic'] = jsonEncode(durationInTraffic);
+      map['arrival_time'] = jsonEncode(arrivalTime);
+      map['departure_time'] = jsonEncode(departureTime);
+      map['start_location'] = jsonEncode(startLocation);
+      map['end_location'] = jsonEncode(endLocation);
+      map['duration'] = jsonEncode(duration);
+      map['distance'] = jsonEncode(distance);
+      return map;
+    }
 }
 
 class Step extends _Step {
@@ -426,6 +472,19 @@ class Step extends _Step {
           new Value.fromJson(json["duration"]),
           new Value.fromJson(json["distance"]))
       : null;
+
+    Map<String, dynamic> toJson() {
+      Map map = new Map<String, dynamic>();
+      map['travel_mode'] = travelModeToString(travelMode);
+      map['html_instructions'] = htmlInstructions;
+      map['polyline'] = jsonEncode(polyline);
+      map['transit_details'] = jsonEncode(transitDetails);
+      map['start_location'] = jsonEncode(startLocation);
+      map['end_location'] = jsonEncode(endLocation);
+      map['duration'] = jsonEncode(duration);
+      map['distance'] = jsonEncode(distance);
+      return map;
+    }
 }
 
 enum TravelMode { driving, walking, bicycling, transit }
@@ -453,6 +512,12 @@ class Polyline {
 
   factory Polyline.fromJson(Map json) =>
       json != null ? new Polyline(json["points"]) : null;
+
+    Map<String, dynamic> toJson() {
+      Map map = new Map<String, dynamic>();
+      map['points'] = points;
+      return map;
+    }
 }
 
 class Value {
@@ -463,6 +528,13 @@ class Value {
 
   factory Value.fromJson(Map json) =>
       json != null ? new Value(json["value"], json["text"]) : null;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['value'] = value;
+    map['text'] = text;
+    return map;
+  }
 }
 
 enum RouteType { tolls, highways, ferries, indoor }
@@ -558,6 +630,12 @@ class Fare extends Value {
   factory Fare.fromJson(Map json) => json != null
       ? new Fare(json["currency"], json["value"], json["text"])
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map map = super.toJson();
+    map['currency'] = currency;
+    return map;
+  }
 }
 
 class Time extends Value {
@@ -569,6 +647,12 @@ class Time extends Value {
   factory Time.fromJson(Map json) => json != null
       ? new Time(json["time_zone"], json["value"], json["text"])
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map map = super.toJson();
+    map['time_zone'] = timeZone;
+    return map;
+  }
 }
 
 class TransitDetails {
@@ -611,6 +695,18 @@ class TransitDetails {
           json["headway"],
           json["num_stops"])
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['arrival_stop'] = jsonEncode(arrivalStop);
+    map['departure_stop'] = jsonEncode(departureStop);
+    map['arrival_time'] = jsonEncode(arrivalTime);
+    map['departure_time'] = jsonEncode(departureTime);
+    map['headsign'] = headsign;
+    map['headway'] = headway;
+    map['num_stops'] = numStops;
+    return map;
+  }
 }
 
 class Stop {
@@ -622,6 +718,13 @@ class Stop {
   factory Stop.fromJson(Map json) => json != null
       ? new Stop(json["name"], new Location.fromJson(json["location"]))
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['name'] = name;
+    map['location'] = jsonEncode(location);
+    return map;
+  }
 }
 
 class Line {
@@ -665,6 +768,19 @@ class Line {
           json["text_color"],
           new VehicleType.fromJson(json["vehicle"]))
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['name'] = name;
+    map['short_name'] = shortName;
+    map['color'] = color;
+    map['agencies'] = jsonEncode(agencies);
+    map['url'] = url;
+    map['icon'] = icon;
+    map['text_color'] = textColor;
+    map['vehicle'] = jsonEncode(vehicle);
+    return map;
+  }
 }
 
 class TransitAgency {
@@ -677,6 +793,14 @@ class TransitAgency {
   factory TransitAgency.fromJson(Map json) => json != null
       ? new TransitAgency(json["name"], json["url"], json["phone"])
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['name'] = name;
+    map['url'] = url;
+    map['phone'] = phone;
+    return map;
+  }
 }
 
 class VehicleType {
@@ -698,6 +822,16 @@ class VehicleType {
       ? new VehicleType(
           json["name"], json["type"], json["icon"], json["local_icon"])
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map['name'] = name;
+    map['type'] = type;
+    map['icon'] = icon;
+    map['local_icon'] = localIcon;
+    return map;
+  }
+
 
   bool isType(String type) => type.toLowerCase() == this.type.toLowerCase();
 
