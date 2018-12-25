@@ -1,5 +1,6 @@
 library google_maps_webservice.geolocation.src;
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'core.dart';
@@ -23,7 +24,7 @@ class GoogleMapsGeolocation extends GoogleWebService {
           httpClient: httpClient,
         );
 
-  Future<GeolocationResponse> currentGeolocation({
+  Future<GeolocationResponse> getGeolocation({
     int homeMobileCountryCode,
     int homeMobileNetworkCode,
     String radioType,
@@ -42,8 +43,16 @@ class GoogleMapsGeolocation extends GoogleWebService {
       wifiAccessPoints: wifiAccessPoints
     );
 
-    return _decode(await doPost(buildUrl(), body));
+    return _decode(await doPost(buildUrl(), json.encode(body)));
   }
+
+  Future<GeolocationResponse> getGeolocationFromMap(Map params) async {
+    return _decode(await doPost(buildUrl(), json.encode(params)));
+  }
+
+
+  Future<GeolocationResponse> currentGeolocation() async =>
+      _decode(await doPost(buildUrl(), json.encode({})));
 
   String buildUrl() {
     return "$url?${buildQuery({"key": apiKey})}";
@@ -62,33 +71,34 @@ class GoogleMapsGeolocation extends GoogleWebService {
 
     // All optionals
     if(homeMobileCountryCode != null) {
-      params.putIfAbsent("homeMobileCountryCode", homeMobileCountryCode.toString() as dynamic);
+      params.putIfAbsent("'homeMobileCountryCode'", () => homeMobileCountryCode.toString());
     };
 
     if(homeMobileNetworkCode!= null) {
-      params.putIfAbsent("homeMobileNetworkCode", homeMobileNetworkCode.toString() as dynamic);
+      params.putIfAbsent("'homeMobileNetworkCode'", () => homeMobileNetworkCode.toString());
     };
 
     if(radioType!= null) {
-      params.putIfAbsent("radioType", radioType as dynamic);
+      params.putIfAbsent("'radioType'", () => radioType);
     };
 
     if(carrier!= null) {
-      params.putIfAbsent("carrier", carrier as dynamic);
+      params.putIfAbsent("'carrier'", () => carrier);
     };
 
     if(considerIp!= null) {
-      params.putIfAbsent("considerIp", considerIp.toString() as dynamic);
+      params.putIfAbsent("'considerIp'", () => considerIp.toString());
     };
 
     if(cellTowers!= null) {
-      params.putIfAbsent("cellTowers", (cellTowers.map((c) => c.toMap()) as dynamic));
+      params.putIfAbsent("'cellTowers'", () => (cellTowers.map((c) => c.toMap())));
     };
 
     if(wifiAccessPoints!= null) {
-      params.putIfAbsent("wifiAccessPoints", (wifiAccessPoints.map((w) => w.toMap()) as dynamic));
+      params.putIfAbsent("'wifiAccessPoints'", () => (wifiAccessPoints.map((w) => w.toMap())));
     };
 
+    return params;
   }
 
   GeolocationResponse _decode(Response res) =>
@@ -109,8 +119,9 @@ class GeolocationResponse extends GoogleResponseStatus {
   ) : super(status, errorMessage);
 
   factory GeolocationResponse.fromJson(Map json) => new GeolocationResponse(
-    json["status"],
-    json["error_message"],
+    // Response body only contains error message, if post request not successful
+    json.containsKey("error") ? "KO" : "OK",
+    json.containsKey("error") ? json["error"]["message"] : null,
     Location.fromJson(json["location"]),
     json["accuracy"]
   );
