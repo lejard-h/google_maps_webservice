@@ -224,8 +224,8 @@ class DirectionsResponse extends GoogleResponseStatus {
       Map map = super.toJson();
       map['status'] = status;
       map['error_message'] = errorMessage;
-      map['geocoded_waypoints'] = jsonEncode(geocodedWaypoints);
-      map['routes'] = jsonEncode(routes);
+      map['geocoded_waypoints'] = geocodedWaypoints;
+      map['routes'] = routes;
       return map;
     }
 }
@@ -278,7 +278,7 @@ class GeocodedWaypoint {
       Map map = new Map<String, dynamic>();
       map['geocoder_status'] = geocoderStatus;
       map['place_id'] = placeId;
-      map['types'] = jsonEncode(types);
+      map['types'] = types;
       map['partial_match'] = partialMatch;
       return map;
     }
@@ -332,13 +332,13 @@ class Route {
     Map<String, dynamic> toJson() {
       Map map = new Map<String, dynamic>();
       map['summary'] = summary;
-      map['legs'] = jsonEncode(legs);
+      map['legs'] = legs;
       map['copyrights'] = copyrights;
-      map['overview_polyline'] = jsonEncode(overviewPolyline);
-      map['warnings'] = jsonEncode(warnings);
-      map['waypointOrder'] = jsonEncode(waypointOrder);
-      map['bounds'] = jsonEncode(bounds);
-      map['fare'] = jsonEncode(fare);
+      map['overview_polyline'] = overviewPolyline;
+      map['warnings'] = warnings;
+      map['waypointOrder'] = waypointOrder;
+      map['bounds'] = bounds.toJson();
+      map['fare'] = fare;
       return map;
     }
 }
@@ -419,16 +419,16 @@ class Leg extends _Step {
 
     Map<String, dynamic> toJson() {
       Map map = new Map<String, dynamic>();
-      map['steps'] = jsonEncode(steps);
+      map['steps'] = steps;
       map['start_address'] = startAddress;
       map['end_address'] = endAddress;
-      map['duration_in_traffic'] = jsonEncode(durationInTraffic);
-      map['arrival_time'] = jsonEncode(arrivalTime);
-      map['departure_time'] = jsonEncode(departureTime);
-      map['start_location'] = jsonEncode(startLocation);
-      map['end_location'] = jsonEncode(endLocation);
-      map['duration'] = jsonEncode(duration);
-      map['distance'] = jsonEncode(distance);
+      map['duration_in_traffic'] = (durationInTraffic != null) ? durationInTraffic.toJson() : null;
+      map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
+      map['departure_time'] = (departureTime != null) ? departureTime.toJson() : null;
+      map['start_location'] = startLocation.toJson();
+      map['end_location'] = endLocation.toJson();
+      map['duration'] = (duration != null) ? duration.toJson() : null;
+      map['distance'] = (distance != null) ? distance.toJson() : null;
       return map;
     }
 }
@@ -439,7 +439,7 @@ class Step extends _Step {
 
   /// JSON html_instructions
   final String htmlInstructions;
-
+  final String maneuver;
   final Polyline polyline;
 
   /// JSON transit_details
@@ -448,6 +448,7 @@ class Step extends _Step {
   Step(
     this.travelMode,
     this.htmlInstructions,
+    this.maneuver,
     this.polyline,
     this.transitDetails,
     Location startLocation,
@@ -465,6 +466,7 @@ class Step extends _Step {
       ? new Step(
           stringToTravelMode(json["travel_mode"]),
           json["html_instructions"],
+          json["maneuver"],
           new Polyline.fromJson(json["polyline"]),
           new TransitDetails.fromJson(json["transit_details"]),
           new Location.fromJson(json["start_location"]),
@@ -477,12 +479,13 @@ class Step extends _Step {
       Map map = new Map<String, dynamic>();
       map['travel_mode'] = travelModeToString(travelMode);
       map['html_instructions'] = htmlInstructions;
-      map['polyline'] = jsonEncode(polyline);
-      map['transit_details'] = jsonEncode(transitDetails);
-      map['start_location'] = jsonEncode(startLocation);
-      map['end_location'] = jsonEncode(endLocation);
-      map['duration'] = jsonEncode(duration);
-      map['distance'] = jsonEncode(distance);
+      map['maneuver'] = maneuver;
+      map['polyline'] = (polyline != null) ? polyline.toJson() : null;
+      map['transit_details'] = (transitDetails != null) ? transitDetails.toJson() : null;
+      map['start_location'] = (startLocation != null) ? startLocation.toJson() : null;
+      map['end_location'] = (endLocation != null) ? endLocation.toJson() : null;
+      map['duration'] = (duration != null) ? duration.toJson() : null;
+      map['distance'] = (distance != null ) ? distance.toJson() : null;
       return map;
     }
 }
@@ -698,10 +701,10 @@ class TransitDetails {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = new Map<String, dynamic>();
-    map['arrival_stop'] = jsonEncode(arrivalStop);
-    map['departure_stop'] = jsonEncode(departureStop);
-    map['arrival_time'] = jsonEncode(arrivalTime);
-    map['departure_time'] = jsonEncode(departureTime);
+    map['arrival_stop'] = (arrivalStop != null) ? arrivalStop.toJson() : null;
+    map['departure_stop'] = (departureStop != null) ? departureStop.toJson() : null;
+    map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
+    map['departure_time'] = (departureTime != null) ? departureTime.toJson() : null;
     map['headsign'] = headsign;
     map['headway'] = headway;
     map['num_stops'] = numStops;
@@ -722,7 +725,7 @@ class Stop {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = new Map<String, dynamic>();
     map['name'] = name;
-    map['location'] = jsonEncode(location);
+    map['location'] = (location != null) ? location.toJson() : null;
     return map;
   }
 }
@@ -774,11 +777,11 @@ class Line {
     map['name'] = name;
     map['short_name'] = shortName;
     map['color'] = color;
-    map['agencies'] = jsonEncode(agencies);
+    map['agencies'] = agencies;
     map['url'] = url;
     map['icon'] = icon;
     map['text_color'] = textColor;
-    map['vehicle'] = jsonEncode(vehicle);
+    map['vehicle'] = (vehicle != null) ? vehicle.toJson() : null;
     return map;
   }
 }

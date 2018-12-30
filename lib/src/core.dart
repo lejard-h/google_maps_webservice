@@ -52,10 +52,10 @@ class Geometry {
 
   Map<String, dynamic> toJson() {
     Map map = new Map<String, dynamic>();
-    map['location'] = jsonEncode(location);
+    map['location'] = (location != null) ? location.toJson() : null;
     map['location_type'] = locationType;
-    map['viewport'] = jsonEncode(viewport);
-    map['bounds'] = jsonEncode(bounds);
+    map['viewport'] = (viewport != null) ? viewport.toJson() : null;
+    map['bounds'] = (bounds != null) ? bounds.toJson() : null;
     return map;
   }  
 }
@@ -73,8 +73,8 @@ class Bounds {
 
   Map<String, dynamic> toJson() {
     Map map = new Map<String, dynamic>();
-    map['northeast'] = jsonEncode(northeast);
-    map['southwest'] = jsonEncode(southwest);
+    map['northeast'] = (northeast != null) ? northeast.toJson() : null;
+    map['southwest'] = (southwest != null) ? southwest.toJson() : null;
     return map;
   }  
 
