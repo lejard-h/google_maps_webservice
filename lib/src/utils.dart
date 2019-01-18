@@ -51,6 +51,14 @@ abstract class GoogleWebService {
 
   @protected
   Future<Response> doGet(String url) => httpClient.get(url);
+
+  @protected
+  Future<Response> doPost(String url, String body) {
+    return httpClient.post(url, body: body, headers: {
+      'Content-type' : 'application/json',
+    });
+  }
+
 }
 
 abstract class GoogleDateTime {
@@ -63,7 +71,7 @@ abstract class GoogleDateTime {
     }
 
     final _now = new DateTime.now();
-    // Maps is 0-index DOW
+    // Maps is 0-index DO^W
     final _weekday = _now.weekday - 1;
     final _mondayOfThisWeek = _now.day - _weekday;
     final _computedWeekday = _mondayOfThisWeek + day;

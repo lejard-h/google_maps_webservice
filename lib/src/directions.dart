@@ -192,7 +192,7 @@ class GoogleMapsDirections extends GoogleWebService {
 }
 
 class DirectionsResponse extends GoogleResponseStatus {
-  /// JSON geocoded_waypoints
+  /// JSON geocoded_waypos
   final List<GeocodedWaypoint> geocodedWaypoints;
 
   final List<Route> routes;
