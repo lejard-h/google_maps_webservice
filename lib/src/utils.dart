@@ -55,10 +55,9 @@ abstract class GoogleWebService {
   @protected
   Future<Response> doPost(String url, String body) {
     return httpClient.post(url, body: body, headers: {
-      'Content-type' : 'application/json',
+      'Content-type': 'application/json',
     });
   }
-
 }
 
 abstract class GoogleDateTime {

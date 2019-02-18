@@ -13,8 +13,7 @@ main() {
 launch([Client client]) async {
   final apiKey = "MY_API_KEY";
 
-  GoogleMapsGeolocation geolocation =
-      new GoogleMapsGeolocation(apiKey: apiKey);
+  GoogleMapsGeolocation geolocation = new GoogleMapsGeolocation(apiKey: apiKey);
 
   tearDownAll(() {
     geolocation.dispose();
@@ -23,8 +22,7 @@ launch([Client client]) async {
   group("Google Maps Geolocation", () {
     group("build url (only api key, everything else over REST/JSON POST", () {
       test("default url building with api key", () {
-        expect(
-            geolocation.buildUrl(),
+        expect(geolocation.buildUrl(),
             "https://www.googleapis.com/geolocation/v1/geolocate?key=MY_API_KEY");
       });
     });
@@ -38,10 +36,8 @@ launch([Client client]) async {
       expect(response.location.lng, -117.0874871);
       expect(response.accuracy, 20);
     });
-
   });
 }
-
 
 final _responseExample = '''
 {
