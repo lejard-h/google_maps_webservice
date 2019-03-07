@@ -3,7 +3,7 @@ library google_maps_webservice.places.autocomplete.example;
 import 'dart:io';
 import 'package:google_maps_webservice/places.dart';
 
-final places = new GoogleMapsPlaces(apiKey: Platform.environment["API_KEY"]);
+final places = new GoogleMapsPlaces(apiKey: Platform.environment["AIzaSyA8N-CChgjPiNngBgwPNKJ8YMd3p5Yn8SU"]);
 
 main() async {
   String sessionToken = "xyzabc_1234";
