@@ -33,9 +33,55 @@ class GoogleDistanceMatrix extends GoogleWebService {
     List<TransitMode> transitMode,
     TrafficModel trafficModel,
     TransitRoutingPreferences transitRoutingPreference,
-  }) async {}
+  }) async {
+    print(buildUrl(
+      origin: origin,
+      destination: destination,
+      travelMode: travelMode,
+      languageCode: languageCode,
+      alternative: alternative,
+      region: region,
+      routeType: avoid,
+      unit: unit,
+      arrivalTime: arrivalTime,
+      departureTime: departureTime,
+      transitMode: transitMode,
+      trafficModel: trafficModel,
+      transitRoutingPreference: transitRoutingPreference,
+    ));
+  }
 
-  void distanceWithLocation() {}
+  void distanceWithLocation(
+    Location origin,
+    Location destination, {
+    TravelMode travelMode,
+    String languageCode,
+    bool alternative,
+    String region,
+    RouteType avoid,
+    Unit unit,
+    arrivalTime,
+    departureTime,
+    List<TransitMode> transitMode,
+    TrafficModel trafficModel,
+    TransitRoutingPreferences transitRoutingPreference,
+  }) {
+    _distance(
+      origin,
+      destination,
+      travelMode: travelMode,
+      languageCode: languageCode,
+      alternative: alternative,
+      region: region,
+      avoid: avoid,
+      unit: unit,
+      arrivalTime: arrivalTime,
+      departureTime: departureTime,
+      transitMode: transitMode,
+      trafficModel: trafficModel,
+      transitRoutingPreference: transitRoutingPreference,
+    );
+  }
 
   void distanceWithAddress() {}
 
