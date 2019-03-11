@@ -1,5 +1,8 @@
 library google_maps_webservice.distance.src;
 
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:http/http.dart';
 
 import 'utils.dart';
@@ -19,7 +22,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
             url: _distanceUrl,
             httpClient: httpClient);
 
-  void _distance(
+  Future<DistanceResponse> _distance(
     origin,
     destination, {
     TravelMode travelMode,
@@ -34,7 +37,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
     TrafficModel trafficModel,
     TransitRoutingPreferences transitRoutingPreference,
   }) async {
-    print(buildUrl(
+    final url = buildUrl(
       origin: origin,
       destination: destination,
       travelMode: travelMode,
@@ -48,10 +51,12 @@ class GoogleDistanceMatrix extends GoogleWebService {
       transitMode: transitMode,
       trafficModel: trafficModel,
       transitRoutingPreference: transitRoutingPreference,
-    ));
+    );
+
+    return _decode(await doGet(url));
   }
 
-  void distanceWithLocation(
+  Future<DistanceResponse> distanceWithLocation(
     Location origin,
     Location destination, {
     TravelMode travelMode,
@@ -66,7 +71,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
     TrafficModel trafficModel,
     TransitRoutingPreferences transitRoutingPreference,
   }) {
-    _distance(
+    return _distance(
       origin,
       destination,
       travelMode: travelMode,
@@ -83,7 +88,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
     );
   }
 
-  void distanceWithAddress(
+  Future<DistanceResponse> distanceWithAddress(
     String origin,
     String destination, {
     TravelMode travelMode,
@@ -97,8 +102,8 @@ class GoogleDistanceMatrix extends GoogleWebService {
     List<TransitMode> transitMode,
     TrafficModel trafficModel,
     TransitRoutingPreferences transitRoutingPreference,
-  }) {
-    _distance(
+  }) async {
+    return _distance(
       origin,
       destination,
       travelMode: travelMode,
@@ -181,6 +186,9 @@ class GoogleDistanceMatrix extends GoogleWebService {
 
     return '$url?${buildQuery(params)}';
   }
+
+  DistanceResponse _decode(Response res) =>
+      new DistanceResponse.fromJson(json.decode(res.body));
 }
 
 class DistanceResponse extends GoogleResponseStatus {
@@ -198,6 +206,18 @@ class DistanceResponse extends GoogleResponseStatus {
           status,
           errorMsg,
         );
+
+  factory DistanceResponse.fromJson(Map json) => new DistanceResponse(
+      json["status"],
+      json["error_message"],
+      (json["origin_addresses"] as List)?.cast<String>(),
+      (json["destination_addresses"] as List)?.cast<String>(),
+      json["rows"]
+          ?.map((row) {
+            return new Element.fromJson(row);
+          })
+          ?.toList()
+          ?.cast<Element>());
 }
 
 class Element {
