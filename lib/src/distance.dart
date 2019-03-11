@@ -83,7 +83,37 @@ class GoogleDistanceMatrix extends GoogleWebService {
     );
   }
 
-  void distanceWithAddress() {}
+  void distanceWithAddress(
+    String origin,
+    String destination, {
+    TravelMode travelMode,
+    String languageCode,
+    bool alternative,
+    String region,
+    RouteType avoid,
+    Unit unit,
+    arrivalTime,
+    departureTime,
+    List<TransitMode> transitMode,
+    TrafficModel trafficModel,
+    TransitRoutingPreferences transitRoutingPreference,
+  }) {
+    _distance(
+      origin,
+      destination,
+      travelMode: travelMode,
+      languageCode: languageCode,
+      alternative: alternative,
+      region: region,
+      avoid: avoid,
+      unit: unit,
+      arrivalTime: arrivalTime,
+      departureTime: departureTime,
+      transitMode: transitMode,
+      trafficModel: trafficModel,
+      transitRoutingPreference: transitRoutingPreference,
+    );
+  }
 
   String buildUrl({
     origin,
@@ -121,12 +151,28 @@ class GoogleDistanceMatrix extends GoogleWebService {
     }
 
     final params = {
-      "origin": origin != null && origin is String
+      "origins": origin != null && origin is String
           ? Uri.encodeComponent(origin)
           : origin,
-      "destination": destination != null && destination is String
+      "destinations": destination != null && destination is String
           ? Uri.encodeComponent(destination)
           : destination,
+      "mode": travelModeToString(travelMode),
+      "language": languageCode,
+      "region": region,
+      "avoid": routeTypeToString(routeType),
+      "units": unitToString(unit),
+      "arrival_time": arrivalTime is DateTime
+          ? arrivalTime.millisecondsSinceEpoch ~/ 1000
+          : arrivalTime,
+      "departure_time": departureTime is DateTime
+          ? departureTime.millisecondsSinceEpoch ~/ 1000
+          : departureTime,
+      "traffic_model": trafficModelToString(trafficModel),
+      "transit_mode":
+          transitMode?.map((t) => transitModeToString(t))?.join("|"),
+      "transit_routing_preference":
+          transitRoutingPreferencesToString(transitRoutingPreference)
     };
 
     if (apiKey != null) {
