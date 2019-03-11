@@ -7,7 +7,7 @@ import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 launch([Client client]) async {
-  final apiKey = "AIzaSyDW30A0MP3rPs3E6W2K0YRNuCDKQ6kPTco";
+  final apiKey = "MY_API_KEY";
   GoogleMapsDirections directions =
       new GoogleMapsDirections(apiKey: apiKey, httpClient: client);
 
