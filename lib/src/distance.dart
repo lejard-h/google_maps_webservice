@@ -184,13 +184,46 @@ class GoogleDistanceMatrix extends GoogleWebService {
 }
 
 class DistanceResponse extends GoogleResponseStatus {
+  final List<String> originAddress;
+  final List<String> destinationAddress;
+  final List<Element> results;
+
   DistanceResponse(
     String status,
     String errorMsg,
+    this.originAddress,
+    this.destinationAddress,
+    this.results,
   ) : super(
           status,
           errorMsg,
         );
+}
+
+class Element {
+  final Value distance;
+  final Value duration;
+  final String elementStatus;
+
+  Element(this.distance, this.duration, this.elementStatus);
+
+  factory Element.fromJson(Map json) => json != null
+      ? new Element(
+          json["distance"],
+          json["duration"],
+          json["status"],
+        )
+      : null;
+}
+
+class Value {
+  final num value;
+  final String text;
+
+  Value(this.value, this.text);
+
+  factory Value.fromJson(Map json) =>
+      json != null ? new Value(json["value"], json["text"]) : null;
 }
 
 enum TravelMode { driving, walking, bicycling, transit }
