@@ -3,6 +3,7 @@
 ### What you will need
 - A Linux, Mac OS X, or Windows machine (note: to run and compile iOS specific parts you'll need access to a Mac OS X machine);
 - git (used for source version control, installation instruction can be found [here][git]);
+- Set up Dart SDK (installation instructions can be found [here][dart])
 - The Flutter SDK (installation instructions can be found [here][flutter]);
 - A personal GitHub account (if you don't have one, you can sign-up for free [here][github])
 
@@ -27,11 +28,13 @@
 - Change into the example directory: 
   ```sh
    cd example 
+   export API_KEY="YOUR_KEY"
+   
+   dart directions.dart
+   dart geolocation.dart
+   dart places_autocomplete.dart
    ```
-- Run the App:
-  ```sh
-   flutter run
-  ```  
+
   
 ### Contribute
 We really appreciate contributions via GitHub pull requests. To contribute take the following steps:
@@ -44,9 +47,9 @@ We really appreciate contributions via GitHub pull requests. To contribute take 
 - Apply your changes
 - Verify your changes and fix potential warnings/ errors:
   ```sh
-  flutter format .
-  flutter analyzes
-  flutter test
+  dartfmt -w .
+  dartanalyzer .
+  pub run test
   ```
  - Commit your changes:
    ```sh
@@ -72,3 +75,4 @@ Please make sure you solved all warnings and errors reported by the static code 
    [github]:<https://github.com/>
    [git-ssh]:<https://help.github.com/articles/generating-ssh-keys/>
    [git-repo-url]: <https://github.com/lejard-h/google_maps_webservice.git>
+   [dart]:<https://www.dartlang.org/tools/sdk>
