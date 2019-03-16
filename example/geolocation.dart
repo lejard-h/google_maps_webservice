@@ -4,11 +4,10 @@ import 'dart:io';
 
 import 'package:google_maps_webservice/geolocation.dart';
 
-
-final geolocation = new GoogleMapsGeolocation(apiKey: Platform.environment["API_KEY"]);
+final geolocation =
+    new GoogleMapsGeolocation(apiKey: Platform.environment["API_KEY"]);
 
 main() async {
-
   var params = {
     "considerIp": "false",
     "wifiAccessPoints": [

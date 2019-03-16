@@ -181,12 +181,15 @@ class WifiAccessPoint extends _AccessObject {
   final num signalToNoiseRatio;
 
   WifiAccessPoint({
+    age,
+    signalStrength,
     this.macAddress,
     this.channel,
     this.signalToNoiseRatio,
-    age,
-    signalStrength,
-  }) : super(age: age, signalStrength: signalStrength);
+  }) : super(
+          age: age,
+          signalStrength: signalStrength,
+        );
 
   Map<String, String> toMap() {
     var params = {};

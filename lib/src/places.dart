@@ -539,7 +539,9 @@ class PlaceDetails {
           json["reference"],
           json["icon"],
           json["name"],
-          new OpeningHoursDetail.fromJson(json["opening_hours"]),
+          new OpeningHoursDetail.fromJson(
+            json["opening_hours"],
+          ),
           json["photos"]
               ?.map((p) => new Photo.fromJson(p))
               ?.toList()
@@ -547,7 +549,9 @@ class PlaceDetails {
           json["place_id"],
           json["international_phone_number"],
           json["price_level"] != null
-              ? PriceLevel.values.elementAt(json["price_level"])
+              ? PriceLevel.values.elementAt(
+                  json["price_level"],
+                )
               : null,
           json["rating"],
           json["scope"],
