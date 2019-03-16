@@ -178,6 +178,7 @@ class GeocodingResult {
           (json["postcode_localities"] as List)?.cast<String>(),
           new Geometry.fromJson(json["geometry"]),
           json["partial_match"],
-          json["place_id"])
+          json["place_id"],
+        )
       : null;
 }

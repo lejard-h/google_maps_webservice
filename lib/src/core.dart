@@ -152,7 +152,6 @@ String travelModeToString(TravelMode mode) {
   return null;
 }
 
-
 enum RouteType { tolls, highways, ferries, indoor }
 
 RouteType stringToRouteType(String type) {
@@ -184,7 +183,6 @@ String unitToString(Unit type) {
   if (type == Unit.imperial) return "imperial";
   return null;
 }
-
 
 enum TrafficModel { bestGuess, pessimistic, optimistic }
 

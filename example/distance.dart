@@ -30,7 +30,8 @@ main() async {
       print(responseForLocation.destinationAddress.length);
       responseForLocation.results.forEach((row) {
         row.elements.forEach((element) {
-          print('distance ${element.distance.text} duration ${element.duration.text}');
+          print(
+              'distance ${element.distance.text} duration ${element.duration.text}');
         });
       });
     } else {

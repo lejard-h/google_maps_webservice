@@ -260,7 +260,3 @@ class Value {
   factory Value.fromJson(Map json) =>
       json != null ? new Value(json["value"], json["text"]) : null;
 }
-
-
-
-

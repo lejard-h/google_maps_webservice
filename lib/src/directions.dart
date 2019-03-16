@@ -428,8 +428,6 @@ class Step extends _Step {
       : null;
 }
 
-
-
 class Polyline {
   final String points;
 
@@ -448,7 +446,6 @@ class Value {
   factory Value.fromJson(Map json) =>
       json != null ? new Value(json["value"], json["text"]) : null;
 }
-
 
 class Fare extends Value {
   final String currency;
