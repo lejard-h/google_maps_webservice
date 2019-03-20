@@ -247,7 +247,9 @@ Future<void> launch([Client client]) async {
       test("with location", () {
         expect(
             places.buildAutocompleteUrl(
-                input: "Amoeba", location: Location(-33.8670522, 151.1957362)),
+              input: "Amoeba",
+              location: Location(-33.8670522, 151.1957362),
+            ),
             equals(
                 "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey"));
       });
@@ -309,7 +311,9 @@ Future<void> launch([Client client]) async {
       test("with location", () {
         expect(
             places.buildQueryAutocompleteUrl(
-                input: "Amoeba", location: Location(-33.8670522, 151.1957362)),
+              input: "Amoeba",
+              location: Location(-33.8670522, 151.1957362),
+            ),
             equals(
                 "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey"));
       });
