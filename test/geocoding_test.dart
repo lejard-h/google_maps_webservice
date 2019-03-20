@@ -1,15 +1,16 @@
 library google_maps_webservice.geocoding.test;
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:google_maps_webservice/src/utils.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 
-launch([Client client]) async {
+Future<void> launch([Client client]) async {
   final apiKey = "MY_API_KEY";
   GoogleMapsGeocoding geocoding =
-      new GoogleMapsGeocoding(apiKey: apiKey, httpClient: client);
+      GoogleMapsGeocoding(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     geocoding.dispose();
@@ -29,8 +30,8 @@ launch([Client client]) async {
         expect(
             geocoding.buildUrl(
                 address: "Winnetka",
-                bounds: new Bounds(new Location(34.172684, -118.604794),
-                    new Location(34.236144, -118.500938))),
+                bounds: Bounds(Location(34.172684, -118.604794),
+                    Location(34.236144, -118.500938))),
             equals(
                 "$kGMapsUrl/geocode/json?address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938&key=$apiKey"));
       });
@@ -52,7 +53,7 @@ launch([Client client]) async {
       test("address with components", () {
         expect(
             geocoding.buildUrl(address: "Spain", components: [
-              new Component(Component.administrativeArea, "Toledo")
+              Component(Component.administrativeArea, "Toledo")
             ]),
             equals(
                 "$kGMapsUrl/geocode/json?address=Spain&components=administrative_area:Toledo&key=$apiKey"));
@@ -60,7 +61,7 @@ launch([Client client]) async {
 
       test("location", () {
         expect(
-            geocoding.buildUrl(location: new Location(34.172684, -118.604794)),
+            geocoding.buildUrl(location: Location(34.172684, -118.604794)),
             equals(
                 "https://maps.googleapis.com/maps/api/geocode/json?latlng=34.172684,-118.604794&key=$apiKey"));
       });
@@ -75,7 +76,7 @@ launch([Client client]) async {
 
     test("decode response", () {
       GeocodingResponse response =
-          new GeocodingResponse.fromJson(json.decode(_responseExample));
+          GeocodingResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.results, hasLength(equals(1)));

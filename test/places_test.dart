@@ -1,14 +1,15 @@
 library google_maps_webservice.places.test;
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 import 'package:google_maps_webservice/places.dart';
 
-launch([Client client]) async {
+Future<void> launch([Client client]) async {
   final apiKey = "MY_API_KEY";
   GoogleMapsPlaces places =
-      new GoogleMapsPlaces(apiKey: apiKey, httpClient: client);
+      GoogleMapsPlaces(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     places.dispose();
@@ -18,7 +19,7 @@ launch([Client client]) async {
     group("nearbysearch build url", () {
       test("basic", () {
         String url = places.buildNearbySearchUrl(
-            location: new Location(-33.8670522, 151.1957362), radius: 500);
+            location: Location(-33.8670522, 151.1957362), radius: 500);
 
         expect(
             url,
@@ -28,7 +29,7 @@ launch([Client client]) async {
 
       test("with type and keyword", () {
         String url = places.buildNearbySearchUrl(
-            location: new Location(-33.8670522, 151.1957362),
+            location: Location(-33.8670522, 151.1957362),
             radius: 500,
             type: "restaurant",
             keyword: "cruise");
@@ -41,7 +42,7 @@ launch([Client client]) async {
 
       test("with language", () {
         String url = places.buildNearbySearchUrl(
-            location: new Location(-33.8670522, 151.1957362),
+            location: Location(-33.8670522, 151.1957362),
             radius: 500,
             language: "fr");
 
@@ -53,7 +54,7 @@ launch([Client client]) async {
 
       test("with min and maxprice", () {
         String url = places.buildNearbySearchUrl(
-            location: new Location(-33.8670522, 151.1957362),
+            location: Location(-33.8670522, 151.1957362),
             radius: 500,
             minprice: PriceLevel.free,
             maxprice: PriceLevel.veryExpensive);
@@ -66,7 +67,7 @@ launch([Client client]) async {
 
       test("build url with name", () {
         String url = places.buildNearbySearchUrl(
-            location: new Location(-33.8670522, 151.1957362),
+            location: Location(-33.8670522, 151.1957362),
             radius: 500,
             name: "cruise");
 
@@ -78,7 +79,7 @@ launch([Client client]) async {
 
       test("with rankby", () {
         String url = places.buildNearbySearchUrl(
-            location: new Location(-33.8670522, 151.1957362),
+            location: Location(-33.8670522, 151.1957362),
             rankby: "distance",
             name: "cruise");
 
@@ -91,7 +92,7 @@ launch([Client client]) async {
       test("with rankby without required params", () {
         try {
           places.buildNearbySearchUrl(
-              location: new Location(-33.8670522, 151.1957362),
+              location: Location(-33.8670522, 151.1957362),
               rankby: "distance",
               name: "cruise");
         } catch (e) {
@@ -105,7 +106,7 @@ launch([Client client]) async {
       test("with rankby and radius", () {
         try {
           places.buildNearbySearchUrl(
-              location: new Location(-33.8670522, 151.1957362),
+              location: Location(-33.8670522, 151.1957362),
               radius: 500,
               rankby: "distance");
         } catch (e) {
@@ -129,7 +130,7 @@ launch([Client client]) async {
         expect(
             places.buildTextSearchUrl(
                 query: "123 Main Street",
-                location: new Location(-33.8670522, 151.1957362)),
+                location: Location(-33.8670522, 151.1957362)),
             equals(
                 "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent("123 Main Street")}&location=-33.8670522,151.1957362&key=$apiKey"));
       });
@@ -246,8 +247,7 @@ launch([Client client]) async {
       test("with location", () {
         expect(
             places.buildAutocompleteUrl(
-                input: "Amoeba",
-                location: new Location(-33.8670522, 151.1957362)),
+                input: "Amoeba", location: Location(-33.8670522, 151.1957362)),
             equals(
                 "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey"));
       });
@@ -278,7 +278,7 @@ launch([Client client]) async {
         expect(
             places.buildAutocompleteUrl(
                 input: "Amoeba",
-                components: [new Component(Component.country, "fr")]),
+                components: [Component(Component.country, "fr")]),
             equals(
                 "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&components=country:fr&key=$apiKey"));
       });
@@ -309,8 +309,7 @@ launch([Client client]) async {
       test("with location", () {
         expect(
             places.buildQueryAutocompleteUrl(
-                input: "Amoeba",
-                location: new Location(-33.8670522, 151.1957362)),
+                input: "Amoeba", location: Location(-33.8670522, 151.1957362)),
             equals(
                 "https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey"));
       });
@@ -332,7 +331,7 @@ launch([Client client]) async {
 
     test("decode response", () {
       PlacesSearchResponse response =
-          new PlacesSearchResponse.fromJson(json.decode(_responseExample));
+          PlacesSearchResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.results, hasLength(equals(4)));

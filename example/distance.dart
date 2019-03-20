@@ -1,5 +1,6 @@
 library google_maps_webservice.distance.example;
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:google_maps_webservice/distance.dart';
@@ -7,7 +8,7 @@ import 'package:google_maps_webservice/distance.dart';
 final GoogleDistanceMatrix distanceMatrix =
     GoogleDistanceMatrix(apiKey: Platform.environment["API_KEY"]);
 
-main() async {
+Future<void> main() async {
   List<Location> origins = [
     Location(23.721160, 90.394435),
     Location(23.732322, 90.385142),
@@ -28,12 +29,12 @@ main() async {
 
     if (responseForLocation.isOkay) {
       print(responseForLocation.destinationAddress.length);
-      responseForLocation.results.forEach((row) {
-        row.elements.forEach((element) {
+      for (var row in responseForLocation.results) {
+        for (var element in row.elements) {
           print(
               'distance ${element.distance.text} duration ${element.duration.text}');
-        });
-      });
+        }
+      }
     } else {
       print('ERROR: ${responseForLocation.errorMessage}');
     }

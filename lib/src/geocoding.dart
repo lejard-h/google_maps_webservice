@@ -110,7 +110,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
   }
 
   GeocodingResponse _decode(Response res) =>
-      new GeocodingResponse.fromJson(json.decode(res.body));
+      GeocodingResponse.fromJson(json.decode(res.body));
 }
 
 class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
@@ -125,12 +125,12 @@ class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
         );
 
   factory GeocodingResponse.fromJson(Map json) => json != null
-      ? new GeocodingResponse(
+      ? GeocodingResponse(
           json["status"],
           json["error_message"],
           json["results"]
               .map((r) {
-                return new GeocodingResult.fromJson(r);
+                return GeocodingResult.fromJson(r);
               })
               .toList()
               .cast<GeocodingResult>())
@@ -155,7 +155,7 @@ class GeocodingResult {
   final bool partialMatch;
 
   /// JSON place_id
-  final placeId;
+  final String placeId;
 
   GeocodingResult(
     this.types,
@@ -168,15 +168,15 @@ class GeocodingResult {
   );
 
   factory GeocodingResult.fromJson(Map json) => json != null
-      ? new GeocodingResult(
+      ? GeocodingResult(
           (json["types"] as List)?.cast<String>(),
           json["formatted_address"],
           json["address_components"]
-              .map((addr) => new AddressComponent.fromJson(addr))
+              .map((addr) => AddressComponent.fromJson(addr))
               .toList()
               .cast<AddressComponent>(),
           (json["postcode_localities"] as List)?.cast<String>(),
-          new Geometry.fromJson(json["geometry"]),
+          Geometry.fromJson(json["geometry"]),
           json["partial_match"],
           json["place_id"],
         )

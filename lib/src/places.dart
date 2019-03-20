@@ -177,7 +177,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String pagetoken,
   }) {
     if (radius != null && rankby != null) {
-      throw new ArgumentError(
+      throw ArgumentError(
           "'rankby' must not be included if 'radius' is specified.");
     }
 
@@ -185,7 +185,7 @@ class GoogleMapsPlaces extends GoogleWebService {
         keyword == null &&
         type == null &&
         name == null) {
-      throw new ArgumentError(
+      throw ArgumentError(
           "If 'rankby=distance' is specified, then one or more of 'keyword', 'name', or 'type' is required.");
     }
 
@@ -247,8 +247,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String language,
   }) {
     if (placeId != null && reference != null) {
-      throw new ArgumentError(
-          "You must supply either 'placeid' or 'reference'");
+      throw ArgumentError("You must supply either 'placeid' or 'reference'");
     }
 
     final params = {
@@ -321,13 +320,13 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   PlacesSearchResponse _decodeSearchResponse(Response res) =>
-      new PlacesSearchResponse.fromJson(json.decode(res.body));
+      PlacesSearchResponse.fromJson(json.decode(res.body));
 
   PlacesDetailsResponse _decodeDetailsResponse(Response res) =>
-      new PlacesDetailsResponse.fromJson(json.decode(res.body));
+      PlacesDetailsResponse.fromJson(json.decode(res.body));
 
   PlacesAutocompleteResponse _decodeAutocompleteResponse(Response res) =>
-      new PlacesAutocompleteResponse.fromJson(json.decode(res.body));
+      PlacesAutocompleteResponse.fromJson(json.decode(res.body));
 }
 
 class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
@@ -350,11 +349,11 @@ class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
         );
 
   factory PlacesSearchResponse.fromJson(Map json) => json != null
-      ? new PlacesSearchResponse(
+      ? PlacesSearchResponse(
           json["status"],
           json["error_message"],
           json["results"]
-              .map((r) => new PlacesSearchResult.fromJson(r))
+              .map((r) => PlacesSearchResult.fromJson(r))
               .toList()
               .cast<PlacesSearchResult>(),
           (json["html_attributions"] as List).cast<String>(),
@@ -419,19 +418,19 @@ class PlacesSearchResult {
   );
 
   factory PlacesSearchResult.fromJson(Map json) => json != null
-      ? new PlacesSearchResult(
+      ? PlacesSearchResult(
           json["icon"],
-          new Geometry.fromJson(json["geometry"]),
+          Geometry.fromJson(json["geometry"]),
           json["name"],
-          new OpeningHours.fromJson(json["opening_hours"]),
+          OpeningHours.fromJson(json["opening_hours"]),
           json["photos"]
-              ?.map((p) => new Photo.fromJson(p))
+              ?.map((p) => Photo.fromJson(p))
               ?.toList()
               ?.cast<Photo>(),
           json["place_id"],
           json["scope"],
           json["alt_ids"]
-              ?.map((a) => new AlternativeId.fromJson(a))
+              ?.map((a) => AlternativeId.fromJson(a))
               ?.toList()
               ?.cast<AlternativeId>(),
           json["price_level"] != null
@@ -527,9 +526,9 @@ class PlaceDetails {
   );
 
   factory PlaceDetails.fromJson(Map json) => json != null
-      ? new PlaceDetails(
+      ? PlaceDetails(
           json["address_components"]
-              .map((addr) => new AddressComponent.fromJson(addr))
+              .map((addr) => AddressComponent.fromJson(addr))
               .toList()
               .cast<AddressComponent>(),
           json["adr_address"],
@@ -539,11 +538,11 @@ class PlaceDetails {
           json["reference"],
           json["icon"],
           json["name"],
-          new OpeningHoursDetail.fromJson(
+          OpeningHoursDetail.fromJson(
             json["opening_hours"],
           ),
           json["photos"]
-              ?.map((p) => new Photo.fromJson(p))
+              ?.map((p) => Photo.fromJson(p))
               ?.toList()
               ?.cast<Photo>(),
           json["place_id"],
@@ -561,10 +560,10 @@ class PlaceDetails {
           json["utc_offset"],
           json["website"],
           json["reviews"]
-              ?.map((r) => new Review.fromJson(r))
+              ?.map((r) => Review.fromJson(r))
               ?.toList()
               ?.cast<Review>(),
-          new Geometry.fromJson(json["geometry"]))
+          Geometry.fromJson(json["geometry"]))
       : null;
 }
 
@@ -575,7 +574,7 @@ class OpeningHours {
   OpeningHours(this.openNow);
 
   factory OpeningHours.fromJson(Map json) =>
-      json != null ? new OpeningHours(json["open_now"]) : null;
+      json != null ? OpeningHours(json["open_now"]) : null;
 }
 
 class OpeningHoursDetail extends OpeningHours {
@@ -589,10 +588,10 @@ class OpeningHoursDetail extends OpeningHours {
   ) : super(openNow);
 
   factory OpeningHoursDetail.fromJson(Map<String, dynamic> json) => json != null
-      ? new OpeningHoursDetail(
+      ? OpeningHoursDetail(
           json["open_now"],
           json["periods"]
-              ?.map((p) => new OpeningHoursPeriod.fromJson(p))
+              ?.map((p) => OpeningHoursPeriod.fromJson(p))
               ?.toList()
               ?.cast<OpeningHoursPeriod>(),
           (json["weekday_text"] as List)?.cast<String>())
@@ -607,7 +606,7 @@ class OpeningHoursPeriodDate extends GoogleDateTime {
   DateTime dateTime;
 
   OpeningHoursPeriodDate(this.day, this.time) {
-    dateTime = dayTimeToDateTime(this.day, this.time);
+    dateTime = dayTimeToDateTime(day, time);
   }
 
   factory OpeningHoursPeriodDate.fromJson(Map json) =>
@@ -643,7 +642,7 @@ class Photo {
   );
 
   factory Photo.fromJson(Map json) => json != null
-      ? new Photo(json["photo_reference"], json["height"], json["width"],
+      ? Photo(json["photo_reference"], json["height"], json["width"],
           (json["html_attributions"] as List)?.cast<String>())
       : null;
 }
@@ -657,7 +656,7 @@ class AlternativeId {
   AlternativeId(this.placeId, this.scope);
 
   factory AlternativeId.fromJson(Map json) =>
-      json != null ? new AlternativeId(json["place_id"], json["scope"]) : null;
+      json != null ? AlternativeId(json["place_id"], json["scope"]) : null;
 }
 
 enum PriceLevel { free, inexpensive, moderate, expensive, veryExpensive }
@@ -678,10 +677,10 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
         );
 
   factory PlacesDetailsResponse.fromJson(Map json) => json != null
-      ? new PlacesDetailsResponse(
+      ? PlacesDetailsResponse(
           json["status"],
           json["error_message"],
-          new PlaceDetails.fromJson(json["result"]),
+          PlaceDetails.fromJson(json["result"]),
           (json["html_attributions"] as List)?.cast<String>())
       : null;
 }
@@ -719,7 +718,7 @@ class Review {
   );
 
   factory Review.fromJson(Map json) => json != null
-      ? new Review(
+      ? Review(
           json["author_name"],
           json["author_url"],
           json["language"],
@@ -744,11 +743,11 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
         );
 
   factory PlacesAutocompleteResponse.fromJson(Map json) => json != null
-      ? new PlacesAutocompleteResponse(
+      ? PlacesAutocompleteResponse(
           json["status"],
           json["error_message"],
           json["predictions"]
-              .map((p) => new Prediction.fromJson(p))
+              .map((p) => Prediction.fromJson(p))
               .toList()
               .cast<Prediction>())
       : null;
@@ -780,18 +779,15 @@ class Prediction {
       this.structuredFormatting);
 
   factory Prediction.fromJson(Map json) => json != null
-      ? new Prediction(
+      ? Prediction(
           json["description"],
           json["id"],
-          json["terms"]
-              ?.map((t) => new Term.fromJson(t))
-              ?.toList()
-              ?.cast<Term>(),
+          json["terms"]?.map((t) => Term.fromJson(t))?.toList()?.cast<Term>(),
           json["place_id"],
           json["reference"],
           (json["types"] as List)?.cast<String>(),
           json["matched_substrings"]
-              ?.map((m) => new MatchedSubstring.fromJson(m))
+              ?.map((m) => MatchedSubstring.fromJson(m))
               ?.toList()
               ?.cast<MatchedSubstring>(),
           StructuredFormatting.fromJson(json["structured_formatting"]),
@@ -806,7 +802,7 @@ class Term {
   Term(this.offset, this.value);
 
   factory Term.fromJson(Map json) =>
-      json != null ? new Term(json["offset"], json["value"]) : null;
+      json != null ? Term(json["offset"], json["value"]) : null;
 }
 
 class MatchedSubstring {
@@ -815,9 +811,8 @@ class MatchedSubstring {
 
   MatchedSubstring(this.offset, this.length);
 
-  factory MatchedSubstring.fromJson(Map json) => json != null
-      ? new MatchedSubstring(json["offset"], json["length"])
-      : null;
+  factory MatchedSubstring.fromJson(Map json) =>
+      json != null ? MatchedSubstring(json["offset"], json["length"]) : null;
 }
 
 class StructuredFormatting {
@@ -832,10 +827,10 @@ class StructuredFormatting {
   );
 
   factory StructuredFormatting.fromJson(Map json) => json != null
-      ? new StructuredFormatting(
+      ? StructuredFormatting(
           json["main_text"],
           json["main_text_matched_substrings"]
-              ?.map((m) => new MatchedSubstring.fromJson(m))
+              ?.map((m) => MatchedSubstring.fromJson(m))
               ?.toList()
               ?.cast<MatchedSubstring>(),
           json["secondary_text"])

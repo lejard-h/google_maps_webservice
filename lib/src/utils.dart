@@ -29,7 +29,7 @@ abstract class GoogleWebService {
     Client httpClient,
   })  : assert(url != null),
         _url = "${baseUrl ?? kGMapsUrl}$url",
-        _httpClient = httpClient ?? new Client(),
+        _httpClient = httpClient ?? Client(),
         _apiKey = apiKey;
 
   @protected
@@ -65,11 +65,11 @@ abstract class GoogleDateTime {
   @protected
   DateTime dayTimeToDateTime(int day, String time) {
     if (time.length < 4) {
-      throw new ArgumentError(
+      throw ArgumentError(
           "'time' is not a valid string. It must be four integers.");
     }
 
-    final _now = new DateTime.now();
+    final _now = DateTime.now();
     // Maps is 0-index DO^W
     final _weekday = _now.weekday - 1;
     final _mondayOfThisWeek = _now.day - _weekday;
@@ -78,7 +78,7 @@ abstract class GoogleDateTime {
     final _hour = int.parse(time.substring(0, 2));
     final _minute = int.parse(time.substring(2));
 
-    return new DateTime.utc(
+    return DateTime.utc(
         _now.year, _now.month, _computedWeekday, _hour, _minute);
   }
 }

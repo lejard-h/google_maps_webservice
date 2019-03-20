@@ -1,15 +1,16 @@
 library google_maps_webservice.directions.test;
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:google_maps_webservice/src/core.dart';
 import 'package:google_maps_webservice/src/directions.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
-launch([Client client]) async {
+Future<void> launch([Client client]) async {
   final apiKey = "MY_API_KEY";
   GoogleMapsDirections directions =
-      new GoogleMapsDirections(apiKey: apiKey, httpClient: client);
+      GoogleMapsDirections(apiKey: apiKey, httpClient: client);
 
   tearDownAll(() {
     directions.dispose();
@@ -28,8 +29,8 @@ launch([Client client]) async {
       test("simple with Location origin/destination", () {
         expect(
             directions.buildUrl(
-                origin: new Location(23.43, 65.1),
-                destination: new Location(62.323, 53.1)),
+                origin: Location(23.43, 65.1),
+                destination: Location(62.323, 53.1)),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?origin=23.43,65.1&destination=62.323,53.1&key=$apiKey"));
       });
@@ -37,7 +38,7 @@ launch([Client client]) async {
       test("simple with String/Location origin/destination", () {
         expect(
             directions.buildUrl(
-                origin: new Location(23.43, 65.1),
+                origin: Location(23.43, 65.1),
                 destination: "Marseilles, France"),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?origin=23.43,65.1&destination=${Uri.encodeComponent("Marseilles, France")}&key=$apiKey"));
@@ -52,8 +53,7 @@ launch([Client client]) async {
         }
 
         try {
-          directions.buildUrl(
-              origin: new Location(23.43, 65.1), destination: 10);
+          directions.buildUrl(origin: Location(23.43, 65.1), destination: 10);
         } catch (e) {
           expect((e as ArgumentError).message,
               equals("'destination' must be a '$String' or a '$Location'"));
@@ -133,8 +133,7 @@ launch([Client client]) async {
             directions.buildUrl(
                 origin: "Toronto",
                 destination: "Montreal",
-                departureTime:
-                    new DateTime.fromMillisecondsSinceEpoch(d * 1000)),
+                departureTime: DateTime.fromMillisecondsSinceEpoch(d * 1000)),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=$d&key=$apiKey"));
       });
@@ -150,7 +149,7 @@ launch([Client client]) async {
             directions.buildUrl(
                 origin: "Toronto",
                 destination: "Montreal",
-                arrivalTime: new DateTime.fromMillisecondsSinceEpoch(d * 1000)),
+                arrivalTime: DateTime.fromMillisecondsSinceEpoch(d * 1000)),
             equals(
                 "https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&arrival_time=$d&key=$apiKey"));
       });
@@ -249,7 +248,7 @@ launch([Client client]) async {
                 waypoints: [
                   Waypoint.optimize(),
                   Waypoint.fromAddress("Paris"),
-                  Waypoint.fromLocation(new Location(42.2, 21.3)),
+                  Waypoint.fromLocation(Location(42.2, 21.3)),
                   Waypoint.fromPlaceId("ChIJ3S-JXmauEmsRUcIaWtf4MzE"),
                   Waypoint.fromEncodedPolyline("gfo}EtohhU")
                 ]),
@@ -260,7 +259,7 @@ launch([Client client]) async {
 
     test("decode response", () {
       DirectionsResponse response =
-          new DirectionsResponse.fromJson(json.decode(_responseExample));
+          DirectionsResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.routes, hasLength(equals(1)));
@@ -439,4 +438,4 @@ final _responseExample = '''
 }
 ''';
 
-main() => launch();
+Future<void> main() => launch();

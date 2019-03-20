@@ -1,19 +1,20 @@
 library google_maps_webservice.geolocation.test;
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:google_maps_webservice/geolocation.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
-main() {
-  launch();
+Future<void> main() async {
+  await launch();
 }
 
-launch([Client client]) async {
+Future<void> launch([Client client]) async {
   final apiKey = "MY_API_KEY";
 
-  GoogleMapsGeolocation geolocation = new GoogleMapsGeolocation(apiKey: apiKey);
+  GoogleMapsGeolocation geolocation = GoogleMapsGeolocation(apiKey: apiKey);
 
   tearDownAll(() {
     geolocation.dispose();
@@ -29,7 +30,7 @@ launch([Client client]) async {
 
     test("Decode response", () {
       GeolocationResponse response =
-          new GeolocationResponse.fromJson(json.decode(_responseExample));
+          GeolocationResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.location.lat, 33.3632256);

@@ -1,13 +1,14 @@
 library google_maps_webservice.gelocation.example;
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:google_maps_webservice/geolocation.dart';
 
 final geolocation =
-    new GoogleMapsGeolocation(apiKey: Platform.environment["API_KEY"]);
+    GoogleMapsGeolocation(apiKey: Platform.environment["API_KEY"]);
 
-main() async {
+Future<void> main() async {
   var params = {
     "considerIp": "false",
     "wifiAccessPoints": [

@@ -7,12 +7,13 @@ class Location {
   Location(this.lat, this.lng);
 
   factory Location.fromJson(Map json) => json != null
-      ? new Location(
+      ? Location(
           (json["lat"] as num).toDouble(),
           (json["lng"] as num).toDouble(),
         )
       : null;
 
+  @override
   String toString() => "$lat,$lng";
 }
 
@@ -34,11 +35,12 @@ class Geometry {
   );
 
   factory Geometry.fromJson(Map json) => json != null
-      ? new Geometry(
-          new Location.fromJson(json["location"]),
+      ? Geometry(
+          Location.fromJson(json["location"]),
           json["location_type"],
-          new Bounds.fromJson(json["viewport"]),
-          new Bounds.fromJson(json["bounds"]))
+          Bounds.fromJson(json["viewport"]),
+          Bounds.fromJson(json["bounds"]),
+        )
       : null;
 }
 
@@ -49,10 +51,11 @@ class Bounds {
   Bounds(this.northeast, this.southwest);
 
   factory Bounds.fromJson(Map json) => json != null
-      ? new Bounds(new Location.fromJson(json["northeast"]),
-          new Location.fromJson(json["southwest"]))
+      ? Bounds(Location.fromJson(json["northeast"]),
+          Location.fromJson(json["southwest"]))
       : null;
 
+  @override
   String toString() =>
       "${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}";
 }
@@ -114,7 +117,7 @@ class AddressComponent {
   );
 
   factory AddressComponent.fromJson(Map json) => json != null
-      ? new AddressComponent((json["types"] as List)?.cast<String>(),
+      ? AddressComponent((json["types"] as List)?.cast<String>(),
           json["long_name"], json["short_name"])
       : null;
 }
@@ -131,6 +134,7 @@ class Component {
 
   Component(this.component, this.value);
 
+  @override
   String toString() => "$component:${Uri.encodeComponent(value)}";
 }
 
