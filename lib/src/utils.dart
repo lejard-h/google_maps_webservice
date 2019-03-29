@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart';
 
-const kGMapsUrl = "https://maps.googleapis.com/maps/api";
+const kGMapsUrl = 'https://maps.googleapis.com/maps/api';
 
 abstract class GoogleWebService {
   @protected
@@ -28,7 +28,7 @@ abstract class GoogleWebService {
     @required String url,
     Client httpClient,
   })  : assert(url != null),
-        _url = "${baseUrl ?? kGMapsUrl}$url",
+        _url = '${baseUrl ?? kGMapsUrl}$url',
         _httpClient = httpClient ?? Client(),
         _apiKey = apiKey;
 
@@ -40,11 +40,11 @@ abstract class GoogleWebService {
         if (val is Iterable) {
           query.add("$key=${val.map((v) => v.toString()).join("|")}");
         } else {
-          query.add("$key=${val.toString()}");
+          query.add('$key=${val.toString()}');
         }
       }
     });
-    return query.join("&");
+    return query.join('&');
   }
 
   void dispose() => httpClient.close();

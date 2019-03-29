@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'core.dart';
 import 'utils.dart';
 
-const _directionsUrl = "/directions/json";
+const _directionsUrl = '/directions/json';
 
 /// https://developers.google.com/maps/documentation/directions/start
 class GoogleMapsDirections extends GoogleWebService {
@@ -151,36 +151,36 @@ class GoogleMapsDirections extends GoogleWebService {
       throw ArgumentError("'arrivalTime' must be a '$num' or a '$DateTime'");
     }
     final params = {
-      "origin": origin != null && origin is String
+      'origin': origin != null && origin is String
           ? Uri.encodeComponent(origin)
           : origin,
-      "destination": destination != null && destination is String
+      'destination': destination != null && destination is String
           ? Uri.encodeComponent(destination)
           : destination,
-      "mode": travelModeToString(travelMode),
-      "waypoints": waypoints,
-      "alternatives": alternatives,
-      "avoid": routeTypeToString(avoid),
-      "language": language,
-      "units": unitToString(units),
-      "region": region,
-      "arrival_time": arrivalTime is DateTime
+      'mode': travelModeToString(travelMode),
+      'waypoints': waypoints,
+      'alternatives': alternatives,
+      'avoid': routeTypeToString(avoid),
+      'language': language,
+      'units': unitToString(units),
+      'region': region,
+      'arrival_time': arrivalTime is DateTime
           ? arrivalTime.millisecondsSinceEpoch ~/ 1000
           : arrivalTime,
-      "departure_time": departureTime is DateTime
+      'departure_time': departureTime is DateTime
           ? departureTime.millisecondsSinceEpoch ~/ 1000
           : departureTime,
-      "traffic_model": trafficModelToString(trafficModel),
-      "transit_mode": transitMode?.map(transitModeToString)?.join("|"),
-      "transit_routing_preference":
+      'traffic_model': trafficModelToString(trafficModel),
+      'transit_mode': transitMode?.map(transitModeToString)?.join('|'),
+      'transit_routing_preference':
           transitRoutingPreferencesToString(transitRoutingPreference)
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
-    return "$url?${buildQuery(params)}";
+    return '$url?${buildQuery(params)}';
   }
 
   DirectionsResponse _decode(Response res) =>
@@ -201,15 +201,15 @@ class DirectionsResponse extends GoogleResponseStatus {
   ) : super(status, errorMessage);
 
   factory DirectionsResponse.fromJson(Map json) => DirectionsResponse(
-      json["status"],
-      json["error_message"],
-      json["geocoded_waypoints"]
+      json['status'],
+      json['error_message'],
+      json['geocoded_waypoints']
           ?.map((r) {
             return GeocodedWaypoint.fromJson(r);
           })
           ?.toList()
           ?.cast<GeocodedWaypoint>(),
-      json["routes"]
+      json['routes']
           ?.map((r) {
             return Route.fromJson(r);
           })
@@ -227,12 +227,12 @@ class Waypoint {
   static Waypoint fromLocation(Location location) =>
       Waypoint(location.toString());
 
-  static Waypoint fromPlaceId(String placeId) => Waypoint("place_id:$placeId");
+  static Waypoint fromPlaceId(String placeId) => Waypoint('place_id:$placeId');
 
   static Waypoint fromEncodedPolyline(String polyline) =>
-      Waypoint("enc:$polyline:");
+      Waypoint('enc:$polyline:');
 
-  static Waypoint optimize() => Waypoint("optimize:true");
+  static Waypoint optimize() => Waypoint('optimize:true');
 
   @override
   String toString() => value;
@@ -258,10 +258,10 @@ class GeocodedWaypoint {
   );
 
   factory GeocodedWaypoint.fromJson(Map json) => GeocodedWaypoint(
-      json["geocoder_status"],
-      json["place_id"],
-      (json["types"] as List)?.cast<String>(),
-      json["partial_match"]);
+      json['geocoder_status'],
+      json['place_id'],
+      (json['types'] as List)?.cast<String>(),
+      json['partial_match']);
 }
 
 class Route {
@@ -294,19 +294,19 @@ class Route {
 
   factory Route.fromJson(Map json) => json != null
       ? Route(
-          json["summary"],
-          json["legs"]
+          json['summary'],
+          json['legs']
               ?.map((r) {
                 return Leg.fromJson(r);
               })
               ?.toList()
               ?.cast<Leg>(),
-          json["copyrights"],
-          Polyline.fromJson(json["overview_polyline"]),
-          json["warnings"] as List,
-          (json["waypoint_order"] as List)?.cast<num>(),
-          Bounds.fromJson(json["bounds"]),
-          Fare.fromJson(json["fare"]))
+          json['copyrights'],
+          Polyline.fromJson(json['overview_polyline']),
+          json['warnings'] as List,
+          (json['waypoint_order'] as List)?.cast<num>(),
+          Bounds.fromJson(json['bounds']),
+          Fare.fromJson(json['fare']))
       : null;
 }
 
@@ -367,21 +367,21 @@ class Leg extends _Step {
 
   factory Leg.fromJson(Map json) => json != null
       ? Leg(
-          json["steps"]
+          json['steps']
               ?.map((r) {
                 return Step.fromJson(r);
               })
               ?.toList()
               ?.cast<Step>(),
-          json["start_address"],
-          json["end_address"],
-          Value.fromJson(json["duration_in_traffic"]),
-          Time.fromJson(json["arrival_time"]),
-          Time.fromJson(json["departure_time"]),
-          Location.fromJson(json["start_location"]),
-          Location.fromJson(json["end_location"]),
-          Value.fromJson(json["duration"]),
-          Value.fromJson(json["distance"]))
+          json['start_address'],
+          json['end_address'],
+          Value.fromJson(json['duration_in_traffic']),
+          Time.fromJson(json['arrival_time']),
+          Time.fromJson(json['departure_time']),
+          Location.fromJson(json['start_location']),
+          Location.fromJson(json['end_location']),
+          Value.fromJson(json['duration']),
+          Value.fromJson(json['distance']))
       : null;
 }
 
@@ -415,14 +415,14 @@ class Step extends _Step {
 
   factory Step.fromJson(Map json) => json != null
       ? Step(
-          stringToTravelMode(json["travel_mode"]),
-          json["html_instructions"],
-          Polyline.fromJson(json["polyline"]),
-          TransitDetails.fromJson(json["transit_details"]),
-          Location.fromJson(json["start_location"]),
-          Location.fromJson(json["end_location"]),
-          Value.fromJson(json["duration"]),
-          Value.fromJson(json["distance"]))
+          stringToTravelMode(json['travel_mode']),
+          json['html_instructions'],
+          Polyline.fromJson(json['polyline']),
+          TransitDetails.fromJson(json['transit_details']),
+          Location.fromJson(json['start_location']),
+          Location.fromJson(json['end_location']),
+          Value.fromJson(json['duration']),
+          Value.fromJson(json['distance']))
       : null;
 }
 
@@ -432,7 +432,7 @@ class Polyline {
   Polyline(this.points);
 
   factory Polyline.fromJson(Map json) =>
-      json != null ? Polyline(json["points"]) : null;
+      json != null ? Polyline(json['points']) : null;
 }
 
 class Value {
@@ -442,7 +442,7 @@ class Value {
   Value(this.value, this.text);
 
   factory Value.fromJson(Map json) =>
-      json != null ? Value(json["value"], json["text"]) : null;
+      json != null ? Value(json['value'], json['text']) : null;
 }
 
 class Fare extends Value {
@@ -451,7 +451,7 @@ class Fare extends Value {
   Fare(this.currency, num value, String text) : super(value, text);
 
   factory Fare.fromJson(Map json) =>
-      json != null ? Fare(json["currency"], json["value"], json["text"]) : null;
+      json != null ? Fare(json['currency'], json['value'], json['text']) : null;
 }
 
 class Time extends Value {
@@ -461,7 +461,7 @@ class Time extends Value {
   Time(this.timeZone, num value, String text) : super(value, text);
 
   factory Time.fromJson(Map json) => json != null
-      ? Time(json["time_zone"], json["value"], json["text"])
+      ? Time(json['time_zone'], json['value'], json['text'])
       : null;
 }
 
@@ -497,13 +497,13 @@ class TransitDetails {
 
   factory TransitDetails.fromJson(Map json) => json != null
       ? TransitDetails(
-          Stop.fromJson(json["arrival_stop"]),
-          Stop.fromJson(json["departure_stop"]),
-          Time.fromJson(json["arrival_time"]),
-          Time.fromJson(json["departure_time"]),
-          json["headsign"],
-          json["headway"],
-          json["num_stops"])
+          Stop.fromJson(json['arrival_stop']),
+          Stop.fromJson(json['departure_stop']),
+          Time.fromJson(json['arrival_time']),
+          Time.fromJson(json['departure_time']),
+          json['headsign'],
+          json['headway'],
+          json['num_stops'])
       : null;
 }
 
@@ -514,7 +514,7 @@ class Stop {
   Stop(this.name, this.location);
 
   factory Stop.fromJson(Map json) => json != null
-      ? Stop(json["name"], Location.fromJson(json["location"]))
+      ? Stop(json['name'], Location.fromJson(json['location']))
       : null;
 }
 
@@ -550,14 +550,14 @@ class Line {
 
   factory Line.fromJson(Map json) => json != null
       ? Line(
-          json["name"],
-          json["short_name"],
-          json["color"],
-          json["agencies"]?.map((a) => TransitAgency.fromJson(a))?.toList(),
-          json["url"],
-          json["icon"],
-          json["text_color"],
-          VehicleType.fromJson(json["vehicle"]))
+          json['name'],
+          json['short_name'],
+          json['color'],
+          json['agencies']?.map((a) => TransitAgency.fromJson(a))?.toList(),
+          json['url'],
+          json['icon'],
+          json['text_color'],
+          VehicleType.fromJson(json['vehicle']))
       : null;
 }
 
@@ -569,7 +569,7 @@ class TransitAgency {
   TransitAgency(this.name, this.url, this.phone);
 
   factory TransitAgency.fromJson(Map json) => json != null
-      ? TransitAgency(json["name"], json["url"], json["phone"])
+      ? TransitAgency(json['name'], json['url'], json['phone'])
       : null;
 }
 
@@ -590,26 +590,26 @@ class VehicleType {
 
   factory VehicleType.fromJson(Map json) => json != null
       ? VehicleType(
-          json["name"], json["type"], json["icon"], json["local_icon"])
+          json['name'], json['type'], json['icon'], json['local_icon'])
       : null;
 
   bool isType(String type) => type.toLowerCase() == this.type.toLowerCase();
 
-  static const rail = "RAIL";
-  static const metroRail = "METRO_RAIL";
-  static const subway = "SUBWAY";
-  static const tram = "TRAM";
-  static const monorail = "MONORAIL";
-  static const heavyRail = "HEAVY_RAIL";
-  static const commuterTrain = "COMMUTER_TRAIN";
-  static const highSpeedTrain = "HIGH_SPEED_TRAI";
-  static const bus = "BUS";
-  static const intercityBus = "INTERCITY_BUS";
-  static const trolleyBus = "TROLLEYBUS";
-  static const shareTaxi = "SHARE_TAXI";
-  static const ferry = "FERRY";
-  static const cableCar = "CABLE_CARE";
-  static const gondolaLift = "GONDOLA_LIFT";
-  static const funicular = "FUNICULAR";
-  static const other = "OTHER";
+  static const rail = 'RAIL';
+  static const metroRail = 'METRO_RAIL';
+  static const subway = 'SUBWAY';
+  static const tram = 'TRAM';
+  static const monorail = 'MONORAIL';
+  static const heavyRail = 'HEAVY_RAIL';
+  static const commuterTrain = 'COMMUTER_TRAIN';
+  static const highSpeedTrain = 'HIGH_SPEED_TRAI';
+  static const bus = 'BUS';
+  static const intercityBus = 'INTERCITY_BUS';
+  static const trolleyBus = 'TROLLEYBUS';
+  static const shareTaxi = 'SHARE_TAXI';
+  static const ferry = 'FERRY';
+  static const cableCar = 'CABLE_CARE';
+  static const gondolaLift = 'GONDOLA_LIFT';
+  static const funicular = 'FUNICULAR';
+  static const other = 'OTHER';
 }

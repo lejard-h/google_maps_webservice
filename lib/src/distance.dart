@@ -153,31 +153,31 @@ class GoogleDistanceMatrix extends GoogleWebService {
     }
 
     final params = {
-      "origins": origin != null && origin is List<String>
+      'origins': origin != null && origin is List<String>
           ? origin?.map(Uri.encodeComponent)?.join('|')
           : origin,
-      "destinations": destination != null && destination is List<String>
+      'destinations': destination != null && destination is List<String>
           ? destination?.map(Uri.encodeComponent)?.join('|')
           : destination,
-      "mode": travelModeToString(travelMode),
-      "language": languageCode,
-      "region": region,
-      "avoid": routeTypeToString(routeType),
-      "units": unitToString(unit),
-      "arrival_time": arrivalTime is DateTime
+      'mode': travelModeToString(travelMode),
+      'language': languageCode,
+      'region': region,
+      'avoid': routeTypeToString(routeType),
+      'units': unitToString(unit),
+      'arrival_time': arrivalTime is DateTime
           ? arrivalTime.millisecondsSinceEpoch ~/ 1000
           : arrivalTime,
-      "departure_time": departureTime is DateTime
+      'departure_time': departureTime is DateTime
           ? departureTime.millisecondsSinceEpoch ~/ 1000
           : departureTime,
-      "traffic_model": trafficModelToString(trafficModel),
-      "transit_mode": transitMode?.map(transitModeToString)?.join("|"),
-      "transit_routing_preference":
+      'traffic_model': trafficModelToString(trafficModel),
+      'transit_mode': transitMode?.map(transitModeToString)?.join('|'),
+      'transit_routing_preference':
           transitRoutingPreferencesToString(transitRoutingPreference)
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
     return '$url?${buildQuery(params)}';
@@ -204,11 +204,11 @@ class DistanceResponse extends GoogleResponseStatus {
         );
 
   factory DistanceResponse.fromJson(Map json) => DistanceResponse(
-      json["status"],
-      json["error_message"],
-      (json["origin_addresses"] as List)?.cast<String>(),
-      (json["destination_addresses"] as List)?.cast<String>(),
-      json["rows"]
+      json['status'],
+      json['error_message'],
+      (json['origin_addresses'] as List)?.cast<String>(),
+      (json['destination_addresses'] as List)?.cast<String>(),
+      json['rows']
           ?.map((row) {
             return Row.fromJson(row);
           })
@@ -222,7 +222,7 @@ class Row {
   Row(this.elements);
 
   factory Row.fromJson(Map json) => json != null
-      ? Row(json["elements"]
+      ? Row(json['elements']
           ?.map((element) {
             return Element.fromJson(element);
           })
@@ -240,9 +240,9 @@ class Element {
 
   factory Element.fromJson(Map json) => json != null
       ? Element(
-          Value.fromJson(json["distance"]),
-          Value.fromJson(json["duration"]),
-          json["status"],
+          Value.fromJson(json['distance']),
+          Value.fromJson(json['duration']),
+          json['status'],
         )
       : null;
 }
@@ -254,5 +254,5 @@ class Value {
   Value(this.value, this.text);
 
   factory Value.fromJson(Map json) =>
-      json != null ? Value(json["value"], json["text"]) : null;
+      json != null ? Value(json['value'], json['text']) : null;
 }

@@ -6,7 +6,7 @@ import 'dart:io';
 import 'package:google_maps_webservice/distance.dart';
 
 final GoogleDistanceMatrix distanceMatrix =
-    GoogleDistanceMatrix(apiKey: Platform.environment["API_KEY"]);
+    GoogleDistanceMatrix(apiKey: Platform.environment['API_KEY']);
 
 Future<void> main() async {
   List<Location> origins = [

@@ -7,8 +7,8 @@ import 'core.dart';
 import 'utils.dart';
 
 // geolocation api does not use maps.geolocation
-const _baseUrl = "https://www.googleapis.com";
-const _geolocationUrl = "/geolocation/v1/geolocate";
+const _baseUrl = 'https://www.googleapis.com';
+const _geolocationUrl = '/geolocation/v1/geolocate';
 
 //// https://developers.google.com/maps/documentation/geolocation/intro
 class GoogleMapsGeolocation extends GoogleWebService {
@@ -114,10 +114,10 @@ class GeolocationResponse extends GoogleResponseStatus {
 
   factory GeolocationResponse.fromJson(Map json) => GeolocationResponse(
       // Response body only contains error message, if post request not successful
-      json.containsKey("error") ? "KO" : "OK",
-      json.containsKey("error") ? json["error"]["message"] : null,
-      Location.fromJson(json["location"]),
-      json["accuracy"]);
+      json.containsKey('error') ? 'KO' : 'OK',
+      json.containsKey('error') ? json['error']['message'] : null,
+      Location.fromJson(json['location']),
+      json['accuracy']);
 }
 
 abstract class _AccessObject {
@@ -141,24 +141,24 @@ class CellTower extends _AccessObject {
 
   Map<String, String> toMap() {
     var params = {
-      "cellId": cellId.toString(),
-      "locationAreaCode": locationAreaCode.toString(),
-      "mobileCountryCode": mobileCountryCode.toString(),
-      "mobileNetworkCode": mobileNetworkCode.toString(),
+      'cellId': cellId.toString(),
+      'locationAreaCode': locationAreaCode.toString(),
+      'mobileCountryCode': mobileCountryCode.toString(),
+      'mobileNetworkCode': mobileNetworkCode.toString(),
     };
 
     // Optionals
     if (age != null) {
-      params.putIfAbsent("age", age.toString() as dynamic);
+      params.putIfAbsent('age', age.toString() as dynamic);
     }
 
     if (signalStrength != null) {
       params.putIfAbsent(
-          "signalStrength", signalStrength.toString() as dynamic);
+          'signalStrength', signalStrength.toString() as dynamic);
     }
 
     if (timingAdvance != null) {
-      params.putIfAbsent("timingAdvance", timingAdvance.toString() as dynamic);
+      params.putIfAbsent('timingAdvance', timingAdvance.toString() as dynamic);
     }
 
     return params;
@@ -186,25 +186,25 @@ class WifiAccessPoint extends _AccessObject {
 
     // All optionals
     if (macAddress != null) {
-      params.putIfAbsent("carrier", macAddress as dynamic);
+      params.putIfAbsent('carrier', macAddress as dynamic);
     }
 
     if (signalStrength != null) {
       params.putIfAbsent(
-          "signalStrength", signalStrength.toString() as dynamic);
+          'signalStrength', signalStrength.toString() as dynamic);
     }
 
     if (age != null) {
-      params.putIfAbsent("age", age.toString() as dynamic);
+      params.putIfAbsent('age', age.toString() as dynamic);
     }
 
     if (channel != null) {
-      params.putIfAbsent("channel", channel as dynamic);
+      params.putIfAbsent('channel', channel as dynamic);
     }
 
     if (signalToNoiseRatio != null) {
       params.putIfAbsent(
-          "signalToNoiseRatio", signalToNoiseRatio.toString() as dynamic);
+          'signalToNoiseRatio', signalToNoiseRatio.toString() as dynamic);
     }
 
     return params;

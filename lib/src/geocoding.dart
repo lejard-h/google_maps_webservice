@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'core.dart';
 import 'utils.dart';
 
-const _geocodeUrl = "/geocode/json";
+const _geocodeUrl = '/geocode/json';
 
 /// https://developers.google.com/maps/documentation/geocoding/start
 class GoogleMapsGeocoding extends GoogleWebService {
@@ -91,22 +91,22 @@ class GoogleMapsGeocoding extends GoogleWebService {
     Location location,
   }) {
     final params = {
-      "latlng": location,
-      "place_id": placeId,
-      "address": address != null ? Uri.encodeComponent(address) : null,
-      "bounds": bounds,
-      "language": language,
-      "region": region,
-      "components": components,
-      "result_type": resultType,
-      "location_type": locationType
+      'latlng': location,
+      'place_id': placeId,
+      'address': address != null ? Uri.encodeComponent(address) : null,
+      'bounds': bounds,
+      'language': language,
+      'region': region,
+      'components': components,
+      'result_type': resultType,
+      'location_type': locationType
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
-    return "$url?${buildQuery(params)}";
+    return '$url?${buildQuery(params)}';
   }
 
   GeocodingResponse _decode(Response res) =>
@@ -126,9 +126,9 @@ class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
 
   factory GeocodingResponse.fromJson(Map json) => json != null
       ? GeocodingResponse(
-          json["status"],
-          json["error_message"],
-          json["results"]
+          json['status'],
+          json['error_message'],
+          json['results']
               .map((r) {
                 return GeocodingResult.fromJson(r);
               })
@@ -169,16 +169,16 @@ class GeocodingResult {
 
   factory GeocodingResult.fromJson(Map json) => json != null
       ? GeocodingResult(
-          (json["types"] as List)?.cast<String>(),
-          json["formatted_address"],
-          json["address_components"]
+          (json['types'] as List)?.cast<String>(),
+          json['formatted_address'],
+          json['address_components']
               .map((addr) => AddressComponent.fromJson(addr))
               .toList()
               .cast<AddressComponent>(),
-          (json["postcode_localities"] as List)?.cast<String>(),
-          Geometry.fromJson(json["geometry"]),
-          json["partial_match"],
-          json["place_id"],
+          (json['postcode_localities'] as List)?.cast<String>(),
+          Geometry.fromJson(json['geometry']),
+          json['partial_match'],
+          json['place_id'],
         )
       : null;
 }
