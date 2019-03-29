@@ -227,7 +227,38 @@ Future<void> launch([Client client]) async {
 
     group("delete", () {});
 
-    group("photo", () {});
+    group("photo build url", () {
+      test('missing photoReference', () {
+        try {
+          places.buildPhotoUrl();
+        } catch (e) {
+          expect((e as ArgumentError).message,
+              equals("You must supply 'photoReference'"));
+        }
+      });
+      test('missing maxWidth and maxHeight', () {
+        try {
+          places.buildPhotoUrl(photoReference: 'PHOTO_REFERENCE');
+        } catch (e) {
+          expect((e as ArgumentError).message,
+              equals("You must supply 'maxWidth' or 'maxHeight'"));
+        }
+      });
+      test("with maxheight", () {
+        expect(
+            places.buildPhotoUrl(
+                photoReference: 'PHOTO_REFERENCE', maxHeight: 100),
+            equals(
+                'https://maps.googleapis.com/maps/api/place/photo?photoreference=PHOTO_REFERENCE&maxheight=100&key=MY_API_KEY'));
+      });
+      test("with maxwidth", () {
+        expect(
+            places.buildPhotoUrl(
+                photoReference: 'PHOTO_REFERENCE', maxWidth: 100),
+            equals(
+                'https://maps.googleapis.com/maps/api/place/photo?photoreference=PHOTO_REFERENCE&maxwidth=100&key=MY_API_KEY'));
+      });
+    });
 
     group("autocomplete build url", () {
       test("basic", () {

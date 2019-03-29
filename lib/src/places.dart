@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:meta/meta.dart';
 
 import 'core.dart';
 import 'utils.dart';
@@ -13,6 +14,7 @@ const _nearbySearchUrl = '/nearbysearch/json';
 const _textSearchUrl = '/textsearch/json';
 const _detailsSearchUrl = '/details/json';
 const _autocompleteUrl = '/autocomplete/json';
+const _photoUrl = '/photo';
 const _queryAutocompleteUrl = '/queryautocomplete/json';
 
 /// https://developers.google.com/places/web-service/
@@ -317,6 +319,32 @@ class GoogleMapsPlaces extends GoogleWebService {
     }
 
     return '$url$_queryAutocompleteUrl?${buildQuery(params)}';
+  }
+
+  String buildPhotoUrl({
+    @required String photoReference,
+    int maxWidth,
+    int maxHeight,
+  }) {
+    final params = {
+      'photoreference': photoReference,
+      'maxwidth': maxWidth,
+      'maxheight': maxHeight,
+    };
+
+    if (apiKey != null) {
+      params.putIfAbsent('key', () => apiKey);
+    }
+
+    if (photoReference==null) {
+      throw ArgumentError("You must supply 'photoReference'");
+    }
+
+    if (maxWidth == null && maxHeight == null) {
+      throw ArgumentError("You must supply 'maxWidth' or 'maxHeight'");
+    }
+
+    return '$url$_photoUrl?${buildQuery(params)}';
   }
 
   PlacesSearchResponse _decodeSearchResponse(Response res) =>
