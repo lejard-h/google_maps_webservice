@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 
 Future<void> launch([Client client]) async {
-  final apiKey = "MY_API_KEY";
+  final apiKey = 'MY_API_KEY';
   GoogleMapsGeocoding geocoding =
       GoogleMapsGeocoding(apiKey: apiKey, httpClient: client);
 
@@ -16,65 +16,65 @@ Future<void> launch([Client client]) async {
     geocoding.dispose();
   });
 
-  group("Google Maps Geocoding", () {
-    group("build url", () {
-      test("address", () {
+  group('Google Maps Geocoding', () {
+    group('build url', () {
+      test('address', () {
         expect(
             geocoding.buildUrl(
-                address: "1600 Amphitheatre Parkway, Mountain View, CA"),
+                address: '1600 Amphitheatre Parkway, Mountain View, CA'),
             equals(
-                "$kGMapsUrl/geocode/json?address=1600%20Amphitheatre%20Parkway%2C%20Mountain%20View%2C%20CA&key=$apiKey"));
+                '$kGMapsUrl/geocode/json?address=1600%20Amphitheatre%20Parkway%2C%20Mountain%20View%2C%20CA&key=$apiKey'));
       });
 
-      test("address with bound", () {
+      test('address with bound', () {
         expect(
             geocoding.buildUrl(
-                address: "Winnetka",
+                address: 'Winnetka',
                 bounds: Bounds(Location(34.172684, -118.604794),
                     Location(34.236144, -118.500938))),
             equals(
-                "$kGMapsUrl/geocode/json?address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938&key=$apiKey"));
+                '$kGMapsUrl/geocode/json?address=Winnetka&bounds=34.172684,-118.604794|34.236144,-118.500938&key=$apiKey'));
       });
 
-      test("address with language", () {
+      test('address with language', () {
         expect(
-            geocoding.buildUrl(address: "Paris", language: "fr"),
+            geocoding.buildUrl(address: 'Paris', language: 'fr'),
             equals(
-                "$kGMapsUrl/geocode/json?address=Paris&language=fr&key=$apiKey"));
+                '$kGMapsUrl/geocode/json?address=Paris&language=fr&key=$apiKey'));
       });
 
-      test("address with region", () {
+      test('address with region', () {
         expect(
-            geocoding.buildUrl(address: "Toledo", region: "es"),
+            geocoding.buildUrl(address: 'Toledo', region: 'es'),
             equals(
-                "$kGMapsUrl/geocode/json?address=Toledo&region=es&key=$apiKey"));
+                '$kGMapsUrl/geocode/json?address=Toledo&region=es&key=$apiKey'));
       });
 
-      test("address with components", () {
+      test('address with components', () {
         expect(
-            geocoding.buildUrl(address: "Spain", components: [
-              Component(Component.administrativeArea, "Toledo")
+            geocoding.buildUrl(address: 'Spain', components: [
+              Component(Component.administrativeArea, 'Toledo')
             ]),
             equals(
-                "$kGMapsUrl/geocode/json?address=Spain&components=administrative_area:Toledo&key=$apiKey"));
+                '$kGMapsUrl/geocode/json?address=Spain&components=administrative_area:Toledo&key=$apiKey'));
       });
 
-      test("location", () {
+      test('location', () {
         expect(
             geocoding.buildUrl(location: Location(34.172684, -118.604794)),
             equals(
-                "https://maps.googleapis.com/maps/api/geocode/json?latlng=34.172684,-118.604794&key=$apiKey"));
+                'https://maps.googleapis.com/maps/api/geocode/json?latlng=34.172684,-118.604794&key=$apiKey'));
       });
 
-      test("place_id", () {
+      test('place_id', () {
         expect(
-            geocoding.buildUrl(placeId: "f2hf1pn1rjr1"),
+            geocoding.buildUrl(placeId: 'f2hf1pn1rjr1'),
             equals(
-                "https://maps.googleapis.com/maps/api/geocode/json?place_id=f2hf1pn1rjr1&key=$apiKey"));
+                'https://maps.googleapis.com/maps/api/geocode/json?place_id=f2hf1pn1rjr1&key=$apiKey'));
       });
     });
 
-    test("decode response", () {
+    test('decode response', () {
       GeocodingResponse response =
           GeocodingResponse.fromJson(json.decode(_responseExample));
 
@@ -82,17 +82,17 @@ Future<void> launch([Client client]) async {
       expect(response.results, hasLength(equals(1)));
       expect(response.results.first.addressComponents, hasLength(equals(7)));
       expect(response.results.first.addressComponents.first.longName,
-          equals("1600"));
+          equals('1600'));
       expect(response.results.first.addressComponents.first.shortName,
-          equals("1600"));
+          equals('1600'));
       expect(response.results.first.addressComponents.first.types,
-          equals(["street_number"]));
+          equals(['street_number']));
       expect(response.results.first.formattedAddress,
-          equals("1600 Amphitheatre Parkway, Mountain View, CA 94043, USA"));
+          equals('1600 Amphitheatre Parkway, Mountain View, CA 94043, USA'));
       expect(response.results.first.geometry.location.lat, equals(37.4224764));
       expect(
           response.results.first.geometry.location.lng, equals(-122.0842499));
-      expect(response.results.first.geometry.locationType, equals("ROOFTOP"));
+      expect(response.results.first.geometry.locationType, equals('ROOFTOP'));
       expect(response.results.first.geometry.viewport.northeast.lat,
           equals(37.4238253802915));
       expect(response.results.first.geometry.viewport.northeast.lng,
@@ -102,8 +102,8 @@ Future<void> launch([Client client]) async {
       expect(response.results.first.geometry.viewport.southwest.lng,
           equals(-122.0855988802915));
       expect(response.results.first.placeId,
-          equals("ChIJ2eUgeAK6j4ARbn5u_wAGqWA"));
-      expect(response.results.first.types, equals(["street_address"]));
+          equals('ChIJ2eUgeAK6j4ARbn5u_wAGqWA'));
+      expect(response.results.first.types, equals(['street_address']));
     });
   });
 }

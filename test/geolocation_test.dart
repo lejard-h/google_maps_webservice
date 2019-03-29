@@ -12,7 +12,7 @@ Future<void> main() async {
 }
 
 Future<void> launch([Client client]) async {
-  final apiKey = "MY_API_KEY";
+  final apiKey = 'MY_API_KEY';
 
   GoogleMapsGeolocation geolocation = GoogleMapsGeolocation(apiKey: apiKey);
 
@@ -20,15 +20,15 @@ Future<void> launch([Client client]) async {
     geolocation.dispose();
   });
 
-  group("Google Maps Geolocation", () {
-    group("build url (only api key, everything else over REST/JSON POST", () {
-      test("default url building with api key", () {
+  group('Google Maps Geolocation', () {
+    group('build url (only api key, everything else over REST/JSON POST', () {
+      test('default url building with api key', () {
         expect(geolocation.buildUrl(),
-            "https://www.googleapis.com/geolocation/v1/geolocate?key=MY_API_KEY");
+            'https://www.googleapis.com/geolocation/v1/geolocate?key=MY_API_KEY');
       });
     });
 
-    test("Decode response", () {
+    test('Decode response', () {
       GeolocationResponse response =
           GeolocationResponse.fromJson(json.decode(_responseExample));
 

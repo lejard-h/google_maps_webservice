@@ -336,7 +336,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    if (photoReference==null) {
+    if (photoReference == null) {
       throw ArgumentError("You must supply 'photoReference'");
     }
 
