@@ -5,8 +5,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-import 'utils.dart';
 import 'core.dart';
+import 'utils.dart';
 
 const _distanceUrl = '/distancematrix/json';
 
@@ -136,59 +136,55 @@ class GoogleDistanceMatrix extends GoogleWebService {
     TransitRoutingPreferences transitRoutingPreference,
   }) {
     if (origin is! List<Location> && origin is! List<String>) {
-      throw new ArgumentError("'origin' must be a '$String' or a '$Location'");
+      throw ArgumentError("'origin' must be a '$String' or a '$Location'");
     }
     if (destination is! List<Location> && destination is! List<String>) {
-      throw new ArgumentError(
-          "'destination' must be a '$String' or a '$Location'");
+      throw ArgumentError("'destination' must be a '$String' or a '$Location'");
     }
     if (departureTime != null &&
         departureTime is! DateTime &&
         departureTime is! num) {
-      throw new ArgumentError(
-          "'departureTime' must be a '$num' or a '$DateTime'");
+      throw ArgumentError("'departureTime' must be a '$num' or a '$DateTime'");
     }
     if (arrivalTime != null &&
         arrivalTime is! DateTime &&
         arrivalTime is! num) {
-      throw new ArgumentError(
-          "'arrivalTime' must be a '$num' or a '$DateTime'");
+      throw ArgumentError("'arrivalTime' must be a '$num' or a '$DateTime'");
     }
 
     final params = {
-      "origins": origin != null && origin is List<String>
-          ? origin?.map((o) => Uri.encodeComponent(o))?.join('|')
+      'origins': origin != null && origin is List<String>
+          ? origin?.map(Uri.encodeComponent)?.join('|')
           : origin,
-      "destinations": destination != null && destination is String
-          ? destination?.map((d) => Uri.encodeComponent(d))?.join('|')
+      'destinations': destination != null && destination is List<String>
+          ? destination?.map(Uri.encodeComponent)?.join('|')
           : destination,
-      "mode": travelModeToString(travelMode),
-      "language": languageCode,
-      "region": region,
-      "avoid": routeTypeToString(routeType),
-      "units": unitToString(unit),
-      "arrival_time": arrivalTime is DateTime
+      'mode': travelModeToString(travelMode),
+      'language': languageCode,
+      'region': region,
+      'avoid': routeTypeToString(routeType),
+      'units': unitToString(unit),
+      'arrival_time': arrivalTime is DateTime
           ? arrivalTime.millisecondsSinceEpoch ~/ 1000
           : arrivalTime,
-      "departure_time": departureTime is DateTime
+      'departure_time': departureTime is DateTime
           ? departureTime.millisecondsSinceEpoch ~/ 1000
           : departureTime,
-      "traffic_model": trafficModelToString(trafficModel),
-      "transit_mode":
-          transitMode?.map((t) => transitModeToString(t))?.join("|"),
-      "transit_routing_preference":
+      'traffic_model': trafficModelToString(trafficModel),
+      'transit_mode': transitMode?.map(transitModeToString)?.join('|'),
+      'transit_routing_preference':
           transitRoutingPreferencesToString(transitRoutingPreference)
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
     return '$url?${buildQuery(params)}';
   }
 
   DistanceResponse _decode(Response res) =>
-      new DistanceResponse.fromJson(json.decode(res.body));
+      DistanceResponse.fromJson(json.decode(res.body));
 }
 
 class DistanceResponse extends GoogleResponseStatus {
@@ -207,14 +203,14 @@ class DistanceResponse extends GoogleResponseStatus {
           errorMsg,
         );
 
-  factory DistanceResponse.fromJson(Map json) => new DistanceResponse(
-      json["status"],
-      json["error_message"],
-      (json["origin_addresses"] as List)?.cast<String>(),
-      (json["destination_addresses"] as List)?.cast<String>(),
-      json["rows"]
+  factory DistanceResponse.fromJson(Map json) => DistanceResponse(
+      json['status'],
+      json['error_message'],
+      (json['origin_addresses'] as List)?.cast<String>(),
+      (json['destination_addresses'] as List)?.cast<String>(),
+      json['rows']
           ?.map((row) {
-            return new Row.fromJson(row);
+            return Row.fromJson(row);
           })
           ?.toList()
           ?.cast<Row>());
@@ -226,9 +222,9 @@ class Row {
   Row(this.elements);
 
   factory Row.fromJson(Map json) => json != null
-      ? new Row(json["elements"]
+      ? Row(json['elements']
           ?.map((element) {
-            return new Element.fromJson(element);
+            return Element.fromJson(element);
           })
           ?.toList()
           ?.cast<Element>())
@@ -243,10 +239,10 @@ class Element {
   Element(this.distance, this.duration, this.elementStatus);
 
   factory Element.fromJson(Map json) => json != null
-      ? new Element(
-          new Value.fromJson(json["distance"]),
-          new Value.fromJson(json["duration"]),
-          json["status"],
+      ? Element(
+          Value.fromJson(json['distance']),
+          Value.fromJson(json['duration']),
+          json['status'],
         )
       : null;
 }
@@ -258,5 +254,5 @@ class Value {
   Value(this.value, this.text);
 
   factory Value.fromJson(Map json) =>
-      json != null ? new Value(json["value"], json["text"]) : null;
+      json != null ? Value(json['value'], json['text']) : null;
 }

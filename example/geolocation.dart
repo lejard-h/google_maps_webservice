@@ -1,25 +1,26 @@
 library google_maps_webservice.gelocation.example;
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:google_maps_webservice/geolocation.dart';
 
 final geolocation =
-    new GoogleMapsGeolocation(apiKey: Platform.environment["API_KEY"]);
+    GoogleMapsGeolocation(apiKey: Platform.environment['API_KEY']);
 
-main() async {
+Future<void> main() async {
   var params = {
-    "considerIp": "false",
-    "wifiAccessPoints": [
+    'considerIp': 'false',
+    'wifiAccessPoints': [
       {
-        "macAddress": "00:25:9c:cf:1c:ac",
-        "signalStrength": "-43",
-        "signalToNoiseRatio": "0"
+        'macAddress': '00:25:9c:cf:1c:ac',
+        'signalStrength': '-43',
+        'signalToNoiseRatio': '0'
       },
       {
-        "macAddress": "00:25:9c:cf:1c:ad",
-        "signalStrength": "-55",
-        "signalToNoiseRatio": "0"
+        'macAddress': '00:25:9c:cf:1c:ad',
+        'signalStrength': '-55',
+        'signalToNoiseRatio': '0'
       }
     ]
   };
@@ -35,9 +36,9 @@ main() async {
 
   print(res.status);
   if (res.isOkay) {
-    print("Latitude: ${res.location.lat}");
-    print("Longitude: ${res.location.lng}");
-    print("Accuracy: ${res.accuracy}");
+    print('Latitude: ${res.location.lat}');
+    print('Longitude: ${res.location.lng}');
+    print('Accuracy: ${res.accuracy}');
   } else {
     print(res.errorMessage);
   }

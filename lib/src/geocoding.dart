@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'core.dart';
 import 'utils.dart';
 
-const _geocodeUrl = "/geocode/json";
+const _geocodeUrl = '/geocode/json';
 
 /// https://developers.google.com/maps/documentation/geocoding/start
 class GoogleMapsGeocoding extends GoogleWebService {
@@ -91,26 +91,26 @@ class GoogleMapsGeocoding extends GoogleWebService {
     Location location,
   }) {
     final params = {
-      "latlng": location,
-      "place_id": placeId,
-      "address": address != null ? Uri.encodeComponent(address) : null,
-      "bounds": bounds,
-      "language": language,
-      "region": region,
-      "components": components,
-      "result_type": resultType,
-      "location_type": locationType
+      'latlng': location,
+      'place_id': placeId,
+      'address': address != null ? Uri.encodeComponent(address) : null,
+      'bounds': bounds,
+      'language': language,
+      'region': region,
+      'components': components,
+      'result_type': resultType,
+      'location_type': locationType
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
-    return "$url?${buildQuery(params)}";
+    return '$url?${buildQuery(params)}';
   }
 
   GeocodingResponse _decode(Response res) =>
-      new GeocodingResponse.fromJson(json.decode(res.body));
+      GeocodingResponse.fromJson(json.decode(res.body));
 }
 
 class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
@@ -125,12 +125,12 @@ class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
         );
 
   factory GeocodingResponse.fromJson(Map json) => json != null
-      ? new GeocodingResponse(
-          json["status"],
-          json["error_message"],
-          json["results"]
+      ? GeocodingResponse(
+          json['status'],
+          json['error_message'],
+          json['results']
               .map((r) {
-                return new GeocodingResult.fromJson(r);
+                return GeocodingResult.fromJson(r);
               })
               .toList()
               .cast<GeocodingResult>())
@@ -155,7 +155,7 @@ class GeocodingResult {
   final bool partialMatch;
 
   /// JSON place_id
-  final placeId;
+  final String placeId;
 
   GeocodingResult(
     this.types,
@@ -168,17 +168,17 @@ class GeocodingResult {
   );
 
   factory GeocodingResult.fromJson(Map json) => json != null
-      ? new GeocodingResult(
-          (json["types"] as List)?.cast<String>(),
-          json["formatted_address"],
-          json["address_components"]
-              .map((addr) => new AddressComponent.fromJson(addr))
+      ? GeocodingResult(
+          (json['types'] as List)?.cast<String>(),
+          json['formatted_address'],
+          json['address_components']
+              .map((addr) => AddressComponent.fromJson(addr))
               .toList()
               .cast<AddressComponent>(),
-          (json["postcode_localities"] as List)?.cast<String>(),
-          new Geometry.fromJson(json["geometry"]),
-          json["partial_match"],
-          json["place_id"],
+          (json['postcode_localities'] as List)?.cast<String>(),
+          Geometry.fromJson(json['geometry']),
+          json['partial_match'],
+          json['place_id'],
         )
       : null;
 }

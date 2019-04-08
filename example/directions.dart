@@ -1,23 +1,24 @@
 library google_maps_webservice.directions.example;
 
+import 'dart:async';
 import 'dart:io';
 
 import 'package:google_maps_webservice/directions.dart';
 
 final directions =
-    new GoogleMapsDirections(apiKey: Platform.environment["API_KEY"]);
+    GoogleMapsDirections(apiKey: Platform.environment['API_KEY']);
 
-main() async {
+Future<void> main() async {
   DirectionsResponse res =
-      await directions.directionsWithAddress("Paris, France", "Rennes, France");
+      await directions.directionsWithAddress('Paris, France', 'Rennes, France');
 
   print(res.status);
   if (res.isOkay) {
-    print("${res.routes.length} routes");
-    res.routes.forEach((Route r) {
+    print('${res.routes.length} routes');
+    for (var r in res.routes) {
       print(r.summary);
       print(r.bounds);
-    });
+    }
   } else {
     print(res.errorMessage);
   }
