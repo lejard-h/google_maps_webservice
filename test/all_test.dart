@@ -3,6 +3,7 @@ import 'directions_test.dart' as directions;
 import 'geocoding_test.dart' as geocoding;
 import 'geolocation_test.dart' as geolocation;
 import 'places_test.dart' as places;
+import 'timezone_test.dart' as timezone;
 import 'utils_test.dart' as utils;
 
 Future<void> main() async {
@@ -10,5 +11,6 @@ Future<void> main() async {
   await geolocation.launch();
   await places.launch();
   await directions.launch();
+  await timezone.launch();
   await utils.launch();
 }
