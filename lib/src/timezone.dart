@@ -40,10 +40,11 @@ class GoogleMapsTimezone extends GoogleWebService {
   ) {
     final params = {
       'location': location,
-      'timestamp': (timestamp ?? DateTime.now()).toUtc().millisecondsSinceEpoch ~/ 1000,
+      'timestamp':
+          (timestamp ?? DateTime.now()).toUtc().millisecondsSinceEpoch ~/ 1000,
     };
 
-    if(language != null) {
+    if (language != null) {
       params['language'] = language;
     }
 
@@ -52,7 +53,6 @@ class GoogleMapsTimezone extends GoogleWebService {
     }
 
     return '$url?${buildQuery(params)}';
-
   }
 
   TimezoneResponse _decode(Response res) =>
@@ -71,32 +71,29 @@ class TimezoneResponse extends GoogleResponse<TimezoneResult> {
         );
 
   factory TimezoneResponse.fromJson(Map json) => json != null
-      ? TimezoneResponse(
-          json['status'],
-          json['errorMessage'],
-          json['status'] == 'OK' ? TimezoneResult.fromJson(json): null
-      )
+      ? TimezoneResponse(json['status'], json['errorMessage'],
+          json['status'] == 'OK' ? TimezoneResult.fromJson(json) : null)
       : null;
 }
 
 class TimezoneResult {
   /// The offset for daylight-savings time in seconds.
   final int dstOffset;
+
   /// The offset from UTC (in seconds) for the given location.
   final int rawOffset;
+
   /// A string containing the ID of the time zone,
   /// such as "America/Los_Angeles" or "Australia/Sydney".
   final String timeZoneId;
+
   /// A string containing the long form name of the time zone.
   /// This field will be localized if the language parameter is set.
   /// eg. "Pacific Daylight Time" or "Australian Eastern Daylight Time".
   final String timeZoneName;
 
-  TimezoneResult({
-    this.dstOffset,
-    this.rawOffset,
-    this.timeZoneId,
-    this.timeZoneName});
+  TimezoneResult(
+      {this.dstOffset, this.rawOffset, this.timeZoneId, this.timeZoneName});
 
   factory TimezoneResult.fromJson(Map json) => json != null
       ? TimezoneResult(

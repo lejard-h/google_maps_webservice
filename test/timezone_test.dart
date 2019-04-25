@@ -27,7 +27,11 @@ Future<void> launch([Client client]) async {
         final timestamp = 1458000;
         final language = 'en';
 
-        expect(timeZone.buildUrl(location, DateTime.fromMillisecondsSinceEpoch(timestamp * 1000), language),
+        expect(
+            timeZone.buildUrl(
+                location,
+                DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
+                language),
             'https://maps.googleapis.com/maps/api/timezone/json?'
             'location=${location}&timestamp=${timestamp}&'
             'language=${language}&key=MY_API_KEY');
