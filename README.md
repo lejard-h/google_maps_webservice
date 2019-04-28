@@ -20,7 +20,7 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 - [ ] [Geolocation](https://developers.google.com/maps/documentation/geolocation/intro)
 - [ ] [Elevation](https://developers.google.com/maps/documentation/elevation/start)
 - [ ] [Roads](https://developers.google.com/maps/documentation/roads/intro)
-- [ ] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
+- [x] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
 
 
 ## Usage
@@ -52,6 +52,20 @@ PlacesSearchResponse reponse = await places.searchByText("123 Main Street");
 
 PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
 PlacesDetailsResponse response = await places.getDetailsByReference("REF");
+```
+
+### Timezone
+
+```dart
+import "package:google_maps_webservice/timezone.dart";
+
+final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>");
+final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>", httpClient: new BrowserClient());
+final timezone = new GoogleMapsTimezone(baseUrl: "http://myProxy.com");
+
+TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421));
+TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24));
+TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
 ```
 
 ### Proxy
