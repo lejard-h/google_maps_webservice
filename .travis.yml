@@ -26,15 +26,15 @@ jobs:
       script: ./tool/travis.sh test
       dart: stable
     - stage: analyzer
-      name: "SDK: stable - Analyzer"
+      name: "SDK: dev - Analyzer"
       script: ./tool/travis.sh analyzer
       dart: dev
     - stage: format
-      name: "SDK: stable - Format"
+      name: "SDK: dev - Format"
       script: ./tool/travis.sh dartfmt
       dart: dev
     - stage: test
-      name: "SDK: stable - Test"
+      name: "SDK: dev - Test"
       script: ./tool/travis.sh test
       dart: dev
       
