@@ -12,7 +12,7 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
     - [x] details
     - [ ] add
     - [ ] delete
-    - [ ] photo
+    - [x] photo
     - [x] autocomplete
     - [x] queryautocomplete
 - [x] [Directions](https://developers.google.com/maps/documentation/directions/)

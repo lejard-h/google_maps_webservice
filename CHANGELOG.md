@@ -3,6 +3,7 @@
 ## 0.0.13
 
 - Support Timezone API, thanks to @aryzhov
+- Support `fields` and `region` for place details
 
 ## 0.0.12
 

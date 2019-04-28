@@ -105,25 +105,27 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
-      {String sessionToken, String extensions, String language}) async {
+      {String sessionToken, List<String> fields, String language}) async {
     final url = buildDetailsUrl(
-        placeId: placeId,
-        sessionToken: sessionToken,
-        extensions: extensions,
-        language: language);
+      placeId: placeId,
+      sessionToken: sessionToken,
+      fields: fields,
+      language: language,
+    );
     return _decodeDetailsResponse(await doGet(url));
   }
 
+  @deprecated
   Future<PlacesDetailsResponse> getDetailsByReference(
     String reference, {
     String sessionToken,
-    String extensions,
+    List<String> fields,
     String language,
   }) async {
     final url = buildDetailsUrl(
       reference: reference,
       sessionToken: sessionToken,
-      extensions: extensions,
+      fields: fields,
       language: language,
     );
     return _decodeDetailsResponse(await doGet(url));
@@ -245,8 +247,9 @@ class GoogleMapsPlaces extends GoogleWebService {
     String placeId,
     String reference,
     String sessionToken,
-    String extensions,
     String language,
+    List<String> fields,
+    String region,
   }) {
     if (placeId != null && reference != null) {
       throw ArgumentError("You must supply either 'placeid' or 'reference'");
@@ -256,8 +259,13 @@ class GoogleMapsPlaces extends GoogleWebService {
       'placeid': placeId,
       'reference': reference,
       'language': language,
-      'extensions': extensions,
+      'region': region,
     };
+
+    if (fields?.isNotEmpty == true) {
+      params['fields'] = fields.join(',');
+    }
+
     if (sessionToken != null) {
       params.putIfAbsent('sessiontoken', () => sessionToken);
     }

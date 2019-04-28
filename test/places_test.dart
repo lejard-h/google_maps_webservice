@@ -194,12 +194,15 @@ Future<void> main() async {
                 'https://maps.googleapis.com/maps/api/place/details/json?reference=REF&key=$apiKey'));
       });
 
-      test('with extensions', () {
+      test('with fields', () {
         expect(
-            places.buildDetailsUrl(
-                placeId: 'PLACE_ID', extensions: 'review_summary'),
+            places.buildDetailsUrl(placeId: 'PLACE_ID', fields: [
+              'address_component',
+              'opening_hours',
+              'geometry',
+            ]),
             equals(
-                'https://maps.googleapis.com/maps/api/place/details/json?placeid=PLACE_ID&extensions=review_summary&key=$apiKey'));
+                'https://maps.googleapis.com/maps/api/place/details/json?placeid=PLACE_ID&fields=address_component,opening_hours,geometry&key=$apiKey'));
       });
 
       test('with extensions', () {
