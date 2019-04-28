@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:google_maps_webservice/src/core.dart';
 import 'package:google_maps_webservice/src/directions.dart';
-import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
