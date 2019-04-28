@@ -1,7 +1,7 @@
 # google_maps_webservice
 
 [![Build Status](https://travis-ci.org/lejard-h/google_maps_webservice.svg?branch=master)](https://travis-ci.org/lejard-h/google_maps_webservice)
-[![Coverage Status](https://coveralls.io/repos/github/lejard-h/google_maps_webservice/badge.svg?branch=master)](https://coveralls.io/github/lejard-h/google_maps_webservice?branch=master)
+[![codecov](https://codecov.io/gh/lejard-h/google_maps_webservice/branch/master/graph/badge.svg)](https://codecov.io/gh/lejard-h/google_maps_webservice)
 
 Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 
