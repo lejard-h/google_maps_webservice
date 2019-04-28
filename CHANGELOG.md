@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.13
+
+- Support Timezone API, thanks to @aryzhov
+
+## 0.0.12
+
+- Add Distance Matrix API, thanks to @1abid
+
 ## 0.0.11
 
 - fix session token

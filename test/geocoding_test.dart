@@ -1,16 +1,12 @@
-library google_maps_webservice.geocoding.test;
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:google_maps_webservice/src/utils.dart';
-import 'package:http/http.dart';
 import 'package:test/test.dart';
 import 'package:google_maps_webservice/geocoding.dart';
 
-Future<void> launch([Client client]) async {
+Future<void> main() async {
   final apiKey = 'MY_API_KEY';
-  GoogleMapsGeocoding geocoding =
-      GoogleMapsGeocoding(apiKey: apiKey, httpClient: client);
+  GoogleMapsGeocoding geocoding = GoogleMapsGeocoding(apiKey: apiKey);
 
   tearDownAll(() {
     geocoding.dispose();

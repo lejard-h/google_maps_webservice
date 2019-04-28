@@ -1,15 +1,11 @@
-library google_maps_webservice.places.test;
-
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:test/test.dart';
 import 'package:google_maps_webservice/places.dart';
 
-Future<void> launch([Client client]) async {
+Future<void> main() async {
   final apiKey = 'MY_API_KEY';
-  GoogleMapsPlaces places =
-      GoogleMapsPlaces(apiKey: apiKey, httpClient: client);
+  GoogleMapsPlaces places = GoogleMapsPlaces(apiKey: apiKey);
 
   tearDownAll(() {
     places.dispose();

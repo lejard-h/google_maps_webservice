@@ -1,17 +1,10 @@
-library google_maps_webservice.timezone.test;
-
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:google_maps_webservice/timezone.dart';
-import 'package:http/http.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  await launch();
-}
-
-Future<void> launch([Client client]) async {
   final apiKey = 'MY_API_KEY';
 
   GoogleMapsTimezone timeZone = GoogleMapsTimezone(apiKey: apiKey);
@@ -33,8 +26,8 @@ Future<void> launch([Client client]) async {
                 DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
                 language),
             'https://maps.googleapis.com/maps/api/timezone/json?'
-            'location=${location}&timestamp=${timestamp}&'
-            'language=${language}&key=MY_API_KEY');
+            'location=$location&timestamp=$timestamp&'
+            'language=$language&key=MY_API_KEY');
       });
     });
 

@@ -1,5 +1,3 @@
-library google_maps_webservice.directions.test;
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:google_maps_webservice/src/core.dart';
@@ -7,10 +5,9 @@ import 'package:google_maps_webservice/src/directions.dart';
 import 'package:http/http.dart';
 import 'package:test/test.dart';
 
-Future<void> launch([Client client]) async {
+Future<void> main() async {
   final apiKey = 'MY_API_KEY';
-  GoogleMapsDirections directions =
-      GoogleMapsDirections(apiKey: apiKey, httpClient: client);
+  GoogleMapsDirections directions = GoogleMapsDirections(apiKey: apiKey);
 
   tearDownAll(() {
     directions.dispose();
@@ -437,5 +434,3 @@ final _responseExample = '''
   } ]
 }
 ''';
-
-Future<void> main() => launch();
