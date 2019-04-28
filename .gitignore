@@ -11,3 +11,7 @@ doc/api/
 
 .idea
 *.iml
+
+coverage/
+
+test/\.test_coverage\.dart
