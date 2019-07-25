@@ -21,6 +21,7 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 - [ ] [Elevation](https://developers.google.com/maps/documentation/elevation/start)
 - [ ] [Roads](https://developers.google.com/maps/documentation/roads/intro)
 - [x] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
+- [] [Map static](https://developers.google.com/maps/documentation/maps-static/dev-guide)
 
 
 ## Usage
@@ -69,6 +70,11 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
 ```
 
 ### Proxy
+
+
+### Map Static
+
+
 
 In case of using a proxy the baseUrl can be set.
 The apiKey is not required in case the proxy sets it. (Not storing the apiKey in the app is good practice)
