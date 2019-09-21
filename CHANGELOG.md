@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.15
+
+- Handle 'now' string for departure_time
+
 ## 0.0.14
 
 - Support Timezone API, thanks to @aryzhov

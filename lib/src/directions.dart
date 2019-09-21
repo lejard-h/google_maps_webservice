@@ -142,7 +142,8 @@ class GoogleMapsDirections extends GoogleWebService {
     }
     if (departureTime != null &&
         departureTime is! DateTime &&
-        departureTime is! num) {
+        departureTime is! num &&
+        departureTime != 'now') {
       throw ArgumentError("'departureTime' must be a '$num' or a '$DateTime'");
     }
     if (arrivalTime != null &&

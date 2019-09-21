@@ -134,6 +134,17 @@ Future<void> main() async {
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=$d&key=$apiKey'));
       });
 
+      test('departure_time with now', () {
+        expect(
+            directions.buildUrl(
+                origin: 'Toronto',
+                destination: 'Montreal',
+                departureTime: 'now'),
+            equals(
+              'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=now&key=$apiKey',
+            ));
+      });
+
       test('arrival_time', () {
         int d = 1343641500;
         expect(
