@@ -1,18 +1,54 @@
-sudo: false
-
 language: dart
 dart:
   - stable
   - dev
 
+# Custom configuration
+sudo: required
+addons:
+  chrome: stable
+
+install:
+  - gem install coveralls-lcov
+
+jobs:
+  include:
+    - stage: analyzer
+      name: "SDK: stable - Analyzer"
+      script: ./tool/travis.sh analyzer
+      dart: stable
+    - stage: format
+      name: "SDK: stable - Format"
+      script: ./tool/travis.sh dartfmt
+      dart: stable
+    - stage: test
+      name: "SDK: stable - Test"
+      script: ./tool/travis.sh test
+      dart: stable
+    - stage: analyzer
+      name: "SDK: dev - Analyzer"
+      script: ./tool/travis.sh analyzer
+      dart: dev
+    - stage: format
+      name: "SDK: dev - Format"
+      script: ./tool/travis.sh dartfmt
+      dart: dev
+    - stage: test
+      name: "SDK: dev - Test"
+      script: ./tool/travis.sh test
+      dart: dev
+      
+stages:
+  - analyzer
+  - format
+  - test
+
+# Only building master means that we don't run two builds for each pull request.
+branches:
+  only:
+    - master
+
 cache:
   directories:
-    - $HOME/.pub-cache
-
-before_script:
-  - chmod +x ./tool/travis.sh
-
-script: ./tool/travis.sh
-
-env:
-  - DARTANALYZER_FLAGS=--fatal-warnings
+    - "$HOME/.pub-cache"
+    - .dart_tool/build

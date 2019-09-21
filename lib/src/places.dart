@@ -4,16 +4,18 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:meta/meta.dart';
 
 import 'core.dart';
 import 'utils.dart';
 
-const _placesUrl = "/place";
-const _nearbySearchUrl = "/nearbysearch/json";
-const _textSearchUrl = "/textsearch/json";
-const _detailsSearchUrl = "/details/json";
-const _autocompleteUrl = "/autocomplete/json";
-const _queryAutocompleteUrl = "/queryautocomplete/json";
+const _placesUrl = '/place';
+const _nearbySearchUrl = '/nearbysearch/json';
+const _textSearchUrl = '/textsearch/json';
+const _detailsSearchUrl = '/details/json';
+const _autocompleteUrl = '/autocomplete/json';
+const _photoUrl = '/photo';
+const _queryAutocompleteUrl = '/queryautocomplete/json';
 
 /// https://developers.google.com/places/web-service/
 class GoogleMapsPlaces extends GoogleWebService {
@@ -103,25 +105,27 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
-      {String sessionToken, String extensions, String language}) async {
+      {String sessionToken, List<String> fields, String language}) async {
     final url = buildDetailsUrl(
-        placeId: placeId,
-        sessionToken: sessionToken,
-        extensions: extensions,
-        language: language);
+      placeId: placeId,
+      sessionToken: sessionToken,
+      fields: fields,
+      language: language,
+    );
     return _decodeDetailsResponse(await doGet(url));
   }
 
+  @deprecated
   Future<PlacesDetailsResponse> getDetailsByReference(
     String reference, {
     String sessionToken,
-    String extensions,
+    List<String> fields,
     String language,
   }) async {
     final url = buildDetailsUrl(
       reference: reference,
       sessionToken: sessionToken,
-      extensions: extensions,
+      fields: fields,
       language: language,
     );
     return _decodeDetailsResponse(await doGet(url));
@@ -137,6 +141,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     List<String> types,
     List<Component> components,
     bool strictbounds,
+    String region,
   }) async {
     final url = buildAutocompleteUrl(
       sessionToken: sessionToken,
@@ -148,6 +153,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       types: types,
       components: components,
       strictbounds: strictbounds,
+      region: region,
     );
     return _decodeAutocompleteResponse(await doGet(url));
   }
@@ -177,36 +183,36 @@ class GoogleMapsPlaces extends GoogleWebService {
     String pagetoken,
   }) {
     if (radius != null && rankby != null) {
-      throw new ArgumentError(
+      throw ArgumentError(
           "'rankby' must not be included if 'radius' is specified.");
     }
 
-    if (rankby == "distance" &&
+    if (rankby == 'distance' &&
         keyword == null &&
         type == null &&
         name == null) {
-      throw new ArgumentError(
+      throw ArgumentError(
           "If 'rankby=distance' is specified, then one or more of 'keyword', 'name', or 'type' is required.");
     }
 
     final params = {
-      "location": location,
-      "radius": radius,
-      "language": language,
-      "type": type,
-      "keyword": keyword,
-      "minprice": minprice?.index,
-      "maxprice": maxprice?.index,
-      "name": name,
-      "rankby": rankby,
-      "pagetoken": pagetoken,
+      'location': location,
+      'radius': radius,
+      'language': language,
+      'type': type,
+      'keyword': keyword,
+      'minprice': minprice?.index,
+      'maxprice': maxprice?.index,
+      'name': name,
+      'rankby': rankby,
+      'pagetoken': pagetoken,
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
-    return "$url$_nearbySearchUrl?${buildQuery(params)}";
+    return '$url$_nearbySearchUrl?${buildQuery(params)}';
   }
 
   String buildTextSearchUrl({
@@ -221,51 +227,56 @@ class GoogleMapsPlaces extends GoogleWebService {
     String language,
   }) {
     final params = {
-      "query": query != null ? Uri.encodeComponent(query) : null,
-      "language": language,
-      "location": location,
-      "radius": radius,
-      "minprice": minprice?.index,
-      "maxprice": maxprice?.index,
-      "opennow": opennow,
-      "type": type,
-      "pagetoken": pagetoken,
+      'query': query != null ? Uri.encodeComponent(query) : null,
+      'language': language,
+      'location': location,
+      'radius': radius,
+      'minprice': minprice?.index,
+      'maxprice': maxprice?.index,
+      'opennow': opennow,
+      'type': type,
+      'pagetoken': pagetoken,
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
-    return "$url$_textSearchUrl?${buildQuery(params)}";
+    return '$url$_textSearchUrl?${buildQuery(params)}';
   }
 
   String buildDetailsUrl({
     String placeId,
     String reference,
     String sessionToken,
-    String extensions,
     String language,
+    List<String> fields,
+    String region,
   }) {
     if (placeId != null && reference != null) {
-      throw new ArgumentError(
-          "You must supply either 'placeid' or 'reference'");
+      throw ArgumentError("You must supply either 'placeid' or 'reference'");
     }
 
     final params = {
-      "placeid": placeId,
-      "reference": reference,
-      "language": language,
-      "extensions": extensions,
+      'placeid': placeId,
+      'reference': reference,
+      'language': language,
+      'region': region,
     };
+
+    if (fields?.isNotEmpty == true) {
+      params['fields'] = fields.join(',');
+    }
+
     if (sessionToken != null) {
-      params.putIfAbsent("sessiontoken", () => sessionToken);
+      params.putIfAbsent('sessiontoken', () => sessionToken);
     }
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
-    return "$url$_detailsSearchUrl?${buildQuery(params)}";
+    return '$url$_detailsSearchUrl?${buildQuery(params)}';
   }
 
   String buildAutocompleteUrl({
@@ -278,24 +289,26 @@ class GoogleMapsPlaces extends GoogleWebService {
     List<String> types,
     List<Component> components,
     bool strictbounds,
+    String region,
   }) {
     final params = {
-      "input": input != null ? Uri.encodeComponent(input) : null,
-      "language": language,
-      "location": location,
-      "radius": radius,
-      "types": types,
-      "components": components,
-      "strictbounds": strictbounds,
-      "offset": offset,
+      'input': input != null ? Uri.encodeComponent(input) : null,
+      'language': language,
+      'location': location,
+      'radius': radius,
+      'types': types,
+      'components': components,
+      'strictbounds': strictbounds,
+      'offset': offset,
+      'region': region,
     };
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
     if (sessionToken != null) {
-      params.putIfAbsent("sessiontoken", () => sessionToken);
+      params.putIfAbsent('sessiontoken', () => sessionToken);
     }
-    return "$url$_autocompleteUrl?${buildQuery(params)}";
+    return '$url$_autocompleteUrl?${buildQuery(params)}';
   }
 
   String buildQueryAutocompleteUrl({
@@ -306,28 +319,54 @@ class GoogleMapsPlaces extends GoogleWebService {
     String language,
   }) {
     final params = {
-      "input": input != null ? Uri.encodeComponent(input) : null,
-      "language": language,
-      "location": location,
-      "radius": radius,
-      "offset": offset,
+      'input': input != null ? Uri.encodeComponent(input) : null,
+      'language': language,
+      'location': location,
+      'radius': radius,
+      'offset': offset,
     };
 
     if (apiKey != null) {
-      params.putIfAbsent("key", () => apiKey);
+      params.putIfAbsent('key', () => apiKey);
     }
 
-    return "$url$_queryAutocompleteUrl?${buildQuery(params)}";
+    return '$url$_queryAutocompleteUrl?${buildQuery(params)}';
+  }
+
+  String buildPhotoUrl({
+    @required String photoReference,
+    int maxWidth,
+    int maxHeight,
+  }) {
+    final params = {
+      'photoreference': photoReference,
+      'maxwidth': maxWidth,
+      'maxheight': maxHeight,
+    };
+
+    if (apiKey != null) {
+      params.putIfAbsent('key', () => apiKey);
+    }
+
+    if (photoReference == null) {
+      throw ArgumentError("You must supply 'photoReference'");
+    }
+
+    if (maxWidth == null && maxHeight == null) {
+      throw ArgumentError("You must supply 'maxWidth' or 'maxHeight'");
+    }
+
+    return '$url$_photoUrl?${buildQuery(params)}';
   }
 
   PlacesSearchResponse _decodeSearchResponse(Response res) =>
-      new PlacesSearchResponse.fromJson(json.decode(res.body));
+      PlacesSearchResponse.fromJson(json.decode(res.body));
 
   PlacesDetailsResponse _decodeDetailsResponse(Response res) =>
-      new PlacesDetailsResponse.fromJson(json.decode(res.body));
+      PlacesDetailsResponse.fromJson(json.decode(res.body));
 
   PlacesAutocompleteResponse _decodeAutocompleteResponse(Response res) =>
-      new PlacesAutocompleteResponse.fromJson(json.decode(res.body));
+      PlacesAutocompleteResponse.fromJson(json.decode(res.body));
 }
 
 class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
@@ -350,15 +389,15 @@ class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
         );
 
   factory PlacesSearchResponse.fromJson(Map json) => json != null
-      ? new PlacesSearchResponse(
-          json["status"],
-          json["error_message"],
-          json["results"]
-              .map((r) => new PlacesSearchResult.fromJson(r))
+      ? PlacesSearchResponse(
+          json['status'],
+          json['error_message'],
+          json['results']
+              .map((r) => PlacesSearchResult.fromJson(r))
               .toList()
               .cast<PlacesSearchResult>(),
-          (json["html_attributions"] as List).cast<String>(),
-          json["next_page_token"])
+          (json['html_attributions'] as List).cast<String>(),
+          json['next_page_token'])
       : null;
 }
 
@@ -419,31 +458,31 @@ class PlacesSearchResult {
   );
 
   factory PlacesSearchResult.fromJson(Map json) => json != null
-      ? new PlacesSearchResult(
-          json["icon"],
-          new Geometry.fromJson(json["geometry"]),
-          json["name"],
-          new OpeningHours.fromJson(json["opening_hours"]),
-          json["photos"]
-              ?.map((p) => new Photo.fromJson(p))
+      ? PlacesSearchResult(
+          json['icon'],
+          Geometry.fromJson(json['geometry']),
+          json['name'],
+          OpeningHours.fromJson(json['opening_hours']),
+          json['photos']
+              ?.map((p) => Photo.fromJson(p))
               ?.toList()
               ?.cast<Photo>(),
-          json["place_id"],
-          json["scope"],
-          json["alt_ids"]
-              ?.map((a) => new AlternativeId.fromJson(a))
+          json['place_id'],
+          json['scope'],
+          json['alt_ids']
+              ?.map((a) => AlternativeId.fromJson(a))
               ?.toList()
               ?.cast<AlternativeId>(),
-          json["price_level"] != null
-              ? PriceLevel.values.elementAt(json["price_level"])
+          json['price_level'] != null
+              ? PriceLevel.values.elementAt(json['price_level'])
               : null,
-          json["rating"],
-          (json["types"] as List)?.cast<String>(),
-          json["vicinity"],
-          json["formatted_address"],
-          json["permanently_closed"],
-          json["id"],
-          json["reference"])
+          json['rating'],
+          (json['types'] as List)?.cast<String>(),
+          json['vicinity'],
+          json['formatted_address'],
+          json['permanently_closed'],
+          json['id'],
+          json['reference'])
       : null;
 }
 
@@ -527,40 +566,44 @@ class PlaceDetails {
   );
 
   factory PlaceDetails.fromJson(Map json) => json != null
-      ? new PlaceDetails(
-          json["address_components"]
-              .map((addr) => new AddressComponent.fromJson(addr))
+      ? PlaceDetails(
+          json['address_components']
+              .map((addr) => AddressComponent.fromJson(addr))
               .toList()
               .cast<AddressComponent>(),
-          json["adr_address"],
-          json["formatted_address"],
-          json["formatted_phone_number"],
-          json["id"],
-          json["reference"],
-          json["icon"],
-          json["name"],
-          new OpeningHoursDetail.fromJson(json["opening_hours"]),
-          json["photos"]
-              ?.map((p) => new Photo.fromJson(p))
+          json['adr_address'],
+          json['formatted_address'],
+          json['formatted_phone_number'],
+          json['id'],
+          json['reference'],
+          json['icon'],
+          json['name'],
+          OpeningHoursDetail.fromJson(
+            json['opening_hours'],
+          ),
+          json['photos']
+              ?.map((p) => Photo.fromJson(p))
               ?.toList()
               ?.cast<Photo>(),
-          json["place_id"],
-          json["international_phone_number"],
-          json["price_level"] != null
-              ? PriceLevel.values.elementAt(json["price_level"])
+          json['place_id'],
+          json['international_phone_number'],
+          json['price_level'] != null
+              ? PriceLevel.values.elementAt(
+                  json['price_level'],
+                )
               : null,
-          json["rating"],
-          json["scope"],
-          (json["types"] as List)?.cast<String>(),
-          json["url"],
-          json["vicinity"],
-          json["utc_offset"],
-          json["website"],
-          json["reviews"]
-              ?.map((r) => new Review.fromJson(r))
+          json['rating'],
+          json['scope'],
+          (json['types'] as List)?.cast<String>(),
+          json['url'],
+          json['vicinity'],
+          json['utc_offset'],
+          json['website'],
+          json['reviews']
+              ?.map((r) => Review.fromJson(r))
               ?.toList()
               ?.cast<Review>(),
-          new Geometry.fromJson(json["geometry"]))
+          Geometry.fromJson(json['geometry']))
       : null;
 }
 
@@ -571,7 +614,7 @@ class OpeningHours {
   OpeningHours(this.openNow);
 
   factory OpeningHours.fromJson(Map json) =>
-      json != null ? new OpeningHours(json["open_now"]) : null;
+      json != null ? OpeningHours(json['open_now']) : null;
 }
 
 class OpeningHoursDetail extends OpeningHours {
@@ -585,13 +628,13 @@ class OpeningHoursDetail extends OpeningHours {
   ) : super(openNow);
 
   factory OpeningHoursDetail.fromJson(Map<String, dynamic> json) => json != null
-      ? new OpeningHoursDetail(
-          json["open_now"],
-          json["periods"]
-              ?.map((p) => new OpeningHoursPeriod.fromJson(p))
+      ? OpeningHoursDetail(
+          json['open_now'],
+          json['periods']
+              ?.map((p) => OpeningHoursPeriod.fromJson(p))
               ?.toList()
               ?.cast<OpeningHoursPeriod>(),
-          (json["weekday_text"] as List)?.cast<String>())
+          (json['weekday_text'] as List)?.cast<String>())
       : null;
 }
 
@@ -603,11 +646,11 @@ class OpeningHoursPeriodDate extends GoogleDateTime {
   DateTime dateTime;
 
   OpeningHoursPeriodDate(this.day, this.time) {
-    dateTime = dayTimeToDateTime(this.day, this.time);
+    dateTime = dayTimeToDateTime(day, time);
   }
 
   factory OpeningHoursPeriodDate.fromJson(Map json) =>
-      json != null ? OpeningHoursPeriodDate(json["day"], json["time"]) : null;
+      json != null ? OpeningHoursPeriodDate(json['day'], json['time']) : null;
 }
 
 class OpeningHoursPeriod extends GoogleDateTime {
@@ -617,8 +660,8 @@ class OpeningHoursPeriod extends GoogleDateTime {
   OpeningHoursPeriod(this.open, this.close);
 
   factory OpeningHoursPeriod.fromJson(Map json) => json != null
-      ? OpeningHoursPeriod(OpeningHoursPeriodDate.fromJson(json["open"]),
-          OpeningHoursPeriodDate.fromJson(json["close"]))
+      ? OpeningHoursPeriod(OpeningHoursPeriodDate.fromJson(json['open']),
+          OpeningHoursPeriodDate.fromJson(json['close']))
       : null;
 }
 
@@ -639,8 +682,8 @@ class Photo {
   );
 
   factory Photo.fromJson(Map json) => json != null
-      ? new Photo(json["photo_reference"], json["height"], json["width"],
-          (json["html_attributions"] as List)?.cast<String>())
+      ? Photo(json['photo_reference'], json['height'], json['width'],
+          (json['html_attributions'] as List)?.cast<String>())
       : null;
 }
 
@@ -653,7 +696,7 @@ class AlternativeId {
   AlternativeId(this.placeId, this.scope);
 
   factory AlternativeId.fromJson(Map json) =>
-      json != null ? new AlternativeId(json["place_id"], json["scope"]) : null;
+      json != null ? AlternativeId(json['place_id'], json['scope']) : null;
 }
 
 enum PriceLevel { free, inexpensive, moderate, expensive, veryExpensive }
@@ -674,11 +717,11 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
         );
 
   factory PlacesDetailsResponse.fromJson(Map json) => json != null
-      ? new PlacesDetailsResponse(
-          json["status"],
-          json["error_message"],
-          new PlaceDetails.fromJson(json["result"]),
-          (json["html_attributions"] as List)?.cast<String>())
+      ? PlacesDetailsResponse(
+          json['status'],
+          json['error_message'],
+          PlaceDetails.fromJson(json['result']),
+          (json['html_attributions'] as List)?.cast<String>())
       : null;
 }
 
@@ -715,15 +758,15 @@ class Review {
   );
 
   factory Review.fromJson(Map json) => json != null
-      ? new Review(
-          json["author_name"],
-          json["author_url"],
-          json["language"],
-          json["profile_photo_url"],
-          json["rating"],
-          json["relative_time_description"],
-          json["text"],
-          json["time"])
+      ? Review(
+          json['author_name'],
+          json['author_url'],
+          json['language'],
+          json['profile_photo_url'],
+          json['rating'],
+          json['relative_time_description'],
+          json['text'],
+          json['time'])
       : null;
 }
 
@@ -740,11 +783,11 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
         );
 
   factory PlacesAutocompleteResponse.fromJson(Map json) => json != null
-      ? new PlacesAutocompleteResponse(
-          json["status"],
-          json["error_message"],
-          json["predictions"]
-              .map((p) => new Prediction.fromJson(p))
+      ? PlacesAutocompleteResponse(
+          json['status'],
+          json['error_message'],
+          json['predictions']
+              .map((p) => Prediction.fromJson(p))
               .toList()
               .cast<Prediction>())
       : null;
@@ -776,21 +819,18 @@ class Prediction {
       this.structuredFormatting);
 
   factory Prediction.fromJson(Map json) => json != null
-      ? new Prediction(
-          json["description"],
-          json["id"],
-          json["terms"]
-              ?.map((t) => new Term.fromJson(t))
-              ?.toList()
-              ?.cast<Term>(),
-          json["place_id"],
-          json["reference"],
-          (json["types"] as List)?.cast<String>(),
-          json["matched_substrings"]
-              ?.map((m) => new MatchedSubstring.fromJson(m))
+      ? Prediction(
+          json['description'],
+          json['id'],
+          json['terms']?.map((t) => Term.fromJson(t))?.toList()?.cast<Term>(),
+          json['place_id'],
+          json['reference'],
+          (json['types'] as List)?.cast<String>(),
+          json['matched_substrings']
+              ?.map((m) => MatchedSubstring.fromJson(m))
               ?.toList()
               ?.cast<MatchedSubstring>(),
-          StructuredFormatting.fromJson(json["structured_formatting"]),
+          StructuredFormatting.fromJson(json['structured_formatting']),
         )
       : null;
 }
@@ -802,7 +842,7 @@ class Term {
   Term(this.offset, this.value);
 
   factory Term.fromJson(Map json) =>
-      json != null ? new Term(json["offset"], json["value"]) : null;
+      json != null ? Term(json['offset'], json['value']) : null;
 }
 
 class MatchedSubstring {
@@ -811,9 +851,8 @@ class MatchedSubstring {
 
   MatchedSubstring(this.offset, this.length);
 
-  factory MatchedSubstring.fromJson(Map json) => json != null
-      ? new MatchedSubstring(json["offset"], json["length"])
-      : null;
+  factory MatchedSubstring.fromJson(Map json) =>
+      json != null ? MatchedSubstring(json['offset'], json['length']) : null;
 }
 
 class StructuredFormatting {
@@ -828,12 +867,12 @@ class StructuredFormatting {
   );
 
   factory StructuredFormatting.fromJson(Map json) => json != null
-      ? new StructuredFormatting(
-          json["main_text"],
-          json["main_text_matched_substrings"]
-              ?.map((m) => new MatchedSubstring.fromJson(m))
+      ? StructuredFormatting(
+          json['main_text'],
+          json['main_text_matched_substrings']
+              ?.map((m) => MatchedSubstring.fromJson(m))
               ?.toList()
               ?.cast<MatchedSubstring>(),
-          json["secondary_text"])
+          json['secondary_text'])
       : null;
 }
