@@ -5,6 +5,12 @@
 
 Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 
+## API key
+
+To use this library you need a ***Web*** API key. [Here](https://developers.google.com/places/web-service/get-api-key)
+
+This is not compatible with Android and iOS API key but can be use inside a Flutter app.
+
 - [x] [Geocoding](https://developers.google.com/maps/documentation/geocoding/start)
 - [ ] [Places](https://developers.google.com/places/web-service/)
     - [x] nearby search
