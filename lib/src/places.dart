@@ -568,9 +568,9 @@ class PlaceDetails {
   factory PlaceDetails.fromJson(Map json) => json != null
       ? PlaceDetails(
           json['address_components']
-              .map((addr) => AddressComponent.fromJson(addr))
-              .toList()
-              .cast<AddressComponent>(),
+              ?.map((addr) => AddressComponent.fromJson(addr))
+              ?.toList()
+              ?.cast<AddressComponent>(),
           json['adr_address'],
           json['formatted_address'],
           json['formatted_phone_number'],
