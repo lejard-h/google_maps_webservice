@@ -1,5 +1,7 @@
 library google_maps_webservice.core;
 
+import 'dart:convert';
+
 class Location {
   final double lat;
   final double lng;
@@ -13,8 +15,14 @@ class Location {
         )
       : null;
 
-  @override
-  String toString() => '$lat,$lng';
+  Map<String, dynamic> toJson() {
+    Map map = new Map<String, dynamic>();
+    map['lat'] = lat;
+    map['lng'] = lng;
+    return map;
+  }
+
+  String toString() => "$lat,$lng";
 }
 
 class Geometry {
@@ -42,6 +50,15 @@ class Geometry {
           Bounds.fromJson(json['bounds']),
         )
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map map = new Map<String, dynamic>();
+    map['location'] = (location != null) ? location.toJson() : null;
+    map['location_type'] = locationType;
+    map['viewport'] = (viewport != null) ? viewport.toJson() : null;
+    map['bounds'] = (bounds != null) ? bounds.toJson() : null;
+    return map;
+  }  
 }
 
 class Bounds {
@@ -54,6 +71,13 @@ class Bounds {
       ? Bounds(Location.fromJson(json['northeast']),
           Location.fromJson(json['southwest']))
       : null;
+
+  Map<String, dynamic> toJson() {
+    Map map = new Map<String, dynamic>();
+    map['northeast'] = (northeast != null) ? northeast.toJson() : null;
+    map['southwest'] = (southwest != null) ? southwest.toJson() : null;
+    return map;
+  }  
 
   @override
   String toString() =>
@@ -85,6 +109,13 @@ abstract class GoogleResponseStatus {
   bool get isNotFound => status == notFound;
 
   GoogleResponseStatus(this.status, this.errorMessage);
+
+  Map<String, dynamic> toJson() { 
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map["status"] = this.status;
+    map["errorMessage"] = this.errorMessage;
+    return map;
+  }    
 }
 
 abstract class GoogleResponseList<T> extends GoogleResponseStatus {
@@ -120,6 +151,14 @@ class AddressComponent {
       ? AddressComponent((json['types'] as List)?.cast<String>(),
           json['long_name'], json['short_name'])
       : null;
+
+  Map<String, dynamic> toJson() { 
+    Map<String, dynamic> map = new Map<String, dynamic>();
+    map["types"] = this.types;
+    map["long_name"] = this.longName;
+    map["short_name"] = this.shortName;
+    return map;
+  }   
 }
 
 class Component {
