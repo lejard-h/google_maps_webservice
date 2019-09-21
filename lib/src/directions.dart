@@ -216,14 +216,14 @@ class DirectionsResponse extends GoogleResponseStatus {
           ?.toList()
           ?.cast<Route>());
 
-    Map<String, dynamic> toJson() {
-      Map map = super.toJson();
-      map['status'] = status;
-      map['error_message'] = errorMessage;
-      map['geocoded_waypoints'] = geocodedWaypoints;
-      map['routes'] = routes;
-      return map;
-    }
+  Map<String, dynamic> toJson() {
+    Map map = super.toJson();
+    map['status'] = status;
+    map['error_message'] = errorMessage;
+    map['geocoded_waypoints'] = geocodedWaypoints;
+    map['routes'] = routes;
+    return map;
+  }
 }
 
 class Waypoint {
@@ -266,20 +266,20 @@ class GeocodedWaypoint {
     this.partialMatch,
   );
 
-  factory GeocodedWaypoint.fromJson(Map json) => new GeocodedWaypoint(
+  factory GeocodedWaypoint.fromJson(Map json) => GeocodedWaypoint(
       json["geocoder_status"],
       json["place_id"],
       (json["types"] as List)?.cast<String>(),
       json["partial_match"]);
 
-    Map<String, dynamic> toJson() {
-      Map map = new Map<String, dynamic>();
-      map['geocoder_status'] = geocoderStatus;
-      map['place_id'] = placeId;
-      map['types'] = types;
-      map['partial_match'] = partialMatch;
-      return map;
-    }
+  Map<String, dynamic> toJson() {
+    Map map = Map<String, dynamic>();
+    map['geocoder_status'] = geocoderStatus;
+    map['place_id'] = placeId;
+    map['types'] = types;
+    map['partial_match'] = partialMatch;
+    return map;
+  }
 }
 
 class Route {
@@ -327,18 +327,18 @@ class Route {
           Fare.fromJson(json['fare']))
       : null;
 
-    Map<String, dynamic> toJson() {
-      Map map = new Map<String, dynamic>();
-      map['summary'] = summary;
-      map['legs'] = legs;
-      map['copyrights'] = copyrights;
-      map['overview_polyline'] = overviewPolyline;
-      map['warnings'] = warnings;
-      map['waypointOrder'] = waypointOrder;
-      map['bounds'] = bounds.toJson();
-      map['fare'] = fare;
-      return map;
-    }
+  Map<String, dynamic> toJson() {
+    Map map = Map<String, dynamic>();
+    map['summary'] = summary;
+    map['legs'] = legs;
+    map['copyrights'] = copyrights;
+    map['overview_polyline'] = overviewPolyline;
+    map['warnings'] = warnings;
+    map['waypointOrder'] = waypointOrder;
+    map['bounds'] = bounds.toJson();
+    map['fare'] = fare;
+    return map;
+  }
 }
 
 abstract class _Step {
@@ -415,20 +415,22 @@ class Leg extends _Step {
           Value.fromJson(json['distance']))
       : null;
 
-    Map<String, dynamic> toJson() {
-      Map map = new Map<String, dynamic>();
-      map['steps'] = steps;
-      map['start_address'] = startAddress;
-      map['end_address'] = endAddress;
-      map['duration_in_traffic'] = (durationInTraffic != null) ? durationInTraffic.toJson() : null;
-      map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
-      map['departure_time'] = (departureTime != null) ? departureTime.toJson() : null;
-      map['start_location'] = startLocation.toJson();
-      map['end_location'] = endLocation.toJson();
-      map['duration'] = (duration != null) ? duration.toJson() : null;
-      map['distance'] = (distance != null) ? distance.toJson() : null;
-      return map;
-    }
+  Map<String, dynamic> toJson() {
+    Map map = Map<String, dynamic>();
+    map['steps'] = steps;
+    map['start_address'] = startAddress;
+    map['end_address'] = endAddress;
+    map['duration_in_traffic'] =
+        (durationInTraffic != null) ? durationInTraffic.toJson() : null;
+    map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
+    map['departure_time'] =
+        (departureTime != null) ? departureTime.toJson() : null;
+    map['start_location'] = startLocation.toJson();
+    map['end_location'] = endLocation.toJson();
+    map['duration'] = (duration != null) ? duration.toJson() : null;
+    map['distance'] = (distance != null) ? distance.toJson() : null;
+    return map;
+  }
 }
 
 class Step extends _Step {
@@ -461,31 +463,33 @@ class Step extends _Step {
         );
 
   factory Step.fromJson(Map json) => json != null
-      ? new Step(
+      ? Step(
           stringToTravelMode(json["travel_mode"]),
           json["html_instructions"],
           json["maneuver"],
-          new Polyline.fromJson(json["polyline"]),
-          new TransitDetails.fromJson(json["transit_details"]),
-          new Location.fromJson(json["start_location"]),
-          new Location.fromJson(json["end_location"]),
-          new Value.fromJson(json["duration"]),
-          new Value.fromJson(json["distance"]))
+          Polyline.fromJson(json["polyline"]),
+          TransitDetails.fromJson(json["transit_details"]),
+          Location.fromJson(json["start_location"]),
+          Location.fromJson(json["end_location"]),
+          Value.fromJson(json["duration"]),
+          Value.fromJson(json["distance"]))
       : null;
 
-    Map<String, dynamic> toJson() {
-      Map map = new Map<String, dynamic>();
-      map['travel_mode'] = travelModeToString(travelMode);
-      map['html_instructions'] = htmlInstructions;
-      map['maneuver'] = maneuver;
-      map['polyline'] = (polyline != null) ? polyline.toJson() : null;
-      map['transit_details'] = (transitDetails != null) ? transitDetails.toJson() : null;
-      map['start_location'] = (startLocation != null) ? startLocation.toJson() : null;
-      map['end_location'] = (endLocation != null) ? endLocation.toJson() : null;
-      map['duration'] = (duration != null) ? duration.toJson() : null;
-      map['distance'] = (distance != null ) ? distance.toJson() : null;
-      return map;
-    }
+  Map<String, dynamic> toJson() {
+    Map map = Map<String, dynamic>();
+    map['travel_mode'] = travelModeToString(travelMode);
+    map['html_instructions'] = htmlInstructions;
+    map['maneuver'] = maneuver;
+    map['polyline'] = (polyline != null) ? polyline.toJson() : null;
+    map['transit_details'] =
+        (transitDetails != null) ? transitDetails.toJson() : null;
+    map['start_location'] =
+        (startLocation != null) ? startLocation.toJson() : null;
+    map['end_location'] = (endLocation != null) ? endLocation.toJson() : null;
+    map['duration'] = (duration != null) ? duration.toJson() : null;
+    map['distance'] = (distance != null) ? distance.toJson() : null;
+    return map;
+  }
 }
 
 class Polyline {
@@ -494,13 +498,13 @@ class Polyline {
   Polyline(this.points);
 
   factory Polyline.fromJson(Map json) =>
-      json != null ? new Polyline(json["points"]) : null;
+      json != null ? Polyline(json["points"]) : null;
 
-    Map<String, dynamic> toJson() {
-      Map map = new Map<String, dynamic>();
-      map['points'] = points;
-      return map;
-    }
+  Map<String, dynamic> toJson() {
+    Map map = Map<String, dynamic>();
+    map['points'] = points;
+    return map;
+  }
 }
 
 class Value {
@@ -510,10 +514,10 @@ class Value {
   Value(this.value, this.text);
 
   factory Value.fromJson(Map json) =>
-      json != null ? new Value(json["value"], json["text"]) : null;
+      json != null ? Value(json["value"], json["text"]) : null;
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = new Map<String, dynamic>();
+    Map<String, dynamic> map = Map<String, dynamic>();
     map['value'] = value;
     map['text'] = text;
     return map;
@@ -525,9 +529,8 @@ class Fare extends Value {
 
   Fare(this.currency, num value, String text) : super(value, text);
 
-  factory Fare.fromJson(Map json) => json != null
-      ? new Fare(json["currency"], json["value"], json["text"])
-      : null;
+  factory Fare.fromJson(Map json) =>
+      json != null ? Fare(json["currency"], json["value"], json["text"]) : null;
 
   Map<String, dynamic> toJson() {
     Map map = super.toJson();
@@ -595,11 +598,13 @@ class TransitDetails {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = new Map<String, dynamic>();
+    Map<String, dynamic> map = Map<String, dynamic>();
     map['arrival_stop'] = (arrivalStop != null) ? arrivalStop.toJson() : null;
-    map['departure_stop'] = (departureStop != null) ? departureStop.toJson() : null;
+    map['departure_stop'] =
+        (departureStop != null) ? departureStop.toJson() : null;
     map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
-    map['departure_time'] = (departureTime != null) ? departureTime.toJson() : null;
+    map['departure_time'] =
+        (departureTime != null) ? departureTime.toJson() : null;
     map['headsign'] = headsign;
     map['headway'] = headway;
     map['num_stops'] = numStops;
@@ -618,7 +623,7 @@ class Stop {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = new Map<String, dynamic>();
+    Map<String, dynamic> map = Map<String, dynamic>();
     map['name'] = name;
     map['location'] = (location != null) ? location.toJson() : null;
     return map;
@@ -668,7 +673,7 @@ class Line {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = new Map<String, dynamic>();
+    Map<String, dynamic> map = Map<String, dynamic>();
     map['name'] = name;
     map['short_name'] = shortName;
     map['color'] = color;
@@ -693,7 +698,7 @@ class TransitAgency {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = new Map<String, dynamic>();
+    Map<String, dynamic> map = Map<String, dynamic>();
     map['name'] = name;
     map['url'] = url;
     map['phone'] = phone;
@@ -722,14 +727,13 @@ class VehicleType {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = new Map<String, dynamic>();
+    Map<String, dynamic> map = Map<String, dynamic>();
     map['name'] = name;
     map['type'] = type;
     map['icon'] = icon;
     map['local_icon'] = localIcon;
     return map;
   }
-
 
   bool isType(String type) => type.toLowerCase() == this.type.toLowerCase();
 
