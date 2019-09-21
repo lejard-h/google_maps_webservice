@@ -393,10 +393,12 @@ class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
           json['status'],
           json['error_message'],
           json['results']
-              .map((r) => PlacesSearchResult.fromJson(r))
-              .toList()
-              .cast<PlacesSearchResult>(),
-          (json['html_attributions'] as List).cast<String>(),
+              ?.map((r) => PlacesSearchResult.fromJson(r))
+              ?.toList()
+              ?.cast<PlacesSearchResult>(),
+          json['html_attributions'] != null
+              ? (json['html_attributions'] as List).cast<String>()
+              : [],
           json['next_page_token'])
       : null;
 }
@@ -460,9 +462,11 @@ class PlacesSearchResult {
   factory PlacesSearchResult.fromJson(Map json) => json != null
       ? PlacesSearchResult(
           json['icon'],
-          Geometry.fromJson(json['geometry']),
+          json['geometry'] != null ? Geometry.fromJson(json['geometry']) : null,
           json['name'],
-          OpeningHours.fromJson(json['opening_hours']),
+          json['opening_hours'] != null
+              ? OpeningHours.fromJson(json['opening_hours'])
+              : null,
           json['photos']
               ?.map((p) => Photo.fromJson(p))
               ?.toList()
@@ -477,7 +481,7 @@ class PlacesSearchResult {
               ? PriceLevel.values.elementAt(json['price_level'])
               : null,
           json['rating'],
-          (json['types'] as List)?.cast<String>(),
+          json['types'] != null ? (json['types'] as List)?.cast<String>() : [],
           json['vicinity'],
           json['formatted_address'],
           json['permanently_closed'],
@@ -578,9 +582,11 @@ class PlaceDetails {
           json['reference'],
           json['icon'],
           json['name'],
-          OpeningHoursDetail.fromJson(
-            json['opening_hours'],
-          ),
+          json['opening_hours'] != null
+              ? OpeningHoursDetail.fromJson(
+                  json['opening_hours'],
+                )
+              : null,
           json['photos']
               ?.map((p) => Photo.fromJson(p))
               ?.toList()
@@ -594,7 +600,7 @@ class PlaceDetails {
               : null,
           json['rating'],
           json['scope'],
-          (json['types'] as List)?.cast<String>(),
+          json['types'] != null ? (json['types'] as List)?.cast<String>() : [],
           json['url'],
           json['vicinity'],
           json['utc_offset'],
@@ -603,7 +609,7 @@ class PlaceDetails {
               ?.map((r) => Review.fromJson(r))
               ?.toList()
               ?.cast<Review>(),
-          Geometry.fromJson(json['geometry']))
+          json['geometry'] != null ? Geometry.fromJson(json['geometry']) : null)
       : null;
 }
 
@@ -634,7 +640,9 @@ class OpeningHoursDetail extends OpeningHours {
               ?.map((p) => OpeningHoursPeriod.fromJson(p))
               ?.toList()
               ?.cast<OpeningHoursPeriod>(),
-          (json['weekday_text'] as List)?.cast<String>())
+          json['weekday_text'] != null
+              ? (json['weekday_text'] as List)?.cast<String>()
+              : [])
       : null;
 }
 
@@ -682,8 +690,13 @@ class Photo {
   );
 
   factory Photo.fromJson(Map json) => json != null
-      ? Photo(json['photo_reference'], json['height'], json['width'],
-          (json['html_attributions'] as List)?.cast<String>())
+      ? Photo(
+          json['photo_reference'],
+          json['height'],
+          json['width'],
+          json['html_attributions'] != null
+              ? (json['html_attributions'] as List)?.cast<String>()
+              : [])
       : null;
 }
 
@@ -720,8 +733,10 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
       ? PlacesDetailsResponse(
           json['status'],
           json['error_message'],
-          PlaceDetails.fromJson(json['result']),
-          (json['html_attributions'] as List)?.cast<String>())
+          json['result'] != null ? PlaceDetails.fromJson(json['result']) : [],
+          json['html_attributions'] != null
+              ? (json['html_attributions'] as List)?.cast<String>()
+              : [])
       : null;
 }
 
@@ -787,9 +802,9 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
           json['status'],
           json['error_message'],
           json['predictions']
-              .map((p) => Prediction.fromJson(p))
-              .toList()
-              .cast<Prediction>())
+              ?.map((p) => Prediction.fromJson(p))
+              ?.toList()
+              ?.cast<Prediction>())
       : null;
 }
 
@@ -825,12 +840,14 @@ class Prediction {
           json['terms']?.map((t) => Term.fromJson(t))?.toList()?.cast<Term>(),
           json['place_id'],
           json['reference'],
-          (json['types'] as List)?.cast<String>(),
+          json['types'] != null ? (json['types'] as List)?.cast<String>() : [],
           json['matched_substrings']
               ?.map((m) => MatchedSubstring.fromJson(m))
               ?.toList()
               ?.cast<MatchedSubstring>(),
-          StructuredFormatting.fromJson(json['structured_formatting']),
+          json['structured_formatting'] != null
+              ? StructuredFormatting.fromJson(json['structured_formatting'])
+              : null,
         )
       : null;
 }
