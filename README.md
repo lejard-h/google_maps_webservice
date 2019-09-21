@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/lejard-h/google_maps_webservice.svg?branch=master)](https://travis-ci.org/lejard-h/google_maps_webservice)
 [![codecov](https://codecov.io/gh/lejard-h/google_maps_webservice/branch/master/graph/badge.svg)](https://codecov.io/gh/lejard-h/google_maps_webservice)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/HLejard?locale.x=fr_FR)
 
 Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 
@@ -10,6 +11,8 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 To use this library you need a ***Web*** API key. [Here](https://developers.google.com/places/web-service/get-api-key)
 
 This is not compatible with Android and iOS API key but can be use inside a Flutter app.
+
+## Availables API
 
 - [x] [Geocoding](https://developers.google.com/maps/documentation/geocoding/start)
 - [ ] [Places](https://developers.google.com/places/web-service/)
