@@ -265,7 +265,7 @@ class GeocodedWaypoint {
   final List<String> types;
 
   /// JSON partial_match
-  final String partialMatch;
+  final bool partialMatch;
 
   GeocodedWaypoint(
     this.geocoderStatus,

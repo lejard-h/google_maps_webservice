@@ -4,6 +4,7 @@
 
 - Handle 'now' string for departure_time
 - Fix alternatives params
+- fix GeocodedWaypoint.partialMatch type (now a boolean)
 
 ## 0.0.14
 
