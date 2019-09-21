@@ -151,6 +151,13 @@ class GoogleMapsDirections extends GoogleWebService {
         arrivalTime is! num) {
       throw ArgumentError("'arrivalTime' must be a '$num' or a '$DateTime'");
     }
+
+    if (waypoints?.isNotEmpty == true && alternatives == true) {
+      throw ArgumentError(
+        "'alternatives' is only available for requests without intermediate waypoints",
+      );
+    }
+
     final params = {
       'origin': origin != null && origin is String
           ? Uri.encodeComponent(origin)

@@ -3,6 +3,7 @@
 ## 0.0.15
 
 - Handle 'now' string for departure_time
+- Fix alternatives params
 
 ## 0.0.14
 
