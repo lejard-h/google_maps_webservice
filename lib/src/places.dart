@@ -141,6 +141,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     List<String> types,
     List<Component> components,
     bool strictbounds,
+    String region,
   }) async {
     final url = buildAutocompleteUrl(
       sessionToken: sessionToken,
@@ -152,6 +153,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       types: types,
       components: components,
       strictbounds: strictbounds,
+      region: region,
     );
     return _decodeAutocompleteResponse(await doGet(url));
   }
@@ -287,6 +289,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     List<String> types,
     List<Component> components,
     bool strictbounds,
+    String region,
   }) {
     final params = {
       'input': input != null ? Uri.encodeComponent(input) : null,
@@ -297,6 +300,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       'components': components,
       'strictbounds': strictbounds,
       'offset': offset,
+      'region': region,
     };
     if (apiKey != null) {
       params.putIfAbsent('key', () => apiKey);
