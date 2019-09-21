@@ -1,7 +1,5 @@
 library google_maps_webservice.core;
 
-import 'dart:convert';
-
 class Location {
   final double lat;
   final double lng;
