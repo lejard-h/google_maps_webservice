@@ -262,6 +262,23 @@ Future<void> main() async {
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&waypoints=optimize:true|Paris|42.2,21.3|place_id:ChIJ3S-JXmauEmsRUcIaWtf4MzE|enc:gfo}EtohhU:&key=$apiKey'));
       });
+
+      test('alternatives', () {
+        expect(
+            directions.buildUrl(
+                origin: 'Toronto',
+                destination: 'Montreal',
+                alternatives: true),
+            equals(
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=$apiKey'));
+        expect(
+            directions.buildUrl(
+                origin: 'Toronto',
+                destination: 'Montreal',
+                alternatives: false),
+            equals(
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=false&key=$apiKey'));
+      });
     });
 
     test('decode response', () {
