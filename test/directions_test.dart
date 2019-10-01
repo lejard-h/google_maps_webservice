@@ -266,9 +266,7 @@ Future<void> main() async {
       test('alternatives', () {
         expect(
             directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                alternatives: true),
+                origin: 'Toronto', destination: 'Montreal', alternatives: true),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=$apiKey'));
         expect(
