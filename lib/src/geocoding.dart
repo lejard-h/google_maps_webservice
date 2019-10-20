@@ -182,3 +182,99 @@ class GeocodingResult {
         )
       : null;
 }
+
+class StreetAddress {
+  final Geometry geometry;
+  final String addressLine;
+  final String countryName;
+  final String countryCode;
+  final String featureName;
+  final String postalCode;
+  final String adminArea;
+  final String subAdminArea;
+  final String locality;
+  final String subLocality;
+
+  /// Route
+  final String thoroughfare;
+
+  /// Street Number
+  final String subThoroughfare;
+
+  StreetAddress(
+    this.geometry,
+    this.addressLine,
+    this.countryName,
+    this.countryCode,
+    this.featureName,
+    this.postalCode,
+    this.adminArea,
+    this.subAdminArea,
+    this.locality,
+    this.subLocality,
+    this.thoroughfare,
+    this.subThoroughfare,
+  );
+
+  factory StreetAddress.fromGeocodingResult(GeocodingResult geocodingResult) {
+    if (geocodingResult == null || !geocodingResult.types.contains('street_address')) return null;
+
+    AddressComponent search(String type) {
+      return geocodingResult.addressComponents.firstWhere(
+        (component) => component.types.contains(type),
+        orElse: () => null,
+      );
+    }
+
+    final country = search('country');
+
+    return StreetAddress(
+      geocodingResult.geometry,
+      geocodingResult.formattedAddress,
+      country?.longName,
+      country?.shortName,
+      search('featureName')?.longName ?? geocodingResult.formattedAddress,
+      search('postal_code')?.longName,
+      search('administrative_area_level_1')?.longName,
+      search('administrative_area_level_2')?.longName,
+      search('locality')?.longName,
+      (search('sublocality') ?? search('sublocality_level_1'))?.longName,
+      search('route')?.longName,
+      search('street_number')?.longName,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'geometry': this.geometry != null ? geometry.toJson() : null,
+      'addressLine': this.addressLine,
+      'countryName': this.countryName,
+      'countryCode': this.countryCode,
+      'featureName': this.featureName,
+      'postalCode': this.postalCode,
+      'adminArea': this.adminArea,
+      'subAdminArea': this.subAdminArea,
+      'locality': this.locality,
+      'subLocality': this.subLocality,
+      'thoroughfare': this.thoroughfare,
+      'subThoroughfare': this.subThoroughfare,
+    };
+  }
+
+  factory StreetAddress.fromJson(Map map) => map != null
+      ? StreetAddress(
+          Geometry.fromJson(map['geometry']),
+          map['addressLine'],
+          map['countryName'],
+          map['countryCode'],
+          map['featureName'],
+          map['postalCode'],
+          map['adminArea'],
+          map['subAdminArea'],
+          map['locality'],
+          map['subLocality'],
+          map['thoroughfare'],
+          map['subThoroughfare'],
+        )
+      : null;
+}
