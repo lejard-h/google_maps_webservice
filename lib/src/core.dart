@@ -264,16 +264,19 @@ String transitModeToString(TransitMode type) {
 enum TransitRoutingPreferences { lessWalking, fewerTransfers }
 
 TransitRoutingPreferences stringToTransitRoutingPreferences(String type) {
-  if (type.toLowerCase() == 'less_walking')
+  if (type.toLowerCase() == 'less_walking') {
     return TransitRoutingPreferences.lessWalking;
-  if (type.toLowerCase() == 'fewer_transfers')
+  }
+  if (type.toLowerCase() == 'fewer_transfers') {
     return TransitRoutingPreferences.fewerTransfers;
+  }
   return null;
 }
 
 String transitRoutingPreferencesToString(TransitRoutingPreferences type) {
   if (type == TransitRoutingPreferences.lessWalking) return 'less_walking';
-  if (type == TransitRoutingPreferences.fewerTransfers)
+  if (type == TransitRoutingPreferences.fewerTransfers) {
     return 'fewer_transfers';
+  }
   return null;
 }
