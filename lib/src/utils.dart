@@ -26,7 +26,7 @@ abstract class GoogleWebService {
   String get apiKey => _apiKey;
 
   Map<String, String> get headers => _headers;
-  
+
   GoogleWebService({
     String apiKey,
     String baseUrl,
@@ -64,7 +64,7 @@ abstract class GoogleWebService {
       body: body,
       headers: {
         'Content-type': 'application/json',
-      }.addAll(_headers),
+      }..addAll(_headers),
     );
   }
 }
