@@ -16,12 +16,17 @@ abstract class GoogleWebService {
   @protected
   final String _apiKey;
 
+  @protected
+  final Map<String, String> _headers = {};
+
   String get url => _url;
 
   Client get httpClient => _httpClient;
 
   String get apiKey => _apiKey;
 
+  Map<String, String> get headers => _headers;
+  
   GoogleWebService({
     String apiKey,
     String baseUrl,
@@ -50,13 +55,17 @@ abstract class GoogleWebService {
   void dispose() => httpClient.close();
 
   @protected
-  Future<Response> doGet(String url) => httpClient.get(url);
+  Future<Response> doGet(String url) => httpClient.get(url, headers: _headers);
 
   @protected
   Future<Response> doPost(String url, String body) {
-    return httpClient.post(url, body: body, headers: {
-      'Content-type': 'application/json',
-    });
+    return httpClient.post(
+      url,
+      body: body,
+      headers: {
+        'Content-type': 'application/json',
+      }.addAll(_headers),
+    );
   }
 }
 
