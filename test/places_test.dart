@@ -61,6 +61,18 @@ Future<void> main() async {
                 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&minprice=0&maxprice=4&key=$apiKey'));
       });
 
+      test('with opennow', () {
+        String url = places.buildNearbySearchUrl(
+            location: Location(-33.8670522, 151.1957362),
+            radius: 500,
+            opennow: true);
+
+        expect(
+            url,
+            equals(
+                'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&opennow=true&key=$apiKey'));
+      });
+
       test('build url with name', () {
         String url = places.buildNearbySearchUrl(
             location: Location(-33.8670522, 151.1957362),

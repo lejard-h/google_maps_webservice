@@ -39,6 +39,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     PriceLevel maxprice,
     String name,
     String pagetoken,
+    bool opennow,
   }) async {
     final url = buildNearbySearchUrl(
       location: location,
@@ -50,6 +51,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       maxprice: maxprice,
       name: name,
       pagetoken: pagetoken,
+      opennow: opennow,
     );
     return _decodeSearchResponse(await doGet(url));
   }
@@ -64,6 +66,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     PriceLevel maxprice,
     String name,
     String pagetoken,
+    bool opennow,
   }) async {
     final url = buildNearbySearchUrl(
       location: location,
@@ -75,6 +78,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       maxprice: maxprice,
       name: name,
       pagetoken: pagetoken,
+      opennow: opennow,
     );
     return _decodeSearchResponse(await doGet(url));
   }
@@ -181,6 +185,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String name,
     String rankby,
     String pagetoken,
+    bool opennow,
   }) {
     if (radius != null && rankby != null) {
       throw ArgumentError(
@@ -206,6 +211,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       'name': name,
       'rankby': rankby,
       'pagetoken': pagetoken,
+      'opennow': opennow,
     };
 
     if (apiKey != null) {
