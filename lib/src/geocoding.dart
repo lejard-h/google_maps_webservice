@@ -217,7 +217,8 @@ class StreetAddress {
   );
 
   factory StreetAddress.fromGeocodingResult(GeocodingResult geocodingResult) {
-    if (geocodingResult == null || !geocodingResult.types.contains('street_address')) return null;
+    if (geocodingResult == null ||
+        !geocodingResult.types.contains('street_address')) return null;
 
     AddressComponent search(String type) {
       return geocodingResult.addressComponents.firstWhere(
