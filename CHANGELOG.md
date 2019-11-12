@@ -1,8 +1,15 @@
 # Changelog
 
+
 ## 0.1.0
 
 - Support `Static Map API`, thanks to @LBreitembach
+
+## 0.0.15
+
+- Handle 'now' string for departure_time
+- Fix alternatives params
+- fix GeocodedWaypoint.partialMatch type (now a boolean)
 
 ## 0.0.14
 
