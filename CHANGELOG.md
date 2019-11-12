@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.0
+
+- Support `Static Map API`, thanks to @LBreitembach
+
 ## 0.0.14
 
 - Support Timezone API, thanks to @aryzhov

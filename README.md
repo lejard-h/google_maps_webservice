@@ -21,7 +21,7 @@ Google Maps Web Services [API](https://developers.google.com/maps/web-services)
 - [ ] [Elevation](https://developers.google.com/maps/documentation/elevation/start)
 - [ ] [Roads](https://developers.google.com/maps/documentation/roads/intro)
 - [x] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
-- [] [Map static](https://developers.google.com/maps/documentation/maps-static/dev-guide)
+- [x] [Static Map](https://developers.google.com/maps/documentation/maps-static/dev-guide)
 
 
 ## Usage
@@ -69,12 +69,34 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
 TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
 ```
 
+### Static Map
+
+
+```dart
+
+  String mapStaticURL = StaticMap(
+    apiKey,
+    markers: List.from([
+      Location(23.721160, 90.394435),
+      Location(23.732322, 90.385142),]
+    ),
+    path: Path(
+      enc: 'svh~F`j}uOusC`bD', 
+      color: 'black',
+    ),
+    scale: 'false'
+  ).getUrl();
+
+  // @override
+  //   Widget build(BuildContext context) {
+  //     return Container(
+  //       child: Image.network(mapStaticURL)
+  //     );
+  //   }
+  
+```
+
 ### Proxy
-
-
-### Map Static
-
-
 
 In case of using a proxy the baseUrl can be set.
 The apiKey is not required in case the proxy sets it. (Not storing the apiKey in the app is good practice)
