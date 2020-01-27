@@ -9,7 +9,7 @@ final directions =
     GoogleMapsDirections(apiKey: Platform.environment['API_KEY']);
 
 Future<void> main() async {
-  DirectionsResponse res =
+  var res =
       await directions.directionsWithAddress('Paris, France', 'Rennes, France');
 
   print(res.status);

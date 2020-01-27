@@ -6,7 +6,7 @@ import 'package:google_maps_webservice/geocoding.dart';
 
 Future<void> main() async {
   final apiKey = 'MY_API_KEY';
-  GoogleMapsGeocoding geocoding = GoogleMapsGeocoding(apiKey: apiKey);
+  var geocoding = GoogleMapsGeocoding(apiKey: apiKey);
 
   tearDownAll(() {
     geocoding.dispose();
@@ -71,8 +71,7 @@ Future<void> main() async {
     });
 
     test('decode response', () {
-      GeocodingResponse response =
-          GeocodingResponse.fromJson(json.decode(_responseExample));
+      var response = GeocodingResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.results, hasLength(equals(1)));

@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 Future<void> main() async {
   final apiKey = 'MY_API_KEY';
-  GoogleMapsDirections directions = GoogleMapsDirections(apiKey: apiKey);
+  var directions = GoogleMapsDirections(apiKey: apiKey);
 
   tearDownAll(() {
     directions.dispose();
@@ -119,7 +119,7 @@ Future<void> main() async {
       });
 
       test('departure_time', () {
-        int d = 1343641500;
+        var d = 1343641500;
         expect(
             directions.buildUrl(
                 origin: 'Toronto', destination: 'Montreal', departureTime: d),
@@ -146,7 +146,7 @@ Future<void> main() async {
       });
 
       test('arrival_time', () {
-        int d = 1343641500;
+        var d = 1343641500;
         expect(
             directions.buildUrl(
                 origin: 'Toronto', destination: 'Montreal', arrivalTime: d),
@@ -280,8 +280,7 @@ Future<void> main() async {
     });
 
     test('decode response', () {
-      DirectionsResponse response =
-          DirectionsResponse.fromJson(json.decode(_responseExample));
+      var response = DirectionsResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.routes, hasLength(equals(1)));
