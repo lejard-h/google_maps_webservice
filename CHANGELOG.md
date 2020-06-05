@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.17
+
+- Add 'region' parameter to 'getDetailsByPlaceId'
+- Fix type mismatch on PlacesDetailsResponse.fromJson(json)
+
 ## 0.0.16
 
 - Fix alternatives params
