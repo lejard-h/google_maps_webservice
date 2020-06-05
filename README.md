@@ -6,14 +6,14 @@
 
 ## General Information
 
-This is the Flutter Library for Google Maps Webservices. 
+This is the Dart Library for Google Maps Webservices. 
 You can find the Google Maps Platform Documentation [here](https://developers.google.com/maps/web-services), but if you're new to this, you may want to start [here](https://developers.google.com/maps/gmp-get-started).
 
 ## API Key
 
-To use this library you need a ***Web*** API key. Follow [these](https://developers.google.com/places/web-service/get-api-key) steps to acquire the key relevant to your particular Flutter application.  
+To use this library you need a ***Web*** API key. Follow [these](https://developers.google.com/places/web-service/get-api-key) steps to acquire the key relevant to your particular Dart application.  
 
-These keys are not to be used individually as Android or iOS API keys, but they are instead meant to be used in your Flutter application.
+These keys are not to be used individually as Android or iOS API keys, but they are instead meant to be used in your Dart application.
 
 ## Availables API
 
