@@ -227,15 +227,6 @@ Future<void> main() async {
     group('delete', () {});
 
     group('photo build url', () {
-      test('missing photoReference', () {
-        try {
-          // ignore: missing_required_param
-          places.buildPhotoUrl();
-        } catch (e) {
-          expect((e as ArgumentError).message,
-              equals("You must supply 'photoReference'"));
-        }
-      });
       test('missing maxWidth and maxHeight', () {
         try {
           places.buildPhotoUrl(photoReference: 'PHOTO_REFERENCE');
