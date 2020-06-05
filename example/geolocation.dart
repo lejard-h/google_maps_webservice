@@ -26,7 +26,7 @@ Future<void> main() async {
   };
 
   // No params -> google uses current location
-  GeolocationResponse res = await geolocation.getGeolocation();
+  var res = await geolocation.getGeolocation();
 
   // works with map/json
   res = await geolocation.getGeolocationFromMap(params);

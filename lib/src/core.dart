@@ -14,13 +14,14 @@ class Location {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map map = Map<String, dynamic>();
+    var map = {};
     map['lat'] = lat;
     map['lng'] = lng;
     return map;
   }
 
-  String toString() => "$lat,$lng";
+  @override
+  String toString() => '$lat,$lng';
 }
 
 class Geometry {
@@ -50,7 +51,7 @@ class Geometry {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map map = Map<String, dynamic>();
+    var map = {};
     map['location'] = (location != null) ? location.toJson() : null;
     map['location_type'] = locationType;
     map['viewport'] = (viewport != null) ? viewport.toJson() : null;
@@ -71,7 +72,7 @@ class Bounds {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map map = Map<String, dynamic>();
+    var map = {};
     map['northeast'] = (northeast != null) ? northeast.toJson() : null;
     map['southwest'] = (southwest != null) ? southwest.toJson() : null;
     return map;
@@ -109,9 +110,9 @@ abstract class GoogleResponseStatus {
   GoogleResponseStatus(this.status, this.errorMessage);
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = Map<String, dynamic>();
-    map["status"] = this.status;
-    map["errorMessage"] = this.errorMessage;
+    var map = {};
+    map['status'] = status;
+    map['errorMessage'] = errorMessage;
     return map;
   }
 }
@@ -151,10 +152,10 @@ class AddressComponent {
       : null;
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> map = Map<String, dynamic>();
-    map["types"] = this.types;
-    map["long_name"] = this.longName;
-    map["short_name"] = this.shortName;
+    var map = {};
+    map['types'] = types;
+    map['long_name'] = longName;
+    map['short_name'] = shortName;
     return map;
   }
 }

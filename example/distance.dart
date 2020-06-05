@@ -9,17 +9,16 @@ final GoogleDistanceMatrix distanceMatrix =
     GoogleDistanceMatrix(apiKey: Platform.environment['API_KEY']);
 
 Future<void> main() async {
-  List<Location> origins = [
+  var origins = [
     Location(23.721160, 90.394435),
     Location(23.732322, 90.385142),
   ];
-  List<Location> destinations = [
+  var destinations = [
     Location(23.726346, 90.377117),
     Location(23.748519, 90.403121),
   ];
 
-  DistanceResponse responseForLocation =
-      await distanceMatrix.distanceWithLocation(
+  var responseForLocation = await distanceMatrix.distanceWithLocation(
     origins,
     destinations,
   );

@@ -15,7 +15,7 @@ Future<void> main() async {
 
       group('dayTimeToDateTime', () {
         test('basic', () {
-          final DateTime mondayAt1130 = utility.dayTimeToDateTime(0, '2330');
+          final mondayAt1130 = utility.dayTimeToDateTime(0, '2330');
 
           expect(mondayAt1130.weekday, equals(1));
           expect(mondayAt1130.hour, equals(23));

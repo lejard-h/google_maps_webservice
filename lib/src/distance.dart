@@ -143,7 +143,8 @@ class GoogleDistanceMatrix extends GoogleWebService {
     }
     if (departureTime != null &&
         departureTime is! DateTime &&
-        departureTime is! num) {
+        departureTime is! num &&
+        departureTime != 'now') {
       throw ArgumentError("'departureTime' must be a '$num' or a '$DateTime'");
     }
     if (arrivalTime != null &&
@@ -161,6 +162,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
           : destination,
       'mode': travelModeToString(travelMode),
       'language': languageCode,
+      'alternative': alternative,
       'region': region,
       'avoid': routeTypeToString(routeType),
       'units': unitToString(unit),
