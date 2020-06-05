@@ -105,7 +105,10 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
-      {String sessionToken, List<String> fields, String language, String region}) async {
+      {String sessionToken,
+      List<String> fields,
+      String language,
+      String region}) async {
     final url = buildDetailsUrl(
       placeId: placeId,
       sessionToken: sessionToken,
