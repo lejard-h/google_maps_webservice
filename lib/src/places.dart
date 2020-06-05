@@ -733,7 +733,7 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
       ? PlacesDetailsResponse(
           json['status'],
           json['error_message'],
-          json['result'] != null ? PlaceDetails.fromJson(json['result']) : [],
+          json['result'] != null ? PlaceDetails.fromJson(json['result']) : null,
           json['html_attributions'] != null
               ? (json['html_attributions'] as List)?.cast<String>()
               : [])
