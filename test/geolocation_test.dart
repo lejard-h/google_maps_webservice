@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 Future<void> main() async {
   final apiKey = 'MY_API_KEY';
 
-  GoogleMapsGeolocation geolocation = GoogleMapsGeolocation(apiKey: apiKey);
+  var geolocation = GoogleMapsGeolocation(apiKey: apiKey);
 
   tearDownAll(() {
     geolocation.dispose();
@@ -22,7 +22,7 @@ Future<void> main() async {
     });
 
     test('Decode response', () {
-      GeolocationResponse response =
+      var response =
           GeolocationResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);

@@ -105,12 +105,16 @@ class GoogleMapsPlaces extends GoogleWebService {
   }
 
   Future<PlacesDetailsResponse> getDetailsByPlaceId(String placeId,
-      {String sessionToken, List<String> fields, String language}) async {
+      {String sessionToken,
+      List<String> fields,
+      String language,
+      String region}) async {
     final url = buildDetailsUrl(
       placeId: placeId,
       sessionToken: sessionToken,
       fields: fields,
       language: language,
+      region: region,
     );
     return _decodeDetailsResponse(await doGet(url));
   }
@@ -733,7 +737,7 @@ class PlacesDetailsResponse extends GoogleResponse<PlaceDetails> {
       ? PlacesDetailsResponse(
           json['status'],
           json['error_message'],
-          json['result'] != null ? PlaceDetails.fromJson(json['result']) : [],
+          json['result'] != null ? PlaceDetails.fromJson(json['result']) : null,
           json['html_attributions'] != null
               ? (json['html_attributions'] as List)?.cast<String>()
               : [])

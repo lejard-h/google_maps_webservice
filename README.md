@@ -56,9 +56,9 @@ final places = new GoogleMapsPlaces(apiKey: "<API_KEY>");
 final places = new GoogleMapsPlaces(apiKey: "<API_KEY>", httpClient: new BrowserClient());
 final places = new GoogleMapsPlaces(baseUrl: "http://myProxy.com");
 
-PlacesSearchResponse reponse = await places.searchNearbyWithRadius(new Location(31.0424, 42.421), 500);
-PlacesSearchResponse reponse = await places.searchNearbyWithRankby(new Location(31.0424, 42.421), "distance");
-PlacesSearchResponse reponse = await places.searchByText("123 Main Street");
+PlacesSearchResponse response = await places.searchNearbyWithRadius(new Location(31.0424, 42.421), 500);
+PlacesSearchResponse response = await places.searchNearbyWithRankby(new Location(31.0424, 42.421), "distance");
+PlacesSearchResponse response = await places.searchByText("123 Main Street");
 
 PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
 PlacesDetailsResponse response = await places.getDetailsByReference("REF");

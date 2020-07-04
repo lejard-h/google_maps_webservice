@@ -217,7 +217,8 @@ class StreetAddress {
   );
 
   factory StreetAddress.fromGeocodingResult(GeocodingResult geocodingResult) {
-    if (geocodingResult == null || !geocodingResult.types.contains('street_address')) return null;
+    if (geocodingResult == null ||
+        !geocodingResult.types.contains('street_address')) return null;
 
     AddressComponent search(String type) {
       return geocodingResult.addressComponents.firstWhere(
@@ -246,18 +247,18 @@ class StreetAddress {
 
   Map<String, dynamic> toJson() {
     return {
-      'geometry': this.geometry != null ? geometry.toJson() : null,
-      'addressLine': this.addressLine,
-      'countryName': this.countryName,
-      'countryCode': this.countryCode,
-      'featureName': this.featureName,
-      'postalCode': this.postalCode,
-      'adminArea': this.adminArea,
-      'subAdminArea': this.subAdminArea,
-      'locality': this.locality,
-      'subLocality': this.subLocality,
-      'thoroughfare': this.thoroughfare,
-      'subThoroughfare': this.subThoroughfare,
+      'geometry': geometry != null ? geometry.toJson() : null,
+      'addressLine': addressLine,
+      'countryName': countryName,
+      'countryCode': countryCode,
+      'featureName': featureName,
+      'postalCode': postalCode,
+      'adminArea': adminArea,
+      'subAdminArea': subAdminArea,
+      'locality': locality,
+      'subLocality': subLocality,
+      'thoroughfare': thoroughfare,
+      'subThoroughfare': subThoroughfare,
     };
   }
 

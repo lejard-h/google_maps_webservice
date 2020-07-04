@@ -5,7 +5,7 @@ import 'package:google_maps_webservice/places.dart';
 
 Future<void> main() async {
   final apiKey = 'MY_API_KEY';
-  GoogleMapsPlaces places = GoogleMapsPlaces(apiKey: apiKey);
+  var places = GoogleMapsPlaces(apiKey: apiKey);
 
   tearDownAll(() {
     places.dispose();
@@ -14,7 +14,7 @@ Future<void> main() async {
   group('Google Maps Places', () {
     group('nearbysearch build url', () {
       test('basic', () {
-        String url = places.buildNearbySearchUrl(
+        var url = places.buildNearbySearchUrl(
             location: Location(-33.8670522, 151.1957362), radius: 500);
 
         expect(
@@ -24,7 +24,7 @@ Future<void> main() async {
       });
 
       test('with type and keyword', () {
-        String url = places.buildNearbySearchUrl(
+        var url = places.buildNearbySearchUrl(
             location: Location(-33.8670522, 151.1957362),
             radius: 500,
             type: 'restaurant',
@@ -37,7 +37,7 @@ Future<void> main() async {
       });
 
       test('with language', () {
-        String url = places.buildNearbySearchUrl(
+        var url = places.buildNearbySearchUrl(
             location: Location(-33.8670522, 151.1957362),
             radius: 500,
             language: 'fr');
@@ -49,7 +49,7 @@ Future<void> main() async {
       });
 
       test('with min and maxprice', () {
-        String url = places.buildNearbySearchUrl(
+        var url = places.buildNearbySearchUrl(
             location: Location(-33.8670522, 151.1957362),
             radius: 500,
             minprice: PriceLevel.free,
@@ -62,7 +62,7 @@ Future<void> main() async {
       });
 
       test('build url with name', () {
-        String url = places.buildNearbySearchUrl(
+        var url = places.buildNearbySearchUrl(
             location: Location(-33.8670522, 151.1957362),
             radius: 500,
             name: 'cruise');
@@ -74,7 +74,7 @@ Future<void> main() async {
       });
 
       test('with rankby', () {
-        String url = places.buildNearbySearchUrl(
+        var url = places.buildNearbySearchUrl(
             location: Location(-33.8670522, 151.1957362),
             rankby: 'distance',
             name: 'cruise');
@@ -227,15 +227,6 @@ Future<void> main() async {
     group('delete', () {});
 
     group('photo build url', () {
-      test('missing photoReference', () {
-        try {
-          // ignore: missing_required_param
-          places.buildPhotoUrl();
-        } catch (e) {
-          expect((e as ArgumentError).message,
-              equals("You must supply 'photoReference'"));
-        }
-      });
       test('missing maxWidth and maxHeight', () {
         try {
           places.buildPhotoUrl(photoReference: 'PHOTO_REFERENCE');
@@ -365,7 +356,7 @@ Future<void> main() async {
     });
 
     test('decode response', () {
-      PlacesSearchResponse response =
+      var response =
           PlacesSearchResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);

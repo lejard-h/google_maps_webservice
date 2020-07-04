@@ -7,9 +7,8 @@ import 'package:google_maps_webservice/places.dart';
 final places = GoogleMapsPlaces(apiKey: Platform.environment['API_KEY']);
 
 Future<void> main() async {
-  String sessionToken = 'xyzabc_1234';
-  PlacesAutocompleteResponse res =
-      await places.autocomplete('Amoeba', sessionToken: sessionToken);
+  var sessionToken = 'xyzabc_1234';
+  var res = await places.autocomplete('Amoeba', sessionToken: sessionToken);
 
   if (res.isOkay) {
     // list autocomplete prediction
@@ -18,7 +17,7 @@ Future<void> main() async {
     }
 
     // get detail of the first result
-    PlacesDetailsResponse details = await places.getDetailsByPlaceId(
+    var details = await places.getDetailsByPlaceId(
         res.predictions.first.placeId,
         sessionToken: sessionToken);
 

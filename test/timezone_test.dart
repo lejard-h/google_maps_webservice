@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 Future<void> main() async {
   final apiKey = 'MY_API_KEY';
 
-  GoogleMapsTimezone timeZone = GoogleMapsTimezone(apiKey: apiKey);
+  var timeZone = GoogleMapsTimezone(apiKey: apiKey);
 
   tearDownAll(() {
     timeZone.dispose();
@@ -32,8 +32,7 @@ Future<void> main() async {
     });
 
     test('Decode response', () {
-      TimezoneResponse response =
-          TimezoneResponse.fromJson(json.decode(_responseExample));
+      var response = TimezoneResponse.fromJson(json.decode(_responseExample));
 
       expect(response.isOkay, isTrue);
       expect(response.result.dstOffset, 3600);
