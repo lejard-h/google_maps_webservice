@@ -19,13 +19,5 @@ void main() {
     scale: 'false'
   );
 
-
-  // @override
-  //   Widget build(BuildContext context) {
-  //     return Container(
-  //       child: Image.network(staticMap.getUrl())
-  //     );
-  //   }
-
-
+  staticMap.getUrl();
 }

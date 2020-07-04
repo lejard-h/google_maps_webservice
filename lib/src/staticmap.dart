@@ -13,12 +13,7 @@ class Path {
 
   @override
   String toString() {
-    String stringPath = 'color:$color|enc:$enc';
-    // if(markers?.isNotEmpty ?? false) {
-    //   stringPath += markers.map((l) => "|${l.latitude},${l.longitude}").toString();
-    //   stringPath = stringPath.replaceAll('(', '').replaceAll(')', '');
-    // }
-    return stringPath;
+    return 'color:$color|enc:$enc';
   }
   
 }
@@ -46,24 +41,10 @@ class StaticMap {
     this.mapType = 'roadmap'
   }): assert(
     size.contains('x'),
-  ) {
+  );
 
-  }
-
-  // Image getImage() {
-  //   return Image.network(
-  //     getUrl()
-  //   );
-  // }
-
-  // CachedNetworkImageProvider
-  // ImageProvider<dynamic> getImageFromCache() {
-  //   return CachedNetworkImageProvider(getUrl());
-  // }
-  
   String getUrl() {
     Map<String, dynamic> params = Map();
-    
     if(path != null) {
       params['path'] = path.toString();
     }

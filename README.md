@@ -83,7 +83,7 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
 
 ```dart
 
-  String mapStaticURL = StaticMap(
+  StaticMap mapStatic = StaticMap(
     apiKey,
     markers: List.from([
       Location(23.721160, 90.394435),
@@ -94,14 +94,12 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
       color: 'black',
     ),
     scale: 'false'
-  ).getUrl();
+  )
 
-  // @override
-  //   Widget build(BuildContext context) {
-  //     return Container(
-  //       child: Image.network(mapStaticURL)
-  //     );
-  //   }
+  String url = mapStatic.getUrl();
+
+  Image.network(url)
+
   
 ```
 
