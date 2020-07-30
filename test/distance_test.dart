@@ -307,10 +307,7 @@ Future<void> main() async {
       test('encode response', () {
         var decoded = json.decode(_responseExample);
         var recoded = DistanceResponse.fromJson(decoded).toJson();
-        // toJson is not implemented in DistanceResponse, using parent's impl.
-        for (var i in recoded.keys) {
-          expect(recoded[i], decoded[i]);
-        }
+        expect(recoded, decoded);
       });
     });
   });

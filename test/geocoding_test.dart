@@ -103,10 +103,15 @@ Future<void> main() async {
     test('encode response', () {
       var decoded = json.decode(_responseExample);
       var recoded = GeocodingResponse.fromJson(decoded).toJson();
-      // toJson is not implemented in GeocodingResponse, using parent's impl.
       for (var i in recoded.keys) {
-        expect(recoded[i], decoded[i]);
+        if (i == 'results') {
+          for (var j in decoded[i]) {
+            j['postcode_localities'] = null;
+            j['partial_match'] = null;
+          }
+        }
       }
+      expect(recoded, decoded);
     });
   });
 }

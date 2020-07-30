@@ -216,6 +216,15 @@ class DistanceResponse extends GoogleResponseStatus {
           })
           ?.toList()
           ?.cast<Row>());
+
+  @override
+  Map<String, dynamic> toJson() {
+    Map map = super.toJson();
+    map['origin_addresses'] = originAddress;
+    map['destination_addresses'] = destinationAddress;
+    map['rows'] = results?.map((r) => r.toJson())?.toList();
+    return map;
+  }
 }
 
 class Row {
@@ -231,6 +240,12 @@ class Row {
           ?.toList()
           ?.cast<Element>())
       : null;
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['elements'] = elements?.map((r) => r.toJson())?.toList();
+    return map;
+  }
 }
 
 class Element {
@@ -247,6 +262,14 @@ class Element {
           json['status'],
         )
       : null;
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['distance'] = distance.toJson();
+    map['duration'] = duration.toJson();
+    map['status'] = elementStatus;
+    return map;
+  }
 }
 
 class Value {
@@ -257,4 +280,11 @@ class Value {
 
   factory Value.fromJson(Map json) =>
       json != null ? Value(json['value'], json['text']) : null;
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['value'] = value;
+    map['text'] = text;
+    return map;
+  }
 }

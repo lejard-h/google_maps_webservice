@@ -405,6 +405,17 @@ class PlacesSearchResponse extends GoogleResponseList<PlacesSearchResult> {
               : [],
           json['next_page_token'])
       : null;
+
+  @override
+  Map<String, dynamic> toJson() {
+    Map map = super.toJson();
+    map['results'] = results?.map((r) => r.toJson())?.toList();
+    map['html_attributions'] = htmlAttributions;
+    if (nextPageToken != null) {
+      map['next_page_token'] = nextPageToken;
+    }
+    return map;
+  }
 }
 
 class PlacesSearchResult {
@@ -492,6 +503,41 @@ class PlacesSearchResult {
           json['id'],
           json['reference'])
       : null;
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{
+      'icon': icon,
+      'geometry': geometry?.toJson(),
+      'name': name,
+      'photos': photos?.map((r) => r.toJson()),
+      'place_id': placeId,
+      'scope': scope,
+      'types': types,
+      'vicinity': vicinity,
+      'id': id,
+      'reference': reference,
+    };
+    if (priceLevel != null) {
+      map['price_level'] = PriceLevel.values[priceLevel.index];
+    }
+    if (rating != null) {
+      map['rating'] = rating;
+    }
+    if (formattedAddress != null) {
+      map['formatted_address'] = formattedAddress;
+    }
+    if (permanentlyClosed != null) {
+      map['permanently_closed'] = permanentlyClosed;
+    }
+    if (openingHours != null) {
+      map['opening_hours'] = openingHours.toJson();
+    }
+    if (altIds != null) {
+      map['alt_ids'] = altIds.map((r) => r.toJson());
+    }
+
+    return map;
+  }
 }
 
 class PlaceDetails {
@@ -625,6 +671,8 @@ class OpeningHours {
 
   factory OpeningHours.fromJson(Map json) =>
       json != null ? OpeningHours(json['open_now']) : null;
+
+  Map<String, dynamic> toJson() => {'open_now': openNow};
 }
 
 class OpeningHoursDetail extends OpeningHours {
@@ -702,6 +750,13 @@ class Photo {
               ? (json['html_attributions'] as List)?.cast<String>()
               : [])
       : null;
+
+  Map<String, dynamic> toJson() => {
+        'photo_reference': photoReference,
+        'height': height,
+        'width': width,
+        'html_attributions': htmlAttributions,
+      };
 }
 
 class AlternativeId {
@@ -714,6 +769,11 @@ class AlternativeId {
 
   factory AlternativeId.fromJson(Map json) =>
       json != null ? AlternativeId(json['place_id'], json['scope']) : null;
+
+  Map<String, dynamic> toJson() => {
+        'place_id': placeId,
+        'scope': scope,
+      };
 }
 
 enum PriceLevel { free, inexpensive, moderate, expensive, veryExpensive }

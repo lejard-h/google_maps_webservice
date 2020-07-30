@@ -230,8 +230,6 @@ class DirectionsResponse extends GoogleResponseStatus {
   @override
   Map<String, dynamic> toJson() {
     Map map = super.toJson();
-    map['status'] = status;
-    map['error_message'] = errorMessage;
     map['geocoded_waypoints'] = geocodedWaypoints?.map((r) {
       return r.toJson();
     })?.toList();

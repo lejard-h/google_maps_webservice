@@ -74,6 +74,13 @@ class TimezoneResponse extends GoogleResponse<TimezoneResult> {
       ? TimezoneResponse(json['status'], json['errorMessage'],
           json['status'] == 'OK' ? TimezoneResult.fromJson(json) : null)
       : null;
+
+  @override
+  Map<String, dynamic> toJson() {
+    var map = result.toJson();
+    map['status'] = status;
+    return map;
+  }
 }
 
 class TimezoneResult {
@@ -103,4 +110,13 @@ class TimezoneResult {
           timeZoneName: json['timeZoneName'],
         )
       : null;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'dstOffset': dstOffset,
+      'rawOffset': rawOffset,
+      'timeZoneId': timeZoneId,
+      'timeZoneName': timeZoneName,
+    };
+  }
 }

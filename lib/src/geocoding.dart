@@ -135,6 +135,15 @@ class GeocodingResponse extends GoogleResponseList<GeocodingResult> {
               .toList()
               .cast<GeocodingResult>())
       : null;
+
+  @override
+  Map<String, dynamic> toJson() {
+    Map map = super.toJson();
+    map['results'] = results?.map((r) {
+      return r.toJson();
+    })?.toList();
+    return map;
+  }
 }
 
 class GeocodingResult {
@@ -181,6 +190,19 @@ class GeocodingResult {
           json['place_id'],
         )
       : null;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'types': types,
+      'formatted_address': formattedAddress,
+      'address_components':
+          addressComponents.map((addr) => addr.toJson()).toList(),
+      'postcode_localities': postcodeLocalities,
+      'geometry': geometry.toJson(),
+      'partial_match': partialMatch,
+      'place_id': placeId,
+    };
+  }
 }
 
 class StreetAddress {

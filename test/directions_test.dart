@@ -381,8 +381,8 @@ Future<void> main() async {
             }
           }
         }
-        expect(recoded[i], decoded[i], reason: 'key $i');
       }
+      expect(recoded, decoded);
     });
 
     test('Location handle all number', () {

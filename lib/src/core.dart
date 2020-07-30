@@ -50,13 +50,18 @@ class Geometry {
         )
       : null;
 
-  //todo test
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['location'] = (location != null) ? location.toJson() : null;
-    map['location_type'] = locationType;
-    map['viewport'] = (viewport != null) ? viewport.toJson() : null;
-    map['bounds'] = (bounds != null) ? bounds.toJson() : null;
+    if (locationType != null) {
+      map['location_type'] = locationType;
+    }
+    if (viewport != null) {
+      map['viewport'] = viewport.toJson();
+    }
+    if (bounds != null) {
+      map['bounds'] = bounds.toJson();
+    }
     return map;
   }
 }
@@ -113,7 +118,9 @@ abstract class GoogleResponseStatus {
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
     map['status'] = status;
-    map['errorMessage'] = errorMessage;
+    if (errorMessage != null) {
+      map['error_message'] = errorMessage;
+    }
     return map;
   }
 }
