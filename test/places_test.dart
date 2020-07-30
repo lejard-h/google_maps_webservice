@@ -394,6 +394,13 @@ Future<void> main() async {
       expect(response.results.first.vicinity,
           equals('Pyrmont Bay Wharf Darling Dr, Sydney'));
     });
+    test('encode response', () {
+      var decoded = json.decode(_responseExample);
+      var recoded = PlacesSearchResponse.fromJson(decoded).toJson();
+      // toJson is not implemented in PlacesSearchResponse, using parent's impl.
+      for (var i in recoded.keys)
+        expect(recoded[i], decoded[i]);
+    });
   });
 }
 

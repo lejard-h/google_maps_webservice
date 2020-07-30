@@ -40,6 +40,13 @@ Future<void> main() async {
       expect(response.result.timeZoneId, 'America/New_York');
       expect(response.result.timeZoneName, 'Eastern Daylight Time');
     });
+    test('encode response', () {
+      var decoded = json.decode(_responseExample);
+      var recoded = TimezoneResponse.fromJson(decoded).toJson();
+      // toJson is not implemented in TimezoneResponse, using parent's impl.
+      for (var i in recoded.keys)
+        expect(recoded[i], decoded[i]);
+    });
   });
 }
 

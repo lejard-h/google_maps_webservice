@@ -232,8 +232,12 @@ class DirectionsResponse extends GoogleResponseStatus {
     Map map = super.toJson();
     map['status'] = status;
     map['error_message'] = errorMessage;
-    map['geocoded_waypoints'] = geocodedWaypoints;
-    map['routes'] = routes;
+    map['geocoded_waypoints'] = geocodedWaypoints?.map((r) {
+      return r.toJson();
+    })?.toList();
+    map['routes'] = routes?.map((r) {
+      return r.toJson();
+    })?.toList();
     return map;
   }
 }
@@ -285,7 +289,7 @@ class GeocodedWaypoint {
       json['partial_match']);
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['geocoder_status'] = geocoderStatus;
     map['place_id'] = placeId;
     map['types'] = types;
@@ -340,13 +344,15 @@ class Route {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['summary'] = summary;
-    map['legs'] = legs;
+    map['legs'] = legs?.map((r) {
+      return r.toJson();
+    })?.toList();
     map['copyrights'] = copyrights;
-    map['overview_polyline'] = overviewPolyline;
+    map['overview_polyline'] = overviewPolyline?.toJson();
     map['warnings'] = warnings;
-    map['waypointOrder'] = waypointOrder;
+    map['waypoint_order'] = waypointOrder;
     map['bounds'] = bounds.toJson();
     map['fare'] = fare;
     return map;
@@ -428,8 +434,10 @@ class Leg extends _Step {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['steps'] = steps;
+    var map = <String, dynamic>{};
+    map['steps'] = steps?.map((r) {
+      return r.toJson();
+    })?.toList();
     map['start_address'] = startAddress;
     map['end_address'] = endAddress;
     map['duration_in_traffic'] =
@@ -488,7 +496,7 @@ class Step extends _Step {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['travel_mode'] = travelModeToString(travelMode);
     map['html_instructions'] = htmlInstructions;
     map['maneuver'] = maneuver;
@@ -513,7 +521,7 @@ class Polyline {
       json != null ? Polyline(json['points']) : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['points'] = points;
     return map;
   }
@@ -529,7 +537,7 @@ class Value {
       json != null ? Value(json['value'], json['text']) : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['value'] = value;
     map['text'] = text;
     return map;
@@ -611,6 +619,7 @@ class TransitDetails {
           json['num_stops'])
       : null;
 
+  //todo test
   Map<String, dynamic> toJson() {
     var map = {};
     map['arrival_stop'] = (arrivalStop != null) ? arrivalStop.toJson() : null;
@@ -636,6 +645,7 @@ class Stop {
       ? Stop(json['name'], Location.fromJson(json['location']))
       : null;
 
+  //todo test
   Map<String, dynamic> toJson() {
     var map = {};
     map['name'] = name;
@@ -686,6 +696,7 @@ class Line {
           VehicleType.fromJson(json['vehicle']))
       : null;
 
+  //todo test
   Map<String, dynamic> toJson() {
     var map = {};
     map['name'] = name;
@@ -711,6 +722,7 @@ class TransitAgency {
       ? TransitAgency(json['name'], json['url'], json['phone'])
       : null;
 
+  //todo test
   Map<String, dynamic> toJson() {
     var map = {};
     map['name'] = name;
@@ -740,6 +752,7 @@ class VehicleType {
           json['name'], json['type'], json['icon'], json['local_icon'])
       : null;
 
+  //todo test
   Map<String, dynamic> toJson() {
     var map = {};
     map['name'] = name;

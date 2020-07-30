@@ -30,6 +30,11 @@ Future<void> main() async {
       expect(response.location.lng, -117.0874871);
       expect(response.accuracy, 20);
     });
+    test('encode response', () {
+      var decoded = json.decode(_responseExample);
+      var recoded = GeolocationResponse.fromJson(decoded).toJson();
+      expect(recoded, decoded);
+    });
   });
 }
 

@@ -118,6 +118,15 @@ class GeolocationResponse extends GoogleResponseStatus {
       json.containsKey('error') ? json['error']['message'] : null,
       Location.fromJson(json['location']),
       json['accuracy']);
+
+  @override
+  Map<String, dynamic> toJson() {
+//    var map = super.toJson();
+    var map = <String, dynamic>{};
+    map['location'] = location.toJson();
+    map['accuracy'] = accuracy;
+    return map;
+  }
 }
 
 abstract class _AccessObject {

@@ -14,7 +14,7 @@ class Location {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['lat'] = lat;
     map['lng'] = lng;
     return map;
@@ -50,6 +50,7 @@ class Geometry {
         )
       : null;
 
+  //todo test
   Map<String, dynamic> toJson() {
     var map = {};
     map['location'] = (location != null) ? location.toJson() : null;
@@ -72,7 +73,7 @@ class Bounds {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['northeast'] = (northeast != null) ? northeast.toJson() : null;
     map['southwest'] = (southwest != null) ? southwest.toJson() : null;
     return map;
@@ -110,7 +111,7 @@ abstract class GoogleResponseStatus {
   GoogleResponseStatus(this.status, this.errorMessage);
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['status'] = status;
     map['errorMessage'] = errorMessage;
     return map;
@@ -152,7 +153,7 @@ class AddressComponent {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['types'] = types;
     map['long_name'] = longName;
     map['short_name'] = shortName;

@@ -100,6 +100,13 @@ Future<void> main() async {
           equals('ChIJ2eUgeAK6j4ARbn5u_wAGqWA'));
       expect(response.results.first.types, equals(['street_address']));
     });
+    test('encode response', () {
+      var decoded = json.decode(_responseExample);
+      var recoded = GeocodingResponse.fromJson(decoded).toJson();
+      // toJson is not implemented in GeocodingResponse, using parent's impl.
+      for (var i in recoded.keys)
+        expect(recoded[i], decoded[i]);
+    });
   });
 }
 

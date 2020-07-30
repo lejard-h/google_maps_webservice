@@ -356,6 +356,33 @@ Future<void> main() async {
       expect(response.routes.first.legs.first.steps.first.travelMode,
           equals(TravelMode.driving));
     });
+    test('encode response', () {
+      var decoded = json.decode(_responseExample);
+      var recoded = DirectionsResponse.fromJson(decoded).toJson();
+      // toJson is not implemented in DirectionsResponse, using parent's impl.
+      for (var i in recoded.keys) {
+        if (i == 'geocoded_waypoints') {
+          for (var j in decoded[i])
+            j['partial_match'] = null;
+        }
+        if (i == 'routes') {
+          for (var j in decoded[i]) {
+            j['fare'] = null;
+            for (var k in j['legs']) {
+              k['duration_in_traffic'] = null;
+              k['arrival_time'] = null;
+              k['departure_time'] = null;
+              for (var l in k['steps']) {
+                l['maneuver'] = null;
+                l['transit_details'] = null;
+                l['travel_mode'] = l['travel_mode'].toLowerCase();
+              }
+            }
+          }
+        }
+        expect(recoded[i], decoded[i], reason: 'key $i');
+      }
+    });
 
     test('Location handle all number', () {
       final loc = Location.fromJson({
@@ -365,6 +392,15 @@ Future<void> main() async {
 
       expect(loc.lat, equals(1.0));
       expect(loc.lng, equals(2.1));
+    });
+
+    test('encode location', () {
+      var decoded = {
+        'lat': 1,
+        'lng': 2.1,
+      };
+      var recoded = Location.fromJson(decoded).toJson();
+      expect(recoded, decoded);
     });
   });
 }
