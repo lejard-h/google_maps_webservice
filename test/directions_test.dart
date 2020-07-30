@@ -403,6 +403,27 @@ Future<void> main() async {
       var recoded = Location.fromJson(decoded).toJson();
       expect(recoded, decoded);
     });
+
+    test('encode TransitDetails', () {
+      var original = TransitDetails(
+          Stop('a', Location(1.1, 2.2)),
+          Stop('b', Location(2.1, 1.2)),
+          Time('A', 1, 'AA'),
+          Time('B', 2, 'BB'),
+          '-',
+          1,
+          2);
+      var encoded = original.toJson();
+      var recoded = TransitDetails.fromJson(encoded).toJson();
+      expect(recoded, encoded);
+    });
+    test('encode Line', () {
+      var original = Line('a', 'b', 'c', [TransitAgency('A', 'B', 'C')], 'd',
+          'e', 'f', VehicleType('D', 'E', 'F', 'G'));
+      var encoded = original.toJson();
+      var recoded = Line.fromJson(encoded).toJson();
+      expect(recoded, encoded);
+    });
   });
 }
 

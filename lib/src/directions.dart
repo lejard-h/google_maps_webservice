@@ -617,9 +617,8 @@ class TransitDetails {
           json['num_stops'])
       : null;
 
-  //todo test
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['arrival_stop'] = (arrivalStop != null) ? arrivalStop.toJson() : null;
     map['departure_stop'] =
         (departureStop != null) ? departureStop.toJson() : null;
@@ -643,9 +642,8 @@ class Stop {
       ? Stop(json['name'], Location.fromJson(json['location']))
       : null;
 
-  //todo test
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['name'] = name;
     map['location'] = (location != null) ? location.toJson() : null;
     return map;
@@ -687,20 +685,22 @@ class Line {
           json['name'],
           json['short_name'],
           json['color'],
-          json['agencies']?.map((a) => TransitAgency.fromJson(a))?.toList(),
+          json['agencies']
+              ?.map((a) => TransitAgency.fromJson(a))
+              ?.toList()
+              ?.cast<TransitAgency>(),
           json['url'],
           json['icon'],
           json['text_color'],
           VehicleType.fromJson(json['vehicle']))
       : null;
 
-  //todo test
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['name'] = name;
     map['short_name'] = shortName;
     map['color'] = color;
-    map['agencies'] = agencies;
+    map['agencies'] = agencies?.map((r) => r.toJson())?.toList();
     map['url'] = url;
     map['icon'] = icon;
     map['text_color'] = textColor;
@@ -720,9 +720,8 @@ class TransitAgency {
       ? TransitAgency(json['name'], json['url'], json['phone'])
       : null;
 
-  //todo test
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['name'] = name;
     map['url'] = url;
     map['phone'] = phone;
@@ -750,9 +749,8 @@ class VehicleType {
           json['name'], json['type'], json['icon'], json['local_icon'])
       : null;
 
-  //todo test
   Map<String, dynamic> toJson() {
-    var map = {};
+    var map = <String, dynamic>{};
     map['name'] = name;
     map['type'] = type;
     map['icon'] = icon;
