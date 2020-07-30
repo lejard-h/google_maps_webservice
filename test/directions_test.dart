@@ -362,8 +362,9 @@ Future<void> main() async {
       // toJson is not implemented in DirectionsResponse, using parent's impl.
       for (var i in recoded.keys) {
         if (i == 'geocoded_waypoints') {
-          for (var j in decoded[i])
+          for (var j in decoded[i]) {
             j['partial_match'] = null;
+          }
         }
         if (i == 'routes') {
           for (var j in decoded[i]) {
