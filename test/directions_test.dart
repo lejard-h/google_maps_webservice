@@ -359,7 +359,7 @@ Future<void> main() async {
     test('encode response', () {
       var decoded = json.decode(_responseExample);
       var recoded = DirectionsResponse.fromJson(decoded).toJson();
-      // toJson is not implemented in DirectionsResponse, using parent's impl.
+      // todo update [_responseExample] fixture and replace this loop with one assertion.
       for (var i in recoded.keys) {
         if (i == 'geocoded_waypoints') {
           for (var j in decoded[i]) {
