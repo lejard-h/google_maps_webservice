@@ -1,5 +1,10 @@
 # Changelog
 
+
+## 0.0.18
+
+- Support `Static Map API`, thanks to @LBreitembach
+
 ## 0.0.17
 
 - Add 'region' parameter to 'getDetailsByPlaceId'

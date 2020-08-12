@@ -30,6 +30,7 @@ This is not compatible with Android and iOS API key but can be use inside a Flut
 - [ ] [Elevation](https://developers.google.com/maps/documentation/elevation/start)
 - [ ] [Roads](https://developers.google.com/maps/documentation/roads/intro)
 - [x] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
+- [x] [Static Map](https://developers.google.com/maps/documentation/maps-static/dev-guide)
 
 
 ## Usage
@@ -75,6 +76,31 @@ final timezone = new GoogleMapsTimezone(baseUrl: "http://myProxy.com");
 TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421));
 TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24));
 TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
+```
+
+### Static Map
+
+
+```dart
+
+  StaticMap mapStatic = StaticMap(
+    apiKey,
+    markers: List.from([
+      Location(23.721160, 90.394435),
+      Location(23.732322, 90.385142),]
+    ),
+    path: Path(
+      enc: 'svh~F`j}uOusC`bD', 
+      color: 'black',
+    ),
+    scale: 'false'
+  )
+
+  String url = mapStatic.getUrl();
+
+  Image.network(url)
+
+  
 ```
 
 ### Proxy
