@@ -351,16 +351,6 @@ Future<void> main() async {
                 'https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey'));
       });
 
-      test('with origin', () {
-        expect(
-            places.buildQueryAutocompleteUrl(
-              input: 'Amoeba',
-              origin: Location(-33.8670522, 151.1957362),
-            ),
-            equals(
-                'https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&origin=-33.8670522,151.1957362&key=$apiKey'));
-      });
-
       test('with radius', () {
         expect(
             places.buildQueryAutocompleteUrl(input: 'Amoeba', radius: 500),

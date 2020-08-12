@@ -167,14 +167,12 @@ class GoogleMapsPlaces extends GoogleWebService {
   Future<PlacesAutocompleteResponse> queryAutocomplete(
     String input, {
     num offset,
-    Location origin,
     Location location,
     num radius,
     String language,
   }) async {
     final url = buildQueryAutocompleteUrl(
       input: input,
-      origin: origin,
       location: location,
       offset: offset,
       radius: radius,
@@ -329,7 +327,6 @@ class GoogleMapsPlaces extends GoogleWebService {
   String buildQueryAutocompleteUrl({
     String input,
     num offset,
-    Location origin,
     Location location,
     num radius,
     String language,
@@ -337,7 +334,6 @@ class GoogleMapsPlaces extends GoogleWebService {
     final params = {
       'input': input != null ? Uri.encodeComponent(input) : null,
       'language': language,
-      'origin': origin,
       'location': location,
       'radius': radius,
       'offset': offset,
