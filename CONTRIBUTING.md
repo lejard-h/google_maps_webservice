@@ -8,8 +8,8 @@
 - A personal GitHub account (if you don't have one, you can sign-up for free [here][github])
 
 ### Setting up your development environment
-- Fork https://github.com/lejard-h/google_maps_webservice.git into your own GitHub account. If you already have a fork and moving to a new computer, make sure you update you fork.
-- If you haven't configured your machine with an SSH key that's known to github, then follow [GitHub's directions][git-ssh] to generate an SSH key.
+- Fork https://github.com/lejard-h/google_maps_webservice.git into your own GitHub account. If you already have a fork and you're moving to a new computer, make sure you update you fork.
+- If you haven't configured your machine with an SSH key that's known to GitHub, then follow [GitHub's directions][git-ssh] to generate an SSH key.
 - Clone your forked repo on your local development machine:
   ```sh
     git clone git@github.com:<your_name_here>/google_maps_webservice.git
@@ -18,7 +18,7 @@
   ```sh
      cd google_maps_webservice
   ```
-- Add an upstream to the original repo, so that fetch from the master repository and not your clone:
+- Add an upstream to the original repo, so that you can fetch updates to the library from the master repository and not your clone:
   ```sh
       git remote add upstream git@github.com:lejard-h/google_maps_webservice.git
   ```     
@@ -45,7 +45,7 @@ We really appreciate contributions via GitHub pull requests. To contribute take 
      git checkout upstream/master -b <name_of_your_branch>
   ```     
 - Apply your changes
-- Verify your changes and fix potential warnings/ errors:
+- Verify your changes and fix potential warnings/errors:
   ```sh
   dartfmt -w .
   dartanalyzer .
