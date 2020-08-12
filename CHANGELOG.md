@@ -4,6 +4,7 @@
 ## 0.0.18
 
 - Support `Static Map API`, thanks to @LBreitembach
+- fix(autocomplete): add origin parameter to autocomplete queries, thanks to @safarmer
 
 ## 0.0.17
 
