@@ -225,7 +225,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_nearbySearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
+    return '$url$_nearbySearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type,place_id';
   }
 
   String buildTextSearchUrl({
@@ -255,7 +255,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_textSearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
+    return '$url$_textSearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type,place_id';
   }
 
   String buildDetailsUrl({
@@ -289,7 +289,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_detailsSearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
+    return '$url$_detailsSearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type,place_id';
   }
 
   String buildAutocompleteUrl({
@@ -323,7 +323,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     if (sessionToken != null) {
       params.putIfAbsent('sessiontoken', () => sessionToken);
     }
-    return '$url$_autocompleteUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
+    return '$url$_autocompleteUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type,place_id';
   }
 
   String buildQueryAutocompleteUrl({
@@ -345,7 +345,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_queryAutocompleteUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
+    return '$url$_queryAutocompleteUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type,place_id';
   }
 
   String buildPhotoUrl({
