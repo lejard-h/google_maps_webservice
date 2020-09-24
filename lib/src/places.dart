@@ -195,18 +195,6 @@ class GoogleMapsPlaces extends GoogleWebService {
     String rankby,
     String pagetoken,
   }) {
-    if (radius != null && rankby != null) {
-      throw ArgumentError(
-          "'rankby' must not be included if 'radius' is specified.");
-    }
-
-    if (rankby == 'distance' &&
-        keyword == null &&
-        type == null &&
-        name == null) {
-      throw ArgumentError(
-          "If 'rankby=distance' is specified, then one or more of 'keyword', 'name', or 'type' is required.");
-    }
 
     final params = {
       'location': location,
