@@ -64,6 +64,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     PriceLevel maxprice,
     String name,
     String pagetoken,
+    num radius
   }) async {
     final url = buildNearbySearchUrl(
       location: location,
@@ -75,6 +76,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       maxprice: maxprice,
       name: name,
       pagetoken: pagetoken,
+      radius: radius
     );
     return _decodeSearchResponse(await doGet(url));
   }
@@ -223,7 +225,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_nearbySearchUrl?${buildQuery(params)}';
+    return '$url$_nearbySearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
   }
 
   String buildTextSearchUrl({
@@ -253,7 +255,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_textSearchUrl?${buildQuery(params)}';
+    return '$url$_textSearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
   }
 
   String buildDetailsUrl({
@@ -287,7 +289,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_detailsSearchUrl?${buildQuery(params)}';
+    return '$url$_detailsSearchUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
   }
 
   String buildAutocompleteUrl({
@@ -321,7 +323,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     if (sessionToken != null) {
       params.putIfAbsent('sessiontoken', () => sessionToken);
     }
-    return '$url$_autocompleteUrl?${buildQuery(params)}';
+    return '$url$_autocompleteUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
   }
 
   String buildQueryAutocompleteUrl({
@@ -343,7 +345,7 @@ class GoogleMapsPlaces extends GoogleWebService {
       params.putIfAbsent('key', () => apiKey);
     }
 
-    return '$url$_queryAutocompleteUrl?${buildQuery(params)}';
+    return '$url$_queryAutocompleteUrl?${buildQuery(params)}&fields=name,geometry/location,photos,type';
   }
 
   String buildPhotoUrl({
