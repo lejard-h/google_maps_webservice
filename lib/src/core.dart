@@ -14,10 +14,7 @@ class Location {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['lat'] = lat;
-    map['lng'] = lng;
-    return map;
+    return {'lat': lat, 'lng': lng};
   }
 
   @override
