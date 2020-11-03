@@ -178,7 +178,8 @@ class GoogleMapsDirections extends GoogleWebService {
       'mode': travelModeToString(travelMode),
       'waypoints': waypoints,
       'alternatives': alternatives,
-      'avoid': avoids?.map(routeTypeToString)?.join('|') ?? routeTypeToString(avoid),
+      'avoid':
+          avoids?.map(routeTypeToString)?.join('|') ?? routeTypeToString(avoid),
       'language': language,
       'units': unitToString(units),
       'region': region,
@@ -236,7 +237,7 @@ class DirectionsResponse extends GoogleResponseStatus {
 
   @override
   Map<String, dynamic> toJson() {
-    Map map = super.toJson();
+    final map = super.toJson();
     map['status'] = status;
     map['error_message'] = errorMessage;
     map['geocoded_waypoints'] = geocodedWaypoints;
@@ -292,12 +293,12 @@ class GeocodedWaypoint {
       json['partial_match']);
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['geocoder_status'] = geocoderStatus;
-    map['place_id'] = placeId;
-    map['types'] = types;
-    map['partial_match'] = partialMatch;
-    return map;
+    return {
+      'geocoder_status': geocoderStatus,
+      'place_id': placeId,
+      'types': types,
+      'partial_match': partialMatch,
+    };
   }
 }
 
@@ -347,16 +348,16 @@ class Route {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['summary'] = summary;
-    map['legs'] = legs;
-    map['copyrights'] = copyrights;
-    map['overview_polyline'] = overviewPolyline;
-    map['warnings'] = warnings;
-    map['waypointOrder'] = waypointOrder;
-    map['bounds'] = bounds.toJson();
-    map['fare'] = fare;
-    return map;
+    return {
+      'summary': summary,
+      'legs': legs,
+      'copyrights': copyrights,
+      'overview_polyline': overviewPolyline,
+      'warnings': warnings,
+      'waypointOrder': waypointOrder,
+      'bounds': bounds.toJson(),
+      'fare': fare,
+    };
   }
 }
 
@@ -435,20 +436,19 @@ class Leg extends _Step {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['steps'] = steps;
-    map['start_address'] = startAddress;
-    map['end_address'] = endAddress;
-    map['duration_in_traffic'] =
-        (durationInTraffic != null) ? durationInTraffic.toJson() : null;
-    map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
-    map['departure_time'] =
-        (departureTime != null) ? departureTime.toJson() : null;
-    map['start_location'] = startLocation.toJson();
-    map['end_location'] = endLocation.toJson();
-    map['duration'] = (duration != null) ? duration.toJson() : null;
-    map['distance'] = (distance != null) ? distance.toJson() : null;
-    return map;
+    return {
+      'steps': steps,
+      'start_address': startAddress,
+      'end_address': endAddress,
+      'duration_in_traffic':
+          (durationInTraffic != null) ? durationInTraffic.toJson() : null,
+      'arrival_time': (arrivalTime != null) ? arrivalTime.toJson() : null,
+      'departure_time': (departureTime != null) ? departureTime.toJson() : null,
+      'start_location': startLocation.toJson(),
+      'end_location': endLocation.toJson(),
+      'duration': (duration != null) ? duration.toJson() : null,
+      'distance': (distance != null) ? distance.toJson() : null,
+    };
   }
 }
 
@@ -495,19 +495,18 @@ class Step extends _Step {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['travel_mode'] = travelModeToString(travelMode);
-    map['html_instructions'] = htmlInstructions;
-    map['maneuver'] = maneuver;
-    map['polyline'] = (polyline != null) ? polyline.toJson() : null;
-    map['transit_details'] =
-        (transitDetails != null) ? transitDetails.toJson() : null;
-    map['start_location'] =
-        (startLocation != null) ? startLocation.toJson() : null;
-    map['end_location'] = (endLocation != null) ? endLocation.toJson() : null;
-    map['duration'] = (duration != null) ? duration.toJson() : null;
-    map['distance'] = (distance != null) ? distance.toJson() : null;
-    return map;
+    return {
+      'travel_mode': travelModeToString(travelMode),
+      'html_instructions': htmlInstructions,
+      'maneuver': maneuver,
+      'polyline': (polyline != null) ? polyline.toJson() : null,
+      'transit_details':
+          (transitDetails != null) ? transitDetails.toJson() : null,
+      'start_location': (startLocation != null) ? startLocation.toJson() : null,
+      'end_location': (endLocation != null) ? endLocation.toJson() : null,
+      'duration': (duration != null) ? duration.toJson() : null,
+      'distance': (distance != null) ? distance.toJson() : null,
+    };
   }
 }
 
@@ -520,9 +519,9 @@ class Polyline {
       json != null ? Polyline(json['points']) : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['points'] = points;
-    return map;
+    return {
+      'points': points,
+    };
   }
 }
 
@@ -536,10 +535,10 @@ class Value {
       json != null ? Value(json['value'], json['text']) : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['value'] = value;
-    map['text'] = text;
-    return map;
+    return {
+      'value': value,
+      'text': text,
+    };
   }
 }
 
@@ -553,7 +552,7 @@ class Fare extends Value {
 
   @override
   Map<String, dynamic> toJson() {
-    Map map = super.toJson();
+    final map = super.toJson();
     map['currency'] = currency;
     return map;
   }
@@ -571,7 +570,7 @@ class Time extends Value {
 
   @override
   Map<String, dynamic> toJson() {
-    Map map = super.toJson();
+    final map = super.toJson();
     map['time_zone'] = timeZone;
     return map;
   }
@@ -619,17 +618,15 @@ class TransitDetails {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['arrival_stop'] = (arrivalStop != null) ? arrivalStop.toJson() : null;
-    map['departure_stop'] =
-        (departureStop != null) ? departureStop.toJson() : null;
-    map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
-    map['departure_time'] =
-        (departureTime != null) ? departureTime.toJson() : null;
-    map['headsign'] = headsign;
-    map['headway'] = headway;
-    map['num_stops'] = numStops;
-    return map;
+    return {
+      'arrival_stop': (arrivalStop != null) ? arrivalStop.toJson() : null,
+      'departure_stop': (departureStop != null) ? departureStop.toJson() : null,
+      'arrival_time': (arrivalTime != null) ? arrivalTime.toJson() : null,
+      'departure_time': (departureTime != null) ? departureTime.toJson() : null,
+      'headsign': headsign,
+      'headway': headway,
+      'num_stops': numStops,
+    };
   }
 }
 
@@ -644,10 +641,10 @@ class Stop {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['location'] = (location != null) ? location.toJson() : null;
-    return map;
+    return {
+      'name': name,
+      'location': (location != null) ? location.toJson() : null,
+    };
   }
 }
 
@@ -694,16 +691,16 @@ class Line {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['short_name'] = shortName;
-    map['color'] = color;
-    map['agencies'] = agencies;
-    map['url'] = url;
-    map['icon'] = icon;
-    map['text_color'] = textColor;
-    map['vehicle'] = (vehicle != null) ? vehicle.toJson() : null;
-    return map;
+    return {
+      'name': name,
+      'short_name': shortName,
+      'color': color,
+      'agencies': agencies,
+      'url': url,
+      'icon': icon,
+      'text_color': textColor,
+      'vehicle': (vehicle != null) ? vehicle.toJson() : null,
+    };
   }
 }
 
@@ -719,11 +716,11 @@ class TransitAgency {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['url'] = url;
-    map['phone'] = phone;
-    return map;
+    return {
+      'name': name,
+      'url': url,
+      'phone': phone,
+    };
   }
 }
 
@@ -748,12 +745,12 @@ class VehicleType {
       : null;
 
   Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['type'] = type;
-    map['icon'] = icon;
-    map['local_icon'] = localIcon;
-    return map;
+    return {
+      'name': name,
+      'type': type,
+      'icon': icon,
+      'local_icon': localIcon,
+    };
   }
 
   bool isType(String type) => type.toLowerCase() == this.type.toLowerCase();
