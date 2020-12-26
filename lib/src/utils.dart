@@ -1,6 +1,7 @@
 library google_maps_webservice.utils;
 
 import 'dart:async';
+import 'package:google_api_headers/google_api_headers.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart';
 
@@ -50,13 +51,17 @@ abstract class GoogleWebService {
   void dispose() => httpClient.close();
 
   @protected
-  Future<Response> doGet(String url) => httpClient.get(url);
+  Future<Response> doGet(String url) async {
+    final headers = await GoogleApiHeaders().getHeaders();
+    return httpClient.get(url, headers: headers);
+  }
 
   @protected
-  Future<Response> doPost(String url, String body) {
-    return httpClient.post(url, body: body, headers: {
+  Future<Response> doPost(String url, String body) async {
+    final headers = {
       'Content-type': 'application/json',
-    });
+    }..addAll(await GoogleApiHeaders().getHeaders());
+    return httpClient.post(url, body: body, headers: headers);
   }
 }
 
