@@ -16,21 +16,28 @@ abstract class GoogleWebService {
   @protected
   final String _apiKey;
 
+  @protected
+  final Map<String, dynamic> _apiHeaders;
+
   String get url => _url;
 
   Client get httpClient => _httpClient;
 
   String get apiKey => _apiKey;
 
+  Map<String, dynamic> get apiHeaders => _apiHeaders;
+
   GoogleWebService({
     String apiKey,
     String baseUrl,
     @required String url,
     Client httpClient,
+    Map<String, dynamic> apiHeaders,
   })  : assert(url != null),
         _url = '${baseUrl ?? kGMapsUrl}$url',
         _httpClient = httpClient ?? Client(),
-        _apiKey = apiKey;
+        _apiKey = apiKey,
+        _apiHeaders = apiHeaders;
 
   @protected
   String buildQuery(Map<String, dynamic> params) {
@@ -50,13 +57,21 @@ abstract class GoogleWebService {
   void dispose() => httpClient.close();
 
   @protected
-  Future<Response> doGet(String url) => httpClient.get(url);
+  Future<Response> doGet(String url, {Map<String, dynamic> headers}) {
+    return httpClient.get(url, headers: headers);
+  }
 
   @protected
-  Future<Response> doPost(String url, String body) {
-    return httpClient.post(url, body: body, headers: {
+  Future<Response> doPost(
+    String url,
+    String body, {
+    Map<String, dynamic> headers,
+  }) {
+    final postHeaders = {
       'Content-type': 'application/json',
-    });
+    };
+    if (headers != null) postHeaders.addAll(headers);
+    return httpClient.post(url, body: body, headers: postHeaders);
   }
 }
 

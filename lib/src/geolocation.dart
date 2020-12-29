@@ -40,15 +40,23 @@ class GoogleMapsGeolocation extends GoogleWebService {
         cellTowers: cellTowers,
         wifiAccessPoints: wifiAccessPoints);
 
-    return _decode(await doPost(buildUrl(), json.encode(body)));
+    return _decode(await doPost(
+      buildUrl(),
+      json.encode(body),
+      headers: apiHeaders,
+    ));
   }
 
   Future<GeolocationResponse> getGeolocationFromMap(Map params) async {
-    return _decode(await doPost(buildUrl(), json.encode(params)));
+    return _decode(await doPost(
+      buildUrl(),
+      json.encode(params),
+      headers: apiHeaders,
+    ));
   }
 
   Future<GeolocationResponse> currentGeolocation() async =>
-      _decode(await doPost(buildUrl(), json.encode({})));
+      _decode(await doPost(buildUrl(), json.encode({}), headers: apiHeaders));
 
   String buildUrl() {
     return "$url?${buildQuery({"key": apiKey})}";

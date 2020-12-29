@@ -16,11 +16,14 @@ class GoogleDistanceMatrix extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, dynamic> apiHeaders,
   }) : super(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            url: _distanceUrl,
-            httpClient: httpClient);
+          apiKey: apiKey,
+          baseUrl: baseUrl,
+          url: _distanceUrl,
+          httpClient: httpClient,
+          apiHeaders: apiHeaders,
+        );
 
   Future<DistanceResponse> _distance(
     List<dynamic> origin,
@@ -53,7 +56,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
       transitRoutingPreference: transitRoutingPreference,
     );
 
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   Future<DistanceResponse> distanceWithLocation(

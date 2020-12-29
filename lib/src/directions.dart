@@ -14,11 +14,13 @@ class GoogleMapsDirections extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, dynamic> apiHeaders,
   }) : super(
           apiKey: apiKey,
           baseUrl: baseUrl,
           url: _directionsUrl,
           httpClient: httpClient,
+          apiHeaders: apiHeaders,
         );
 
   Future<DirectionsResponse> directions(
@@ -55,7 +57,7 @@ class GoogleMapsDirections extends GoogleWebService {
       trafficModel: trafficModel,
       transitRoutingPreference: transitRoutingPreference,
     );
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   Future<DirectionsResponse> directionsWithLocation(
@@ -178,7 +180,8 @@ class GoogleMapsDirections extends GoogleWebService {
       'mode': travelModeToString(travelMode),
       'waypoints': waypoints,
       'alternatives': alternatives,
-      'avoid': avoids?.map(routeTypeToString)?.join('|') ?? routeTypeToString(avoid),
+      'avoid':
+          avoids?.map(routeTypeToString)?.join('|') ?? routeTypeToString(avoid),
       'language': language,
       'units': unitToString(units),
       'region': region,

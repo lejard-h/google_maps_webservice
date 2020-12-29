@@ -14,11 +14,13 @@ class GoogleMapsGeocoding extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, dynamic> apiHeaders,
   }) : super(
           apiKey: apiKey,
           baseUrl: baseUrl,
           url: _geocodeUrl,
           httpClient: httpClient,
+          apiHeaders: apiHeaders,
         );
 
   Future<GeocodingResponse> searchByAddress(
@@ -34,7 +36,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         region: region,
         components: components);
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   Future<GeocodingResponse> searchByComponents(
@@ -48,7 +50,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         region: region,
         components: components);
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   Future<GeocodingResponse> searchByLocation(
@@ -62,7 +64,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         resultType: resultType,
         locationType: locationType);
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   Future<GeocodingResponse> searchByPlaceId(
@@ -76,7 +78,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
         language: language,
         resultType: resultType,
         locationType: locationType);
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   String buildUrl({
