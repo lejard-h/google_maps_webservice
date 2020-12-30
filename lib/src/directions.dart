@@ -40,13 +40,16 @@ class GoogleMapsDirections extends GoogleWebService {
     TrafficModel trafficModel,
     TransitRoutingPreferences transitRoutingPreference,
   }) async {
+    if (avoids != null && avoid != null) {
+      avoids.add(avoid);
+    }
+
     final url = buildUrl(
       origin: origin,
       destination: destination,
       travelMode: travelMode,
       waypoints: waypoints,
       alternatives: alternatives,
-      avoid: avoid,
       avoids: avoids,
       language: language,
       units: units,
@@ -77,11 +80,14 @@ class GoogleMapsDirections extends GoogleWebService {
     TrafficModel trafficModel,
     TransitRoutingPreferences transitRoutingPreference,
   }) async {
+    if (avoids != null && avoid != null) {
+      avoids.add(avoid);
+    }
+
     return directions(origin, destination,
         travelMode: travelMode,
         waypoints: waypoints,
         alternatives: alternatives,
-        avoid: avoid,
         avoids: avoids,
         language: language,
         units: units,
@@ -110,13 +116,16 @@ class GoogleMapsDirections extends GoogleWebService {
     TrafficModel trafficModel,
     TransitRoutingPreferences transitRoutingPreference,
   }) async {
+    if (avoids != null && avoid != null) {
+      avoids.add(avoid);
+    }
+
     return directions(
       origin,
       destination,
       travelMode: travelMode,
       waypoints: waypoints,
       alternatives: alternatives,
-      avoid: avoid,
       avoids: avoids,
       language: language,
       units: units,

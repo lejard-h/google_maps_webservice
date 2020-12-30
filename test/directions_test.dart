@@ -61,30 +61,37 @@ Future<void> main() async {
             directions.buildUrl(
                 origin: 'Toronto',
                 destination: 'Montreal',
-                avoid: RouteType.tolls),
+                avoids: [RouteType.tolls]),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&avoid=tolls&key=$apiKey'));
         expect(
             directions.buildUrl(
                 origin: 'Toronto',
                 destination: 'Montreal',
-                avoid: RouteType.highways),
+                avoids: [RouteType.highways]),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&avoid=highways&key=$apiKey'));
         expect(
             directions.buildUrl(
                 origin: 'Toronto',
                 destination: 'Montreal',
-                avoid: RouteType.indoor),
+                avoids: [RouteType.indoor]),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&avoid=indoor&key=$apiKey'));
         expect(
             directions.buildUrl(
                 origin: 'Toronto',
                 destination: 'Montreal',
-                avoid: RouteType.ferries),
+                avoids: [RouteType.ferries]),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&avoid=ferries&key=$apiKey'));
+        expect(
+            directions.buildUrl(
+                origin: 'Toronto',
+                destination: 'Montreal',
+                avoids: [RouteType.indoor, RouteType.ferries]),
+            equals(
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&avoid=indoor|ferries&key=$apiKey'));
       });
 
       test('travel_mode', () {
