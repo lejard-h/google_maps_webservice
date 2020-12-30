@@ -14,11 +14,13 @@ class GoogleMapsTimezone extends GoogleWebService {
     String apiKey,
     String baseUrl,
     Client httpClient,
+    Map<String, dynamic> apiHeaders,
   }) : super(
           apiKey: apiKey,
           baseUrl: baseUrl,
           url: _timezoneUrl,
           httpClient: httpClient,
+          apiHeaders: apiHeaders,
         );
 
   /// Retrieves time zone information for the specified location and the timestamp.
@@ -30,7 +32,7 @@ class GoogleMapsTimezone extends GoogleWebService {
     String language,
   }) async {
     final requestUrl = buildUrl(location, timestamp, language);
-    return _decode(await doGet(requestUrl));
+    return _decode(await doGet(requestUrl, headers: apiHeaders));
   }
 
   String buildUrl(
