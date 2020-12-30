@@ -257,4 +257,11 @@ class Value {
 
   factory Value.fromJson(Map json) =>
       json != null ? Value(json['value'], json['text']) : null;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'value': value,
+      'text': text,
+    };
+  }
 }

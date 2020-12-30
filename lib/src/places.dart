@@ -89,11 +89,13 @@ class GoogleMapsPlaces extends GoogleWebService {
     String type,
     String pagetoken,
     String language,
+    String region,
   }) async {
     final url = buildTextSearchUrl(
       query: query,
       location: location,
       language: language,
+      region: region,
       type: type,
       radius: radius,
       minprice: minprice,
@@ -236,10 +238,12 @@ class GoogleMapsPlaces extends GoogleWebService {
     String type,
     String pagetoken,
     String language,
+    String region,
   }) {
     final params = {
       'query': query != null ? Uri.encodeComponent(query) : null,
       'language': language,
+      'region': region,
       'location': location,
       'radius': radius,
       'minprice': minprice?.index,
