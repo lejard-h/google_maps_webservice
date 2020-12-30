@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.19
+
+- added optional region param to buildTextSearchUrl - @ahmedNY
+- Add to allow custom headers for calling google apis - @zeshuaro
 
 ## 0.0.18
 
@@ -36,7 +40,7 @@
 ## 0.0.11
 
 - fix session token
-- add pagetoken for searchNearby 
+- add pagetoken for searchNearby
 
 ## 0.0.10
 
@@ -58,16 +62,18 @@
 
 ## 0.0.6
 
--  update dart sdk
+- update dart sdk
 
 ## 0.0.5
 
 - bug fix
 
 ## 0.0.4
+
 - support Dart 2
 
 ## 0.0.3
+
 - parse Geometry field in place details response
 
 ## 0.0.2
