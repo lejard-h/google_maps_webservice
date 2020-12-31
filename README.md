@@ -1,17 +1,17 @@
 # google_maps_webservice
 
-[![Build Status](https://travis-ci.org/lejard-h/google_maps_webservice.svg?branch=master)](https://travis-ci.org/lejard-h/google_maps_webservice)
+[![Build Status](https://github.com/lejard-h/google_maps_webservice/workflows/Dart/badge.svg?branch=master)](https://github.com/lejard-h/google_maps_webservice/actions?query=workflow%3ADart)
 [![codecov](https://codecov.io/gh/lejard-h/google_maps_webservice/branch/master/graph/badge.svg)](https://codecov.io/gh/lejard-h/google_maps_webservice)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/HLejard?locale.x=fr_FR)
 
 ## General Information
 
-This is the Dart Library for Google Maps Webservices. 
+This is the Dart Library for Google Maps Webservices.
 You can find the Google Maps Platform Documentation [here](https://developers.google.com/maps/web-services), but if you're new to this, you may want to start [here](https://developers.google.com/maps/gmp-get-started).
 
 ## API Key
 
-To use this library you need a ***Web*** API key. Follow [these](https://developers.google.com/places/web-service/get-api-key) steps to acquire the key relevant to your particular Dart application.  
+To use this library you need a **Web** API key. Follow [these](https://developers.google.com/places/web-service/get-api-key) steps to acquire the key relevant to your particular Dart application.
 
 These keys are not to be used individually as Android or iOS API keys, but they are instead meant to be used in your Dart application.
 
@@ -19,14 +19,14 @@ These keys are not to be used individually as Android or iOS API keys, but they 
 
 - [x] [Geocoding](https://developers.google.com/maps/documentation/geocoding/start)
 - [ ] [Places](https://developers.google.com/places/web-service/)
-    - [x] nearby search
-    - [x] text search
-    - [x] details
-    - [ ] add
-    - [ ] delete
-    - [x] photo
-    - [x] autocomplete
-    - [x] queryautocomplete
+  - [x] nearby search
+  - [x] text search
+  - [x] details
+  - [ ] add
+  - [ ] delete
+  - [x] photo
+  - [x] autocomplete
+  - [x] queryautocomplete
 - [x] [Directions](https://developers.google.com/maps/documentation/directions/)
 - [x] [Distance Matrix](https://developers.google.com/maps/documentation/distance-matrix/)
 - [ ] [Geolocation](https://developers.google.com/maps/documentation/geolocation/intro)
@@ -34,7 +34,6 @@ These keys are not to be used individually as Android or iOS API keys, but they 
 - [ ] [Roads](https://developers.google.com/maps/documentation/roads/intro)
 - [x] [Timezone](https://developers.google.com/maps/documentation/timezone/start)
 - [x] [Static Map](https://developers.google.com/maps/documentation/maps-static/dev-guide)
-
 
 ## Usage
 
@@ -83,7 +82,6 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
 
 ### Static Map
 
-
 ```dart
 
   StaticMap mapStatic = StaticMap(
@@ -93,7 +91,7 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
       Location(23.732322, 90.385142),]
     ),
     path: Path(
-      enc: 'svh~F`j}uOusC`bD', 
+      enc: 'svh~F`j}uOusC`bD',
       color: 'black',
     ),
     scale: 'false'
@@ -103,7 +101,7 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
 
   Image.network(url)
 
-  
+
 ```
 
 ### Proxy
