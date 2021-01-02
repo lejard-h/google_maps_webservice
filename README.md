@@ -58,8 +58,8 @@ final places = new GoogleMapsPlaces(apiKey: "<API_KEY>");
 final places = new GoogleMapsPlaces(apiKey: "<API_KEY>", httpClient: new BrowserClient());
 final places = new GoogleMapsPlaces(baseUrl: "http://myProxy.com");
 
-PlacesSearchResponse response = await places.searchNearbyWithRadius(new Location(31.0424, 42.421), 500);
-PlacesSearchResponse response = await places.searchNearbyWithRankby(new Location(31.0424, 42.421), "distance");
+PlacesSearchResponse response = await places.searchNearbyWithRadius(new Location(lat: 31.0424, lng: 42.421), 500);
+PlacesSearchResponse response = await places.searchNearbyWithRankby(new Location(lat: 31.0424, lng: 42.421), "distance");
 PlacesSearchResponse response = await places.searchByText("123 Main Street");
 
 PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
@@ -75,9 +75,9 @@ final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>");
 final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>", httpClient: new BrowserClient());
 final timezone = new GoogleMapsTimezone(baseUrl: "http://myProxy.com");
 
-TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421));
-TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24));
-TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
+TimezoneResponse response = await timezone.getByLocation(new Location(lat: 31.0424, lng: 42.421));
+TimezoneResponse response = await timezone.getByLocation(new Location(lat: 31.0424, lng: 42.421), timestamp: DateTime.utc(2019, 4, 24));
+TimezoneResponse response = await timezone.getByLocation(new Location(lat: 31.0424, lng: 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
 ```
 
 ### Static Map
@@ -87,8 +87,8 @@ TimezoneResponse response = await timezone.getByLocation(new Location(31.0424, 4
   StaticMap mapStatic = StaticMap(
     apiKey,
     markers: List.from([
-      Location(23.721160, 90.394435),
-      Location(23.732322, 90.385142),]
+      Location(lat: 23.721160, lng: 90.394435),
+      Location(lat: 23.732322, lng: 90.385142),]
     ),
     path: Path(
       enc: 'svh~F`j}uOusC`bD',
