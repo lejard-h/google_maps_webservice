@@ -490,14 +490,24 @@ class GoogleMapsPlaces extends GoogleWebService {
 
   String buildPhotoUrl({
     required String photoReference,
-    required int maxWidth,
-    required int maxHeight,
+    int? maxWidth,
+    int? maxHeight,
   }) {
+    if (maxWidth == null && maxHeight == null) {
+      throw ArgumentError("You must supply 'maxWidth' or 'maxHeight'");
+    }
+
     final params = <String, String>{
       'photoreference': photoReference,
-      'maxwidth': maxWidth.toString(),
-      'maxheight': maxHeight.toString(),
     };
+
+    if (maxWidth != null) {
+      params['maxwidth'] = maxWidth.toString();
+    }
+
+    if (maxHeight != null) {
+      params['maxheight'] = maxHeight.toString();
+    }
 
     if (apiKey != null) {
       params['key'] = apiKey!;
