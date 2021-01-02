@@ -16,7 +16,8 @@ Future<void> main() async {
     group('nearbysearch build url', () {
       test('basic', () {
         var url = places.buildNearbySearchUrl(
-            location: Location(-33.8670522, 151.1957362), radius: 500);
+            location: Location(lat: -33.8670522, lng: 151.1957362),
+            radius: 500);
 
         expect(
             url,
@@ -26,7 +27,7 @@ Future<void> main() async {
 
       test('with type and keyword', () {
         var url = places.buildNearbySearchUrl(
-            location: Location(-33.8670522, 151.1957362),
+            location: Location(lat: -33.8670522, lng: 151.1957362),
             radius: 500,
             type: 'restaurant',
             keyword: 'cruise');
@@ -39,7 +40,7 @@ Future<void> main() async {
 
       test('with language', () {
         var url = places.buildNearbySearchUrl(
-            location: Location(-33.8670522, 151.1957362),
+            location: Location(lat: -33.8670522, lng: 151.1957362),
             radius: 500,
             language: 'fr');
 
@@ -51,7 +52,7 @@ Future<void> main() async {
 
       test('with min and maxprice', () {
         var url = places.buildNearbySearchUrl(
-            location: Location(-33.8670522, 151.1957362),
+            location: Location(lat: -33.8670522, lng: 151.1957362),
             radius: 500,
             minprice: PriceLevel.free,
             maxprice: PriceLevel.veryExpensive);
@@ -64,7 +65,7 @@ Future<void> main() async {
 
       test('build url with name', () {
         var url = places.buildNearbySearchUrl(
-            location: Location(-33.8670522, 151.1957362),
+            location: Location(lat: -33.8670522, lng: 151.1957362),
             radius: 500,
             name: 'cruise');
 
@@ -76,7 +77,7 @@ Future<void> main() async {
 
       test('with rankby', () {
         var url = places.buildNearbySearchUrl(
-            location: Location(-33.8670522, 151.1957362),
+            location: Location(lat: -33.8670522, lng: 151.1957362),
             rankby: 'distance',
             name: 'cruise');
 
@@ -89,7 +90,7 @@ Future<void> main() async {
       test('with rankby without required params', () {
         try {
           places.buildNearbySearchUrl(
-              location: Location(-33.8670522, 151.1957362),
+              location: Location(lat: -33.8670522, lng: 151.1957362),
               rankby: 'distance',
               name: 'cruise');
         } catch (e) {
@@ -103,7 +104,7 @@ Future<void> main() async {
       test('with rankby and radius', () {
         try {
           places.buildNearbySearchUrl(
-              location: Location(-33.8670522, 151.1957362),
+              location: Location(lat: -33.8670522, lng: 151.1957362),
               radius: 500,
               rankby: 'distance');
         } catch (e) {
@@ -127,7 +128,7 @@ Future<void> main() async {
         expect(
             places.buildTextSearchUrl(
                 query: '123 Main Street',
-                location: Location(-33.8670522, 151.1957362)),
+                location: Location(lat: -33.8670522, lng: 151.1957362)),
             equals(
                 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=${Uri.encodeComponent('123 Main Street')}&location=-33.8670522,151.1957362&key=$apiKey'));
       });
@@ -271,7 +272,7 @@ Future<void> main() async {
         expect(
             places.buildAutocompleteUrl(
               input: 'Amoeba',
-              location: Location(-33.8670522, 151.1957362),
+              location: Location(lat: -33.8670522, lng: 151.1957362),
             ),
             equals(
                 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey'));
@@ -281,7 +282,7 @@ Future<void> main() async {
         expect(
             places.buildAutocompleteUrl(
               input: 'Amoeba',
-              origin: Location(-33.8670522, 151.1957362),
+              origin: Location(lat: -33.8670522, lng: 151.1957362),
             ),
             equals(
                 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&origin=-33.8670522,151.1957362&key=$apiKey'));
@@ -345,7 +346,7 @@ Future<void> main() async {
         expect(
             places.buildQueryAutocompleteUrl(
               input: 'Amoeba',
-              location: Location(-33.8670522, 151.1957362),
+              location: Location(lat: -33.8670522, lng: 151.1957362),
             ),
             equals(
                 'https://maps.googleapis.com/maps/api/place/queryautocomplete/json?input=Amoeba&location=-33.8670522,151.1957362&key=$apiKey'));
@@ -372,8 +373,8 @@ Future<void> main() async {
 
       expect(response.isOkay, isTrue);
       expect(response.results, hasLength(equals(4)));
-      expect(response.results.first.geometry.location.lat, equals(-33.870775));
-      expect(response.results.first.geometry.location.lng, equals(151.199025));
+      expect(response.results.first.geometry?.location.lat, equals(-33.870775));
+      expect(response.results.first.geometry?.location.lng, equals(151.199025));
       expect(
           response.results.first.icon,
           equals(
@@ -381,7 +382,7 @@ Future<void> main() async {
       expect(response.results.first.id,
           equals('21a0b251c9b8392186142c798263e289fe45b4aa'));
       expect(response.results.first.name, equals('Rhythmboat Cruises'));
-      expect(response.results.first.openingHours.openNow, isTrue);
+      expect(response.results.first.openingHours?.openNow, isTrue);
       expect(response.results.first.photos, hasLength(equals(1)));
       expect(response.results.first.photos.first.height, equals(270));
       expect(response.results.first.photos.first.width, equals(519));
@@ -421,11 +422,13 @@ Future<void> main() async {
       expect(p1.distanceMeters, 8030004);
       expect(p1.id, '691b237b0322f28988f3ce03e321ff72a12167fd');
       expect(p1.matchedSubstrings, hasLength(1));
-      expect(p1.matchedSubstrings.first, MatchedSubstring(0, 5));
+      expect(
+          p1.matchedSubstrings.first, MatchedSubstring(offset: 0, length: 5));
       expect(p1.placeId, 'ChIJD7fiBh9u5kcRYJSMaMOCCwQ');
       expect(p1.reference,
           'CjQlAAAA_KB6EEceSTfkteSSF6U0pvumHCoLUboRcDlAH05N1pZJLmOQbYmboEi0SwXBSoI2EhAhj249tFDCVh4R-PXZkPK8GhTBmp_6_lWljaf1joVs1SH2ttB_tw');
-      expect(p1.terms, [Term(0, 'Paris'), Term(7, 'France')]);
+      expect(p1.terms,
+          [Term(offset: 0, value: 'Paris'), Term(offset: 7, value: 'France')]);
       expect(p1.types, ['locality', 'political', 'geocode']);
     });
   });

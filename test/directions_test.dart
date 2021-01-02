@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:google_maps_webservice/src/core.dart';
 import 'package:google_maps_webservice/src/directions.dart';
 import 'package:test/test.dart';
@@ -25,8 +26,8 @@ Future<void> main() async {
       test('simple with Location origin/destination', () {
         expect(
             directions.buildUrl(
-                origin: Location(23.43, 65.1),
-                destination: Location(62.323, 53.1)),
+                origin: Location(lat: 23.43, lng: 65.1),
+                destination: Location(lat: 62.323, lng: 53.1)),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=23.43,65.1&destination=62.323,53.1&key=$apiKey'));
       });
@@ -34,7 +35,7 @@ Future<void> main() async {
       test('simple with String/Location origin/destination', () {
         expect(
             directions.buildUrl(
-                origin: Location(23.43, 65.1),
+                origin: Location(lat: 23.43, lng: 65.1),
                 destination: 'Marseilles, France'),
             equals(
                 'https://maps.googleapis.com/maps/api/directions/json?origin=23.43,65.1&destination=${Uri.encodeComponent('Marseilles, France')}&key=$apiKey'));
@@ -49,7 +50,8 @@ Future<void> main() async {
         }
 
         try {
-          directions.buildUrl(origin: Location(23.43, 65.1), destination: 10);
+          directions.buildUrl(
+              origin: Location(lat: 23.43, lng: 65.1), destination: 10);
         } catch (e) {
           expect((e as ArgumentError).message,
               equals("'destination' must be a '$String' or a '$Location'"));
@@ -101,28 +103,28 @@ Future<void> main() async {
                 destination: 'Montreal',
                 travelMode: TravelMode.bicycling),
             equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=bicycling&key=$apiKey'));
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=BICYCLING&key=$apiKey'));
         expect(
             directions.buildUrl(
                 origin: 'Toronto',
                 destination: 'Montreal',
                 travelMode: TravelMode.driving),
             equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=driving&key=$apiKey'));
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=DRIVING&key=$apiKey'));
         expect(
             directions.buildUrl(
                 origin: 'Toronto',
                 destination: 'Montreal',
                 travelMode: TravelMode.transit),
             equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=transit&key=$apiKey'));
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=TRANSIT&key=$apiKey'));
         expect(
             directions.buildUrl(
                 origin: 'Toronto',
                 destination: 'Montreal',
                 travelMode: TravelMode.walking),
             equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=walking&key=$apiKey'));
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=WALKING&key=$apiKey'));
       });
 
       test('departure_time', () {
@@ -262,7 +264,7 @@ Future<void> main() async {
                 waypoints: [
                   Waypoint.optimize(),
                   Waypoint.fromAddress('Paris'),
-                  Waypoint.fromLocation(Location(42.2, 21.3)),
+                  Waypoint.fromLocation(Location(lat: 42.2, lng: 21.3)),
                   Waypoint.fromPlaceId('ChIJ3S-JXmauEmsRUcIaWtf4MzE'),
                   Waypoint.fromEncodedPolyline('gfo}EtohhU')
                 ]),
@@ -282,12 +284,12 @@ Future<void> main() async {
                 destination: 'Montreal',
                 alternatives: false),
             equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=false&key=$apiKey'));
+                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=$apiKey'));
       });
     });
 
     test('decode response', () {
-      var response = DirectionsResponse.fromJson(json.decode(_responseExample));
+      var response = DirectionsResponse.fromJson(_responseExample);
 
       expect(response.isOkay, isTrue);
       expect(response.routes, hasLength(equals(1)));
@@ -376,92 +378,63 @@ Future<void> main() async {
   });
 }
 
-final _responseExample = '''
-{
-  "status": "OK",
-  "geocoded_waypoints" : [
-     {
-        "geocoder_status" : "OK",
-        "place_id" : "ChIJ7cv00DwsDogRAMDACa2m4K8",
-        "types" : [ "locality", "political" ]
-     },
-     {
-        "geocoder_status" : "OK",
-        "place_id" : "ChIJ69Pk6jdlyIcRDqM1KDY3Fpg",
-        "types" : [ "locality", "political" ]
-     },
-     {
-        "geocoder_status" : "OK",
-        "place_id" : "ChIJgdL4flSKrYcRnTpP0XQSojM",
-        "types" : [ "locality", "political" ]
-     },
-     {
-        "geocoder_status" : "OK",
-        "place_id" : "ChIJE9on3F3HwoAR9AhGJW_fL-I",
-        "types" : [ "locality", "political" ]
-     }
-  ],
-  "routes": [ {
-    "summary": "I-40 W",
-    "legs": [ {
-      "steps": [ {
-        "travel_mode": "DRIVING",
-        "start_location": {
-          "lat": 41.8507300,
-          "lng": -87.6512600
-        },
-        "end_location": {
-          "lat": 41.8525800,
-          "lng": -87.6514100
-        },
-        "polyline": {
-          "points": "a~l~Fjk~uOwHJy@P"
-        },
-        "duration": {
-          "value": 19,
-          "text": "1 min"
-        },
-        "html_instructions": "Head \u003cb\u003enorth\u003c/b\u003e on \u003cb\u003eS Morgan St\u003c/b\u003e toward \u003cb\u003eW Cermak Rd\u003c/b\u003e",
-        "distance": {
-          "value": 207,
-          "text": "0.1 mi"
-        }
-      }],
-      "duration": {
-        "value": 74384,
-        "text": "20 hours 40 mins"
-      },
-      "distance": {
-        "value": 2137146,
-        "text": "1,328 mi"
-      },
-      "start_location": {
-        "lat": 35.4675602,
-        "lng": -97.5164276
-      },
-      "end_location": {
-        "lat": 34.0522342,
-        "lng": -118.2436849
-      },
-      "start_address": "Oklahoma City, OK, USA",
-      "end_address": "Los Angeles, CA, USA"
-    } ],
-    "copyrights": "Map data ©2010 Google, Sanborn",
-    "overview_polyline": {
-      "points": "points"
+final _responseExample = {
+  'status': 'OK',
+  'geocoded_waypoints': [
+    {
+      'geocoder_status': 'OK',
+      'place_id': 'ChIJ7cv00DwsDogRAMDACa2m4K8',
+      'types': ['locality', 'political']
     },
-    "warnings": [ ],
-    "waypoint_order": [ 0, 1 ],
-    "bounds": {
-      "southwest": {
-        "lat": 34.0523600,
-        "lng": -118.2435600
-      },
-      "northeast": {
-        "lat": 41.8781100,
-        "lng": -87.6297900
+    {
+      'geocoder_status': 'OK',
+      'place_id': 'ChIJ69Pk6jdlyIcRDqM1KDY3Fpg',
+      'types': ['locality', 'political']
+    },
+    {
+      'geocoder_status': 'OK',
+      'place_id': 'ChIJgdL4flSKrYcRnTpP0XQSojM',
+      'types': ['locality', 'political']
+    },
+    {
+      'geocoder_status': 'OK',
+      'place_id': 'ChIJE9on3F3HwoAR9AhGJW_fL-I',
+      'types': ['locality', 'political']
+    }
+  ],
+  'routes': [
+    {
+      'summary': 'I-40 W',
+      'legs': [
+        {
+          'steps': [
+            {
+              'travel_mode': 'DRIVING',
+              'start_location': {'lat': 41.8507300, 'lng': -87.6512600},
+              'end_location': {'lat': 41.8525800, 'lng': -87.6514100},
+              'polyline': {'points': 'a~l~Fjk~uOwHJy@P'},
+              'duration': {'value': 19, 'text': '1 min'},
+              'html_instructions':
+                  'Head \u003cb\u003enorth\u003c/b\u003e on \u003cb\u003eS Morgan St\u003c/b\u003e toward \u003cb\u003eW Cermak Rd\u003c/b\u003e',
+              'distance': {'value': 207, 'text': '0.1 mi'}
+            }
+          ],
+          'duration': {'value': 74384, 'text': '20 hours 40 mins'},
+          'distance': {'value': 2137146, 'text': '1,328 mi'},
+          'start_location': {'lat': 35.4675602, 'lng': -97.5164276},
+          'end_location': {'lat': 34.0522342, 'lng': -118.2436849},
+          'start_address': 'Oklahoma City, OK, USA',
+          'end_address': 'Los Angeles, CA, USA'
+        }
+      ],
+      'copyrights': 'Map data ©2010 Google, Sanborn',
+      'overview_polyline': {'points': 'points'},
+      'warnings': [],
+      'waypoint_order': [0, 1],
+      'bounds': {
+        'southwest': {'lat': 34.0523600, 'lng': -118.2435600},
+        'northeast': {'lat': 41.8781100, 'lng': -87.6297900}
       }
     }
-  } ]
-}
-''';
+  ]
+};
