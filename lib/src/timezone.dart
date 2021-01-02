@@ -1,24 +1,27 @@
-library google_maps_webservice.timezone.src;
-
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 import 'core.dart';
 import 'utils.dart';
+
+part 'timezone.g.dart';
 
 const _timezoneUrl = '/timezone/json';
 
 /// https://developers.google.com/maps/documentation/timezone/start
 class GoogleMapsTimezone extends GoogleWebService {
   GoogleMapsTimezone({
-    String apiKey,
-    String baseUrl,
-    Client httpClient,
-    Map<String, dynamic> apiHeaders,
+    String? apiKey,
+    String? baseUrl,
+    Client? httpClient,
+    Map<String, String>? apiHeaders,
   }) : super(
           apiKey: apiKey,
           baseUrl: baseUrl,
-          url: _timezoneUrl,
+          apiPath: _timezoneUrl,
           httpClient: httpClient,
           apiHeaders: apiHeaders,
         );
@@ -28,22 +31,27 @@ class GoogleMapsTimezone extends GoogleWebService {
   /// langauge.
   Future<TimezoneResponse> getByLocation(
     Location location, {
-    DateTime timestamp,
-    String language,
+    DateTime? timestamp,
+    String? language,
   }) async {
-    final requestUrl = buildUrl(location, timestamp, language);
+    final requestUrl = buildUrl(
+      location: location,
+      timestamp: timestamp,
+      language: language,
+    );
     return _decode(await doGet(requestUrl, headers: apiHeaders));
   }
 
-  String buildUrl(
-    Location location,
-    DateTime timestamp,
-    String language,
-  ) {
-    final params = {
-      'location': location,
-      'timestamp':
-          (timestamp ?? DateTime.now()).toUtc().millisecondsSinceEpoch ~/ 1000,
+  String buildUrl({
+    required Location location,
+    DateTime? timestamp,
+    String? language,
+  }) {
+    timestamp ??= DateTime.now();
+
+    final params = <String, String>{
+      'location': location.toString(),
+      'timestamp': (timestamp.millisecondsSinceEpoch ~/ 1000).toString(),
     };
 
     if (language != null) {
@@ -51,34 +59,18 @@ class GoogleMapsTimezone extends GoogleWebService {
     }
 
     if (apiKey != null) {
-      params.putIfAbsent('key', () => apiKey);
+      params.putIfAbsent('key', () => apiKey!);
     }
 
-    return '$url?${buildQuery(params)}';
+    return url.replace(queryParameters: params).toString();
   }
 
   TimezoneResponse _decode(Response res) =>
       TimezoneResponse.fromJson(json.decode(res.body));
 }
 
-class TimezoneResponse extends GoogleResponse<TimezoneResult> {
-  TimezoneResponse(
-    String status,
-    String errorMessage,
-    TimezoneResult result,
-  ) : super(
-          status,
-          errorMessage,
-          result,
-        );
-
-  factory TimezoneResponse.fromJson(Map json) => json != null
-      ? TimezoneResponse(json['status'], json['errorMessage'],
-          json['status'] == 'OK' ? TimezoneResult.fromJson(json) : null)
-      : null;
-}
-
-class TimezoneResult {
+@JsonSerializable(fieldRename: FieldRename.none)
+class TimezoneResponse extends GoogleResponseStatus {
   /// The offset for daylight-savings time in seconds.
   final int dstOffset;
 
@@ -94,15 +86,16 @@ class TimezoneResult {
   /// eg. "Pacific Daylight Time" or "Australian Eastern Daylight Time".
   final String timeZoneName;
 
-  TimezoneResult(
-      {this.dstOffset, this.rawOffset, this.timeZoneId, this.timeZoneName});
+  TimezoneResponse({
+    required String status,
+    String? errorMessage,
+    required this.dstOffset,
+    required this.rawOffset,
+    required this.timeZoneId,
+    required this.timeZoneName,
+  }) : super(status: status, errorMessage: errorMessage);
 
-  factory TimezoneResult.fromJson(Map json) => json != null
-      ? TimezoneResult(
-          dstOffset: json['dstOffset'],
-          rawOffset: json['rawOffset'],
-          timeZoneId: json['timeZoneId'],
-          timeZoneName: json['timeZoneName'],
-        )
-      : null;
+  factory TimezoneResponse.fromJson(Map<String, dynamic> json) =>
+      _$TimezoneResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$TimezoneResponseToJson(this);
 }

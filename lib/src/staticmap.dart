@@ -1,8 +1,8 @@
-import 'package:google_maps_webservice/distance.dart';
+import 'core.dart';
 
 class Path {
-  String color;
-  String enc;
+  final String? color;
+  final String? enc;
 
   Path({
     this.color,
@@ -11,57 +11,72 @@ class Path {
 
   @override
   String toString() {
-    return 'color:$color|enc:$enc';
+    return [
+      color != null ? 'color:$color' : null,
+      enc != null ? 'enc:$enc' : null,
+    ].where((v) => v != null).join('|');
   }
 }
 
+// TOOD should extends GoogleWebService
 class StaticMap {
-  final String polyEncode;
+  final String? polyEncode;
   final List<Location> markers;
   final String _apiKey;
-  final String zoom;
+  final String? zoom;
   final String size;
-  final String center;
-  final String scale;
-  final Path path;
+  final String? center;
+  final bool scale;
+  final Path? path;
   final String mapType;
 
-  StaticMap(this._apiKey,
-      {this.polyEncode,
-      this.markers,
-      this.zoom = '',
-      this.size = '580x267',
-      this.center = '',
-      this.scale = 'false',
-      this.path,
-      this.mapType = 'roadmap'})
-      : assert(
+  StaticMap(
+    this._apiKey, {
+    this.polyEncode,
+    this.markers = const [],
+    this.zoom,
+    this.size = '580x267',
+    this.center,
+    this.scale = false,
+    this.path,
+    this.mapType = 'roadmap',
+  }) : assert(
           size.contains('x'),
         );
 
   String getUrl() {
-    final params = <String, dynamic>{};
+    final params = <String, String>{};
     if (path != null) {
       params['path'] = path.toString();
     }
-    if (markers?.isNotEmpty ?? false) {
-      params['markers'] = markers.map((l) => '|${l.lat},${l.lng}').toList();
+    if (markers.isNotEmpty) {
+      params['markers'] = markers.join('|');
+    }
+
+    final z = zoom;
+    if (z != null && z.isNotEmpty) {
+      params['zoom'] = z;
+    }
+
+    if (scale) {
+      params['scale'] = scale.toString();
+    }
+
+    final c = center;
+    if (c != null && c.isNotEmpty) {
+      params['center'] = c;
     }
 
     params.addAll({
       'key': _apiKey,
       'size': size,
-      'center': center,
-      'zoom': zoom,
-      'scale': scale,
-      'mapType': mapType
+      'mapType': mapType,
     });
-    print(params);
     return Uri(
-            scheme: 'https',
-            host: 'maps.googleapis.com',
-            path: 'maps/api/staticmap',
-            queryParameters: params)
-        .toString();
+      scheme: 'https',
+      host: 'maps.googleapis.com',
+      path: 'maps/api/staticmap',
+      queryParameters: params,
+    ).toString();
   }
 }
