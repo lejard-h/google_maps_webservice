@@ -28,8 +28,8 @@ Future<void> main() async {
           ),
           _uri.replace(
             queryParameters: {
-              'origins': Uri.encodeComponent('Bakshi Bazar Road, Dhaka'),
-              'destinations': Uri.encodeComponent('Rd 11, Dhaka 1212'),
+              'origins': 'Bakshi Bazar Road, Dhaka',
+              'destinations': 'Rd 11, Dhaka 1212',
               'key': apiKey,
             },
           ).toString(),
@@ -60,7 +60,7 @@ Future<void> main() async {
           ),
           _uri.replace(
             queryParameters: {
-              'origins': Uri.encodeComponent('10 Girda Urdu Rd, Dhaka'),
+              'origins': '10 Girda Urdu Rd, Dhaka',
               'destinations': '23.762488,90.373025',
               'key': apiKey,
             },

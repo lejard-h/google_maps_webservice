@@ -172,7 +172,7 @@ Future<void> main() async {
         expect(
           places.buildTextSearchUrl(query: '123 Main Street'),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'key': apiKey,
           }).toString(),
         );
@@ -185,7 +185,7 @@ Future<void> main() async {
             location: Location(lat: -33.8670522, lng: 151.1957362),
           ),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'location': '-33.8670522,151.1957362',
             'key': apiKey,
           }).toString(),
@@ -199,7 +199,7 @@ Future<void> main() async {
             radius: 500,
           ),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'radius': '500',
             'key': apiKey,
           }).toString(),
@@ -213,7 +213,7 @@ Future<void> main() async {
             language: 'fr',
           ),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'language': 'fr',
             'key': apiKey,
           }).toString(),
@@ -228,7 +228,7 @@ Future<void> main() async {
             maxprice: PriceLevel.veryExpensive,
           ),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'minprice': '0',
             'maxprice': '4',
             'key': apiKey,
@@ -243,7 +243,7 @@ Future<void> main() async {
             opennow: true,
           ),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'opennow': 'true',
             'key': apiKey,
           }).toString(),
@@ -257,7 +257,7 @@ Future<void> main() async {
             pagetoken: 'egdsfdsfdsf',
           ),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'pagetoken': 'egdsfdsfdsf',
             'key': apiKey,
           }).toString(),
@@ -271,7 +271,7 @@ Future<void> main() async {
             type: 'hospital',
           ),
           _uri.replace(queryParameters: {
-            'query': Uri.encodeComponent('123 Main Street'),
+            'query': '123 Main Street',
             'type': 'hospital',
             'key': apiKey,
           }).toString(),
@@ -402,7 +402,7 @@ Future<void> main() async {
         expect(
           places.buildAutocompleteUrl(input: 'Amoeba Test'),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'key': apiKey,
           }).toString(),
         );
@@ -415,7 +415,7 @@ Future<void> main() async {
             offset: 3,
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'offset': '3',
             'key': apiKey,
           }).toString(),
@@ -429,7 +429,7 @@ Future<void> main() async {
             location: Location(lat: -33.8670522, lng: 151.195736),
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'location': '-33.8670522,151.195736',
             'key': apiKey,
           }).toString(),
@@ -443,7 +443,7 @@ Future<void> main() async {
             origin: Location(lat: -33.8670522, lng: 151.1957362),
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'origin': '-33.8670522,151.1957362',
             'key': apiKey,
           }).toString(),
@@ -457,7 +457,7 @@ Future<void> main() async {
             radius: 500,
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'radius': '500',
             'key': apiKey,
           }).toString(),
@@ -471,7 +471,7 @@ Future<void> main() async {
             language: 'fr',
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'language': 'fr',
             'key': apiKey,
           }).toString(),
@@ -485,7 +485,7 @@ Future<void> main() async {
             types: ['geocode', 'establishment'],
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'types': 'geocode|establishment',
             'key': apiKey,
           }).toString(),
@@ -502,7 +502,7 @@ Future<void> main() async {
             ],
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'components': 'country:fr|locality:Paris',
             'key': apiKey,
           }).toString(),
@@ -516,7 +516,7 @@ Future<void> main() async {
             strictbounds: true,
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'strictbounds': 'true',
             'key': apiKey,
           }).toString(),
@@ -535,7 +535,7 @@ Future<void> main() async {
         expect(
           places.buildQueryAutocompleteUrl(input: 'Amoeba Test'),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'key': apiKey,
           }).toString(),
         );
@@ -548,7 +548,7 @@ Future<void> main() async {
             offset: 3,
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'offset': '3',
             'key': apiKey,
           }).toString(),
@@ -562,7 +562,7 @@ Future<void> main() async {
             location: Location(lat: -33.8670522, lng: 151.1957362),
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'location': '-33.8670522,151.1957362',
             'key': apiKey,
           }).toString(),
@@ -576,7 +576,7 @@ Future<void> main() async {
             radius: 500,
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'radius': '500',
             'key': apiKey,
           }).toString(),
@@ -590,7 +590,7 @@ Future<void> main() async {
             language: 'fr',
           ),
           _uri.replace(queryParameters: {
-            'input': Uri.encodeComponent('Amoeba Test'),
+            'input': 'Amoeba Test',
             'language': 'fr',
             'key': apiKey,
           }).toString(),

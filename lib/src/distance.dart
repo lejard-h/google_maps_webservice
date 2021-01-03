@@ -151,16 +151,12 @@ class GoogleDistanceMatrix extends GoogleWebService {
     if (origin is! List<Location> && origin is! List<String>) {
       throw ArgumentError("'origin' must be a '$String' or a '$Location'");
     }
-    params['origins'] = origin is List<String>
-        ? origin.map(Uri.encodeComponent).join('|')
-        : origin.join('|');
+    params['origins'] = origin.join('|');
 
     if (destination is! List<Location> && destination is! List<String>) {
       throw ArgumentError("'destination' must be a '$String' or a '$Location'");
     }
-    params['destinations'] = destination is List<String>
-        ? destination.map(Uri.encodeComponent).join('|')
-        : destination.join('|');
+    params['destinations'] = destination.join('|');
 
     if (destination is! List<Location> && destination is! List<String>) {
       throw ArgumentError("'destination' must be a '$String' or a '$Location'");

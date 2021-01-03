@@ -154,15 +154,12 @@ class GoogleMapsDirections extends GoogleWebService {
     if (origin is! Location && origin is! String) {
       throw ArgumentError("'origin' must be a '$String' or a '$Location'");
     }
-    params['origin'] =
-        origin is String ? Uri.encodeComponent(origin) : origin.toString();
+    params['origin'] = origin.toString();
 
     if (destination is! Location && destination is! String) {
       throw ArgumentError("'destination' must be a '$String' or a '$Location'");
     }
-    params['destination'] = destination is String
-        ? Uri.encodeComponent(destination)
-        : destination.toString();
+    params['destination'] = destination.toString();
 
     if (departureTime != null) {
       if (departureTime is! DateTime &&

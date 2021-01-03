@@ -26,9 +26,7 @@ Future<void> main() async {
           ),
           _uri.replace(
             queryParameters: {
-              'address': Uri.encodeComponent(
-                '1600 Amphitheatre Parkway, Mountain View, CA',
-              ),
+              'address': '1600 Amphitheatre Parkway, Mountain View, CA',
               'key': apiKey,
             },
           ).toString(),
@@ -46,7 +44,7 @@ Future<void> main() async {
           ),
           _uri.replace(
             queryParameters: {
-              'address': Uri.encodeComponent('Winnetka'),
+              'address': 'Winnetka',
               'bounds': '34.172684,-118.604794|34.236144,-118.500938',
               'key': apiKey,
             },
@@ -59,7 +57,7 @@ Future<void> main() async {
           geocoding.buildUrl(address: 'Paris', language: 'fr'),
           _uri.replace(
             queryParameters: {
-              'address': Uri.encodeComponent('Paris'),
+              'address': 'Paris',
               'language': 'fr',
               'key': apiKey,
             },
@@ -72,7 +70,7 @@ Future<void> main() async {
           geocoding.buildUrl(address: 'Toledo', region: 'es'),
           _uri.replace(
             queryParameters: {
-              'address': Uri.encodeComponent('Toledo'),
+              'address': 'Toledo',
               'region': 'es',
               'key': apiKey,
             },
@@ -88,7 +86,7 @@ Future<void> main() async {
           ),
           _uri.replace(
             queryParameters: {
-              'address': Uri.encodeComponent('Spain'),
+              'address': 'Spain',
               'components': 'administrative_area:Toledo',
               'key': apiKey,
             },

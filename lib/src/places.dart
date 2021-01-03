@@ -279,7 +279,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String? region,
   }) {
     final params = <String, String>{
-      'query': Uri.encodeComponent(query),
+      'query': query,
     };
 
     if (minprice != null) {
@@ -394,7 +394,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String? region,
   }) {
     final params = <String, String>{
-      'input': Uri.encodeComponent(input),
+      'input': input,
     };
 
     if (language != null) {
@@ -457,7 +457,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     String? language,
   }) {
     final params = <String, String>{
-      'input': Uri.encodeComponent(input),
+      'input': input,
     };
 
     if (language != null) {

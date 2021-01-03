@@ -111,7 +111,7 @@ class GoogleMapsGeocoding extends GoogleWebService {
     }
 
     if (address != null) {
-      params['address'] = Uri.encodeComponent(address);
+      params['address'] = address;
     }
 
     if (bounds != null) {

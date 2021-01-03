@@ -139,7 +139,7 @@ class Component {
   Component(this.component, this.value);
 
   @override
-  String toString() => '$component:${Uri.encodeComponent(value)}';
+  String toString() => '$component:$value';
 }
 
 enum TravelMode {
