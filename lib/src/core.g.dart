@@ -22,7 +22,9 @@ Geometry _$GeometryFromJson(Map<String, dynamic> json) {
   return Geometry(
     location: Location.fromJson(json['location'] as Map<String, dynamic>),
     locationType: json['location_type'] as String,
-    viewport: Bounds.fromJson(json['viewport'] as Map<String, dynamic>),
+    viewport: json['viewport'] == null
+        ? null
+        : Bounds.fromJson(json['viewport'] as Map<String, dynamic>),
     bounds: json['bounds'] == null
         ? null
         : Bounds.fromJson(json['bounds'] as Map<String, dynamic>),

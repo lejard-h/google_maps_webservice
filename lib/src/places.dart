@@ -215,6 +215,10 @@ class GoogleMapsPlaces extends GoogleWebService {
 
     final params = <String, String>{};
 
+    if (location != null) {
+      params['location'] = location.toString();
+    }
+
     if (keyword != null) {
       params['keyword'] = keyword;
     }
@@ -227,12 +231,12 @@ class GoogleMapsPlaces extends GoogleWebService {
       params['rankby'] = rankby;
     }
 
-    if (maxprice != null) {
-      params['maxprice'] = maxprice.index.toString();
-    }
-
     if (minprice != null) {
       params['minprice'] = minprice.index.toString();
+    }
+
+    if (maxprice != null) {
+      params['maxprice'] = maxprice.index.toString();
     }
 
     if (type != null) {
@@ -247,10 +251,6 @@ class GoogleMapsPlaces extends GoogleWebService {
       params['language'] = language;
     }
 
-    if (location != null) {
-      params['location'] = location.toString();
-    }
-
     if (radius != null) {
       params['radius'] = radius.toString();
     }
@@ -260,7 +260,7 @@ class GoogleMapsPlaces extends GoogleWebService {
     }
     return url
         .replace(
-          path: '$url$_nearbySearchUrl',
+          path: '${url.path}$_nearbySearchUrl',
           queryParameters: params,
         )
         .toString();
@@ -282,12 +282,12 @@ class GoogleMapsPlaces extends GoogleWebService {
       'query': Uri.encodeComponent(query),
     };
 
-    if (maxprice != null) {
-      params['maxprice'] = maxprice.index.toString();
-    }
-
     if (minprice != null) {
       params['minprice'] = minprice.index.toString();
+    }
+
+    if (maxprice != null) {
+      params['maxprice'] = maxprice.index.toString();
     }
 
     if (opennow) {
@@ -324,7 +324,7 @@ class GoogleMapsPlaces extends GoogleWebService {
 
     return url
         .replace(
-          path: '$url$_textSearchUrl',
+          path: '${url.path}$_textSearchUrl',
           queryParameters: params,
         )
         .toString();
@@ -374,7 +374,7 @@ class GoogleMapsPlaces extends GoogleWebService {
 
     return url
         .replace(
-          path: '$url$_detailsSearchUrl',
+          path: '${url.path}$_detailsSearchUrl',
           queryParameters: params,
         )
         .toString();
@@ -443,7 +443,7 @@ class GoogleMapsPlaces extends GoogleWebService {
 
     return url
         .replace(
-          path: '$url$_autocompleteUrl',
+          path: '${url.path}$_autocompleteUrl',
           queryParameters: params,
         )
         .toString();
@@ -482,7 +482,7 @@ class GoogleMapsPlaces extends GoogleWebService {
 
     return url
         .replace(
-          path: '$url$_queryAutocompleteUrl',
+          path: '${url.path}$_queryAutocompleteUrl',
           queryParameters: params,
         )
         .toString();
@@ -515,7 +515,7 @@ class GoogleMapsPlaces extends GoogleWebService {
 
     return url
         .replace(
-          path: '$url$_photoUrl',
+          path: '${url.path}$_photoUrl',
           queryParameters: params,
         )
         .toString();

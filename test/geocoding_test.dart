@@ -141,13 +141,13 @@ Future<void> main() async {
       expect(
           response.results.first.geometry.location.lng, equals(-122.0842499));
       expect(response.results.first.geometry.locationType, equals('ROOFTOP'));
-      expect(response.results.first.geometry.viewport.northeast.lat,
+      expect(response.results.first.geometry.viewport?.northeast.lat,
           equals(37.4238253802915));
-      expect(response.results.first.geometry.viewport.northeast.lng,
+      expect(response.results.first.geometry.viewport?.northeast.lng,
           equals(-122.0829009197085));
-      expect(response.results.first.geometry.viewport.southwest.lat,
+      expect(response.results.first.geometry.viewport?.southwest.lat,
           equals(37.4211274197085));
-      expect(response.results.first.geometry.viewport.southwest.lng,
+      expect(response.results.first.geometry.viewport?.southwest.lng,
           equals(-122.0855988802915));
       expect(response.results.first.placeId,
           equals('ChIJ2eUgeAK6j4ARbn5u_wAGqWA'));
