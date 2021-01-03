@@ -158,6 +158,11 @@ class _TravelMode {
   final TravelMode value;
 
   _TravelMode(this.value);
+
+  // ignore: unused_element
+  factory _TravelMode.fromJson(Map<String, dynamic> json) =>
+      _$_TravelModeFromJson(json);
+  Map<String, dynamic> toJson() => _$_TravelModeToJson(this);
 }
 
 extension TravelModeExt on TravelMode {
@@ -182,6 +187,11 @@ class _RouteType {
   final RouteType value;
 
   _RouteType(this.value);
+
+  // ignore: unused_element
+  factory _RouteType.fromJson(Map<String, dynamic> json) =>
+      _$_RouteTypeFromJson(json);
+  Map<String, dynamic> toJson() => _$_RouteTypeToJson(this);
 }
 
 extension RouteTypeExt on RouteType {
@@ -204,6 +214,10 @@ class _Unit {
   final Unit value;
 
   _Unit(this.value);
+
+  // ignore: unused_element
+  factory _Unit.fromJson(Map<String, dynamic> json) => _$_UnitFromJson(json);
+  Map<String, dynamic> toJson() => _$_UnitToJson(this);
 }
 
 extension UnitExt on Unit {
@@ -228,6 +242,11 @@ class _TrafficModel {
   final TrafficModel value;
 
   _TrafficModel(this.value);
+
+  // ignore: unused_element
+  factory _TrafficModel.fromJson(Map<String, dynamic> json) =>
+      _$_TrafficModelFromJson(json);
+  Map<String, dynamic> toJson() => _$_TrafficModelToJson(this);
 }
 
 extension TrafficModelExt on TrafficModel {
@@ -253,6 +272,11 @@ class _TransitMode {
   final TransitMode value;
 
   _TransitMode(this.value);
+
+  // ignore: unused_element
+  factory _TransitMode.fromJson(Map<String, dynamic> json) =>
+      _$_TransitModeFromJson(json);
+  Map<String, dynamic> toJson() => _$_TransitModeToJson(this);
 }
 
 extension TransitModeExt on TransitMode {
@@ -277,6 +301,11 @@ class _TransitRoutingPreferences {
   final TransitRoutingPreferences value;
 
   _TransitRoutingPreferences(this.value);
+
+  // ignore: unused_element
+  factory _TransitRoutingPreferences.fromJson(Map<String, dynamic> json) =>
+      _$_TransitRoutingPreferencesFromJson(json);
+  Map<String, dynamic> toJson() => _$_TransitRoutingPreferencesToJson(this);
 }
 
 extension TransitRoutingPreferencesExt on TransitRoutingPreferences {

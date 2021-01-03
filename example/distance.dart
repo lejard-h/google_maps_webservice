@@ -27,8 +27,8 @@ Future<void> main() async {
     print('response ${responseForLocation.status}');
 
     if (responseForLocation.isOkay) {
-      print(responseForLocation.destinationAddress.length);
-      for (var row in responseForLocation.results) {
+      print(responseForLocation.destinationAddresses.length);
+      for (var row in responseForLocation.rows) {
         for (var element in row.elements) {
           print(
               'distance ${element.distance.text} duration ${element.duration.text}');
