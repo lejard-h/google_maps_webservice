@@ -1,9 +1,11 @@
 library google_maps_webservice.staticmap.example;
 
+import 'dart:io';
+
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_maps_webservice/staticmap.dart';
 
-final apiKey = 'APIKEY';
+final apiKey = Platform.environment['API_KEY'] ?? '';
 
 void main() {
   final staticMap = StaticMap(
@@ -19,5 +21,5 @@ void main() {
     scale: false,
   );
 
-  staticMap.getUrl();
+  print(staticMap.getUrl());
 }

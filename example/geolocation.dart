@@ -29,10 +29,10 @@ Future<void> main() async {
   var res = await geolocation.getGeolocation();
 
   // works with map/json
-  res = await geolocation.getGeolocationFromMap(params);
+  // res = await geolocation.getGeolocationFromMap(params);
 
   // define optional parameter explicit
-  res = await geolocation.getGeolocation(considerIp: false);
+  // res = await geolocation.getGeolocation(considerIp: false);
 
   if (res.isOkay) {
     print('Latitude: ${res.location?.lat}');
@@ -41,4 +41,6 @@ Future<void> main() async {
   } else {
     print(res.error?.message);
   }
+
+  geolocation.dispose();
 }
