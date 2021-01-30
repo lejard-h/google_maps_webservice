@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.0.20
+## 0.0.20-nullsafety.0
 
 - Support null safety
 
