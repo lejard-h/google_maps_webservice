@@ -46,7 +46,7 @@ GeocodedWaypoint _$GeocodedWaypointFromJson(Map<String, dynamic> json) {
     types:
         (json['types'] as List<dynamic>?)?.map((e) => e as String).toList() ??
             [],
-    partialMatch: json['partial_match'] as bool,
+    partialMatch: json['partial_match'] as bool? ?? false,
   );
 }
 
@@ -134,18 +134,18 @@ Step _$StepFromJson(Map<String, dynamic> json) {
   return Step(
     travelMode: _$enumDecode(_$TravelModeEnumMap, json['travel_mode']),
     htmlInstructions: json['html_instructions'] as String,
-    maneuver: json['maneuver'] as String,
     polyline: Polyline.fromJson(json['polyline'] as Map<String, dynamic>),
-    transitDetails: json['transit_details'] == null
-        ? null
-        : TransitDetails.fromJson(
-            json['transit_details'] as Map<String, dynamic>),
     startLocation:
         Location.fromJson(json['start_location'] as Map<String, dynamic>),
     endLocation:
         Location.fromJson(json['end_location'] as Map<String, dynamic>),
     duration: Value.fromJson(json['duration'] as Map<String, dynamic>),
     distance: Value.fromJson(json['distance'] as Map<String, dynamic>),
+    transitDetails: json['transit_details'] == null
+        ? null
+        : TransitDetails.fromJson(
+            json['transit_details'] as Map<String, dynamic>),
+    maneuver: json['maneuver'] as String?,
   );
 }
 

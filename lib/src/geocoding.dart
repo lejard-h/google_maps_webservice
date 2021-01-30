@@ -174,7 +174,7 @@ class GeocodingResult {
   final List<String> types;
 
   /// JSON formatted_address
-  final String formattedAddress;
+  final String? formattedAddress;
 
   /// JSON address_components
   @JsonKey(defaultValue: <AddressComponent>[])
@@ -187,19 +187,20 @@ class GeocodingResult {
   final Geometry geometry;
 
   /// JSON partial_match
+  @JsonKey(defaultValue: false)
   final bool partialMatch;
 
   /// JSON place_id
   final String placeId;
 
   GeocodingResult({
-    required this.types,
-    required this.formattedAddress,
-    required this.addressComponents,
-    required this.postcodeLocalities,
     required this.geometry,
-    required this.partialMatch,
     required this.placeId,
+    this.types = const <String>[],
+    this.addressComponents = const <AddressComponent>[],
+    this.postcodeLocalities = const <String>[],
+    this.partialMatch = false,
+    this.formattedAddress,
   });
 
   factory GeocodingResult.fromJson(Map<String, dynamic> json) =>
@@ -210,7 +211,7 @@ class GeocodingResult {
 @JsonSerializable()
 class StreetAddress {
   final Geometry? geometry;
-  final String addressLine;
+  final String? addressLine;
   final String? countryName;
   final String? countryCode;
   final String? featureName;
@@ -228,7 +229,7 @@ class StreetAddress {
 
   StreetAddress({
     this.geometry,
-    required this.addressLine,
+    this.addressLine,
     this.countryName,
     this.countryCode,
     this.featureName,

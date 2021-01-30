@@ -580,7 +580,7 @@ class PlacesSearchResult {
   /// JSON price_level
   final PriceLevel? priceLevel;
 
-  final num rating;
+  final num? rating;
 
   @JsonKey(defaultValue: [])
   final List<String> types;
@@ -588,9 +588,10 @@ class PlacesSearchResult {
   final String? vicinity;
 
   /// JSON formatted_address
-  final String formattedAddress;
+  final String? formattedAddress;
 
   /// JSON permanently_closed
+  @JsonKey(defaultValue: false)
   final bool permanentlyClosed;
 
   final String id;
@@ -598,22 +599,22 @@ class PlacesSearchResult {
   final String reference;
 
   PlacesSearchResult({
-    this.icon,
-    this.geometry,
-    required this.name,
-    this.openingHours,
-    this.photos = const [],
-    required this.placeId,
-    this.scope,
-    this.altIds = const [],
-    this.priceLevel,
-    required this.rating,
-    this.types = const [],
-    this.vicinity,
-    required this.formattedAddress,
-    required this.permanentlyClosed,
     required this.id,
     required this.reference,
+    required this.name,
+    required this.placeId,
+    this.formattedAddress,
+    this.photos = const [],
+    this.altIds = const [],
+    this.types = const [],
+    this.permanentlyClosed = false,
+    this.icon,
+    this.geometry,
+    this.openingHours,
+    this.scope,
+    this.priceLevel,
+    this.rating,
+    this.vicinity,
   });
 
   factory PlacesSearchResult.fromJson(Map<String, dynamic> json) =>
@@ -631,7 +632,7 @@ class PlaceDetails {
   final String adrAddress;
 
   /// JSON formatted_address
-  final String formattedAddress;
+  final String? formattedAddress;
 
   /// JSON formatted_phone_number
   final String? formattedPhoneNumber;
@@ -659,7 +660,7 @@ class PlaceDetails {
   /// JSON price_level
   final PriceLevel? priceLevel;
 
-  final num rating;
+  final num? rating;
 
   final String? scope;
 
@@ -681,27 +682,27 @@ class PlaceDetails {
   final Geometry? geometry;
 
   PlaceDetails({
-    this.addressComponents = const [],
-    required this.adrAddress,
-    required this.formattedAddress,
-    this.formattedPhoneNumber,
     required this.id,
-    this.reference,
-    this.icon,
+    required this.adrAddress,
     required this.name,
-    this.openingHours,
-    this.photos = const [],
     required this.placeId,
     required this.internationalPhoneNumber,
-    this.priceLevel,
-    required this.rating,
-    this.scope,
+    required this.utcOffset,
+    this.addressComponents = const [],
+    this.photos = const [],
     this.types = const [],
+    this.reviews = const [],
+    this.formattedAddress,
+    this.formattedPhoneNumber,
+    this.reference,
+    this.icon,
+    this.rating,
+    this.openingHours,
+    this.priceLevel,
+    this.scope,
     this.url,
     this.vicinity,
-    required this.utcOffset,
     this.website,
-    this.reviews = const [],
     this.geometry,
   });
 
@@ -712,6 +713,7 @@ class PlaceDetails {
 
 @JsonSerializable()
 class OpeningHoursDetail {
+  @JsonKey(defaultValue: false)
   final bool openNow;
 
   @JsonKey(defaultValue: <OpeningHoursPeriod>[])

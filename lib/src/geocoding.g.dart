@@ -26,10 +26,11 @@ Map<String, dynamic> _$GeocodingResponseToJson(GeocodingResponse instance) =>
 
 GeocodingResult _$GeocodingResultFromJson(Map<String, dynamic> json) {
   return GeocodingResult(
+    geometry: Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
+    placeId: json['place_id'] as String,
     types:
         (json['types'] as List<dynamic>?)?.map((e) => e as String).toList() ??
             [],
-    formattedAddress: json['formatted_address'] as String,
     addressComponents: (json['address_components'] as List<dynamic>?)
             ?.map((e) => AddressComponent.fromJson(e as Map<String, dynamic>))
             .toList() ??
@@ -38,9 +39,8 @@ GeocodingResult _$GeocodingResultFromJson(Map<String, dynamic> json) {
             ?.map((e) => e as String)
             .toList() ??
         [],
-    geometry: Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
-    partialMatch: json['partial_match'] as bool,
-    placeId: json['place_id'] as String,
+    partialMatch: json['partial_match'] as bool? ?? false,
+    formattedAddress: json['formatted_address'] as String?,
   );
 }
 
@@ -60,7 +60,7 @@ StreetAddress _$StreetAddressFromJson(Map<String, dynamic> json) {
     geometry: json['geometry'] == null
         ? null
         : Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
-    addressLine: json['address_line'] as String,
+    addressLine: json['address_line'] as String?,
     countryName: json['country_name'] as String?,
     countryCode: json['country_code'] as String?,
     featureName: json['feature_name'] as String?,

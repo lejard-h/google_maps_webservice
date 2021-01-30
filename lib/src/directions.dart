@@ -310,13 +310,14 @@ class GeocodedWaypoint {
   final List<String> types;
 
   /// JSON partial_match
+  @JsonKey(defaultValue: false)
   final bool partialMatch;
 
   GeocodedWaypoint({
     required this.geocoderStatus,
     required this.placeId,
-    required this.types,
-    required this.partialMatch,
+    this.types = const <String>[],
+    this.partialMatch = false,
   });
 
   factory GeocodedWaypoint.fromJson(Map<String, dynamic> json) =>
@@ -429,7 +430,7 @@ class Step extends _Step {
 
   /// JSON html_instructions
   final String htmlInstructions;
-  final String maneuver;
+  final String? maneuver;
   final Polyline polyline;
 
   /// JSON transit_details
@@ -438,13 +439,13 @@ class Step extends _Step {
   Step({
     required this.travelMode,
     required this.htmlInstructions,
-    required this.maneuver,
     required this.polyline,
-    this.transitDetails,
     required Location startLocation,
     required Location endLocation,
     required Value duration,
     required Value distance,
+    this.transitDetails,
+    this.maneuver,
   }) : super(
           startLocation: startLocation,
           endLocation: endLocation,

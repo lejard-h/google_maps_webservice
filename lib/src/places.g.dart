@@ -34,35 +34,35 @@ Map<String, dynamic> _$PlacesSearchResponseToJson(
 
 PlacesSearchResult _$PlacesSearchResultFromJson(Map<String, dynamic> json) {
   return PlacesSearchResult(
-    icon: json['icon'] as String?,
-    geometry: json['geometry'] == null
-        ? null
-        : Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
+    id: json['id'] as String,
+    reference: json['reference'] as String,
     name: json['name'] as String,
-    openingHours: json['opening_hours'] == null
-        ? null
-        : OpeningHoursDetail.fromJson(
-            json['opening_hours'] as Map<String, dynamic>),
+    placeId: json['place_id'] as String,
+    formattedAddress: json['formatted_address'] as String?,
     photos: (json['photos'] as List<dynamic>?)
             ?.map((e) => Photo.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
-    placeId: json['place_id'] as String,
-    scope: json['scope'] as String?,
     altIds: (json['alt_ids'] as List<dynamic>?)
             ?.map((e) => AlternativeId.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
-    priceLevel: _$enumDecodeNullable(_$PriceLevelEnumMap, json['price_level']),
-    rating: json['rating'] as num,
     types:
         (json['types'] as List<dynamic>?)?.map((e) => e as String).toList() ??
             [],
+    permanentlyClosed: json['permanently_closed'] as bool? ?? false,
+    icon: json['icon'] as String?,
+    geometry: json['geometry'] == null
+        ? null
+        : Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
+    openingHours: json['opening_hours'] == null
+        ? null
+        : OpeningHoursDetail.fromJson(
+            json['opening_hours'] as Map<String, dynamic>),
+    scope: json['scope'] as String?,
+    priceLevel: _$enumDecodeNullable(_$PriceLevelEnumMap, json['price_level']),
+    rating: json['rating'] as num?,
     vicinity: json['vicinity'] as String?,
-    formattedAddress: json['formatted_address'] as String,
-    permanentlyClosed: json['permanently_closed'] as bool,
-    id: json['id'] as String,
-    reference: json['reference'] as String,
   );
 }
 
@@ -133,41 +133,41 @@ const _$PriceLevelEnumMap = {
 
 PlaceDetails _$PlaceDetailsFromJson(Map<String, dynamic> json) {
   return PlaceDetails(
+    id: json['id'] as String,
+    adrAddress: json['adr_address'] as String,
+    name: json['name'] as String,
+    placeId: json['place_id'] as String,
+    internationalPhoneNumber: json['international_phone_number'] as String,
+    utcOffset: json['utc_offset'] as num,
     addressComponents: (json['address_components'] as List<dynamic>?)
             ?.map((e) => AddressComponent.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
-    adrAddress: json['adr_address'] as String,
-    formattedAddress: json['formatted_address'] as String,
-    formattedPhoneNumber: json['formatted_phone_number'] as String?,
-    id: json['id'] as String,
-    reference: json['reference'] as String?,
-    icon: json['icon'] as String?,
-    name: json['name'] as String,
-    openingHours: json['opening_hours'] == null
-        ? null
-        : OpeningHoursDetail.fromJson(
-            json['opening_hours'] as Map<String, dynamic>),
     photos: (json['photos'] as List<dynamic>?)
             ?.map((e) => Photo.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
-    placeId: json['place_id'] as String,
-    internationalPhoneNumber: json['international_phone_number'] as String,
-    priceLevel: _$enumDecodeNullable(_$PriceLevelEnumMap, json['price_level']),
-    rating: json['rating'] as num,
-    scope: json['scope'] as String?,
     types:
         (json['types'] as List<dynamic>?)?.map((e) => e as String).toList() ??
             [],
-    url: json['url'] as String?,
-    vicinity: json['vicinity'] as String?,
-    utcOffset: json['utc_offset'] as num,
-    website: json['website'] as String?,
     reviews: (json['reviews'] as List<dynamic>?)
             ?.map((e) => Review.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
+    formattedAddress: json['formatted_address'] as String?,
+    formattedPhoneNumber: json['formatted_phone_number'] as String?,
+    reference: json['reference'] as String?,
+    icon: json['icon'] as String?,
+    rating: json['rating'] as num?,
+    openingHours: json['opening_hours'] == null
+        ? null
+        : OpeningHoursDetail.fromJson(
+            json['opening_hours'] as Map<String, dynamic>),
+    priceLevel: _$enumDecodeNullable(_$PriceLevelEnumMap, json['price_level']),
+    scope: json['scope'] as String?,
+    url: json['url'] as String?,
+    vicinity: json['vicinity'] as String?,
+    website: json['website'] as String?,
     geometry: json['geometry'] == null
         ? null
         : Geometry.fromJson(json['geometry'] as Map<String, dynamic>),
@@ -202,7 +202,7 @@ Map<String, dynamic> _$PlaceDetailsToJson(PlaceDetails instance) =>
 
 OpeningHoursDetail _$OpeningHoursDetailFromJson(Map<String, dynamic> json) {
   return OpeningHoursDetail(
-    openNow: json['open_now'] as bool,
+    openNow: json['open_now'] as bool? ?? false,
     periods: (json['periods'] as List<dynamic>?)
             ?.map((e) => OpeningHoursPeriod.fromJson(e as Map<String, dynamic>))
             .toList() ??

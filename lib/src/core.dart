@@ -25,7 +25,7 @@ class Geometry {
   final Location location;
 
   /// JSON location_type
-  final String locationType;
+  final String? locationType;
 
   final Bounds? viewport;
 
@@ -33,7 +33,7 @@ class Geometry {
 
   Geometry({
     required this.location,
-    required this.locationType,
+    this.locationType,
     this.viewport,
     this.bounds,
   });

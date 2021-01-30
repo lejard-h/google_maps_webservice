@@ -21,7 +21,7 @@ Map<String, dynamic> _$LocationToJson(Location instance) => <String, dynamic>{
 Geometry _$GeometryFromJson(Map<String, dynamic> json) {
   return Geometry(
     location: Location.fromJson(json['location'] as Map<String, dynamic>),
-    locationType: json['location_type'] as String,
+    locationType: json['location_type'] as String?,
     viewport: json['viewport'] == null
         ? null
         : Bounds.fromJson(json['viewport'] as Map<String, dynamic>),

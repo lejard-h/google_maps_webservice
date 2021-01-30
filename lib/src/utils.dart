@@ -65,7 +65,7 @@ abstract class GoogleWebService {
 
   @protected
   Future<Response> doGet(String url, {Map<String, String>? headers}) {
-    return httpClient.get(url, headers: headers);
+    return httpClient.get(Uri.parse(url), headers: headers);
   }
 
   @protected
@@ -78,7 +78,7 @@ abstract class GoogleWebService {
       'Content-type': 'application/json',
     };
     if (headers != null) postHeaders.addAll(headers);
-    return httpClient.post(url, body: body, headers: postHeaders);
+    return httpClient.post(Uri.parse(url), body: body, headers: postHeaders);
   }
 }
 

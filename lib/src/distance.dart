@@ -305,12 +305,12 @@ class Row {
 class Element {
   final Value distance;
   final Value duration;
-  final String elementStatus;
+  final String? elementStatus;
 
   Element({
     required this.distance,
     required this.duration,
-    required this.elementStatus,
+    this.elementStatus,
   });
 
   factory Element.fromJson(Map<String, dynamic> json) =>
