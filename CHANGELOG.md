@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.20
+
+- Support null safety
+
 ## 0.0.19
 
 - added optional region param to buildTextSearchUrl - @ahmedNY

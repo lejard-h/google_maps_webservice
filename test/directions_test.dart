@@ -125,115 +125,204 @@ Future<void> main() async {
 
       test('travel_mode', () {
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                travelMode: TravelMode.bicycling),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=BICYCLING&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            travelMode: TravelMode.bicycling,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'mode': 'BICYCLING',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                travelMode: TravelMode.driving),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=DRIVING&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            travelMode: TravelMode.driving,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'mode': 'DRIVING',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                travelMode: TravelMode.transit),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=TRANSIT&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            travelMode: TravelMode.transit,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'mode': 'TRANSIT',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                travelMode: TravelMode.walking),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&mode=WALKING&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            travelMode: TravelMode.walking,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'mode': 'WALKING',
+            'key': apiKey,
+          }).toString(),
+        );
       });
 
       test('departure_time', () {
         var d = 1343641500;
         expect(
-            directions.buildUrl(
-                origin: 'Toronto', destination: 'Montreal', departureTime: d),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=$d&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            departureTime: d,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'departure_time': '$d',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                departureTime: DateTime.fromMillisecondsSinceEpoch(d * 1000)),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=$d&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            departureTime: DateTime.fromMillisecondsSinceEpoch(d * 1000),
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'departure_time': '$d',
+            'key': apiKey,
+          }).toString(),
+        );
       });
 
       test('departure_time with now', () {
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                departureTime: 'now'),
-            equals(
-              'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&departure_time=now&key=$apiKey',
-            ));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            departureTime: 'now',
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'departure_time': 'now',
+            'key': apiKey,
+          }).toString(),
+        );
       });
 
       test('arrival_time', () {
         var d = 1343641500;
         expect(
-            directions.buildUrl(
-                origin: 'Toronto', destination: 'Montreal', arrivalTime: d),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&arrival_time=$d&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            arrivalTime: d,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'arrival_time': '$d',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                arrivalTime: DateTime.fromMillisecondsSinceEpoch(d * 1000)),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&arrival_time=$d&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            arrivalTime: DateTime.fromMillisecondsSinceEpoch(d * 1000),
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'arrival_time': '$d',
+            'key': apiKey,
+          }).toString(),
+        );
       });
 
       test('units', () {
         expect(
-            directions.buildUrl(
-                origin: 'Toronto', destination: 'Montreal', units: Unit.metric),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&units=metric&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            units: Unit.metric,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'units': 'metric',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                units: Unit.imperial),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&units=imperial&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            units: Unit.imperial,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'units': 'imperial',
+            'key': apiKey,
+          }).toString(),
+        );
       });
 
       test('traffic_model', () {
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                trafficModel: TrafficModel.bestGuess),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&traffic_model=best_guess&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            trafficModel: TrafficModel.bestGuess,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'traffic_model': 'best_guess',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                trafficModel: TrafficModel.pessimistic),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&traffic_model=pessimistic&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            trafficModel: TrafficModel.pessimistic,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'traffic_model': 'pessimistic',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                trafficModel: TrafficModel.optimistic),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&traffic_model=optimistic&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            trafficModel: TrafficModel.optimistic,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'traffic_model': 'optimistic',
+            'key': apiKey,
+          }).toString(),
+        );
       });
 
       test('transit_mode', () {
@@ -335,17 +424,30 @@ Future<void> main() async {
 
       test('alternatives', () {
         expect(
-            directions.buildUrl(
-                origin: 'Toronto', destination: 'Montreal', alternatives: true),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&alternatives=true&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            alternatives: true,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'alternatives': 'true',
+            'key': apiKey,
+          }).toString(),
+        );
         expect(
-            directions.buildUrl(
-                origin: 'Toronto',
-                destination: 'Montreal',
-                alternatives: false),
-            equals(
-                'https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=$apiKey'));
+          directions.buildUrl(
+            origin: 'Toronto',
+            destination: 'Montreal',
+            alternatives: false,
+          ),
+          _uri.replace(queryParameters: {
+            'origin': 'Toronto',
+            'destination': 'Montreal',
+            'key': apiKey,
+          }).toString(),
+        );
       });
     });
 
