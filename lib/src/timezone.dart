@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart';
 import 'package:json_annotation/json_annotation.dart';
 
