@@ -1,8 +1,11 @@
-# google_maps_webservice
+<p align="center">
+<a href="https://github.com/lejard-h/google_maps_webservice/actions?query=workflow%3ADart"><img src="https://github.com/lejard-h/google_maps_webservice/workflows/Dart/badge.svg?branch=master" alt="Build Status"></a>
+<a href="https://codecov.io/gh/lejard-h/google_maps_webserviced"><img src="https://codecov.io/gh/lejard-h/google_maps_webservice/branch/master/graph/badge.svg" alt="codecov"></a>
+<a href="https://github.com/lejard-h/google_maps_webservice"><img src="https://img.shields.io/github/stars/lejard-h/google_maps_webservice.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a>
+<a href="https://www.buymeacoffee.com/lejardh" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="25px"></a>
+</p>
 
-[![Build Status](https://github.com/lejard-h/google_maps_webservice/workflows/Dart/badge.svg?branch=master)](https://github.com/lejard-h/google_maps_webservice/actions?query=workflow%3ADart)
-[![codecov](https://codecov.io/gh/lejard-h/google_maps_webservice/branch/master/graph/badge.svg)](https://codecov.io/gh/lejard-h/google_maps_webservice)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/HLejard?locale.x=fr_FR)
+# google_maps_webservice
 
 ## General Information
 
