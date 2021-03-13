@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.20-nullsafety.1
+
+- Bug fix on `Prediction` which is now fully nullable
+
 ## 0.0.20-nullsafety.0
 
 - Support null safety
