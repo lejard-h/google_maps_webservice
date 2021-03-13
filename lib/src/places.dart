@@ -897,17 +897,17 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
 
 @JsonSerializable()
 class Prediction {
-  final String description;
-  final String id;
+  final String? description;
+  final String? id;
 
   @JsonKey(defaultValue: <Term>[])
   final List<Term> terms;
 
-  final int distanceMeters;
+  final int? distanceMeters;
 
   /// JSON place_id
-  final String placeId;
-  final String reference;
+  final String? placeId;
+  final String? reference;
 
   @JsonKey(defaultValue: <String>[])
   final List<String> types;
@@ -919,14 +919,14 @@ class Prediction {
   final StructuredFormatting? structuredFormatting;
 
   Prediction({
-    required this.description,
-    required this.id,
+    this.description,
+    this.id,
     this.terms = const <Term>[],
-    required this.distanceMeters,
-    required this.placeId,
-    required this.reference,
-    required this.types,
-    required this.matchedSubstrings,
+    this.distanceMeters,
+    this.placeId,
+    this.reference,
+    this.types = const <String>[],
+    this.matchedSubstrings = const <MatchedSubstring>[],
     this.structuredFormatting,
   });
 

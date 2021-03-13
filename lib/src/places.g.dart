@@ -354,15 +354,15 @@ Map<String, dynamic> _$PlacesAutocompleteResponseToJson(
 
 Prediction _$PredictionFromJson(Map<String, dynamic> json) {
   return Prediction(
-    description: json['description'] as String,
-    id: json['id'] as String,
+    description: json['description'] as String?,
+    id: json['id'] as String?,
     terms: (json['terms'] as List<dynamic>?)
             ?.map((e) => Term.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
-    distanceMeters: json['distance_meters'] as int,
-    placeId: json['place_id'] as String,
-    reference: json['reference'] as String,
+    distanceMeters: json['distance_meters'] as int?,
+    placeId: json['place_id'] as String?,
+    reference: json['reference'] as String?,
     types:
         (json['types'] as List<dynamic>?)?.map((e) => e as String).toList() ??
             [],
