@@ -2,16 +2,16 @@ name: Dart
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest]
         sdk: [stable, beta]
 
     steps:
@@ -30,4 +30,10 @@ jobs:
         run: dart analyze --fatal-infos
 
       - name: Run tests
-        run: dart test
+        run: dart test --coverage coverage
+
+      - name: Format coverage
+        run: dart run coverage:format_coverage --packages .packages --report-on lib -i coverage --lcov -o coverage/lcov.info 
+
+      - name: Upload coverage to codecov
+        run: curl -s https://codecov.io/bash | bash
