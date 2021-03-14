@@ -133,12 +133,12 @@ const _$PriceLevelEnumMap = {
 
 PlaceDetails _$PlaceDetailsFromJson(Map<String, dynamic> json) {
   return PlaceDetails(
-    id: json['id'] as String,
     adrAddress: json['adr_address'] as String,
     name: json['name'] as String,
     placeId: json['place_id'] as String,
-    internationalPhoneNumber: json['international_phone_number'] as String,
     utcOffset: json['utc_offset'] as num,
+    id: json['id'] as String?,
+    internationalPhoneNumber: json['international_phone_number'] as String?,
     addressComponents: (json['address_components'] as List<dynamic>?)
             ?.map((e) => AddressComponent.fromJson(e as Map<String, dynamic>))
             .toList() ??
