@@ -1,6 +1,6 @@
 name: google_maps_webservice
 description: Google Maps Web Services [API](https://developers.google.com/maps/web-services)
-version: 0.0.20-nullsafety.2
+version: 0.0.19-compat
 homepage: https://github.com/lejard-h/google_maps_webservice
 
 environment:
@@ -9,11 +9,11 @@ environment:
 dependencies:
   http: ^0.13.0
   meta: ^1.3.0
-  json_annotation: ^4.0.0
+  json_annotation: 3.1.1
 
 dev_dependencies:
   test: ^1.16.0
   pedantic: ^1.10.0
   build_runner: ^1.11.0
-  json_serializable: ^4.0.0
-  coverage: ^1.0.0
+  json_serializable: 3.5.1
+  coverage: 0.15.2
