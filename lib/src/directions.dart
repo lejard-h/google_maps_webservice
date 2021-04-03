@@ -1,42 +1,47 @@
-library google_maps_webservice.directions.src;
-
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:http/http.dart';
+import 'package:json_annotation/json_annotation.dart';
+
 import 'core.dart';
 import 'utils.dart';
+
+part 'directions.g.dart';
 
 const _directionsUrl = '/directions/json';
 
 /// https://developers.google.com/maps/documentation/directions/start
 class GoogleMapsDirections extends GoogleWebService {
   GoogleMapsDirections({
-    String apiKey,
-    String baseUrl,
-    Client httpClient,
+    String? apiKey,
+    String? baseUrl,
+    Client? httpClient,
+    Map<String, String>? apiHeaders,
   }) : super(
           apiKey: apiKey,
           baseUrl: baseUrl,
-          url: _directionsUrl,
+          apiPath: _directionsUrl,
           httpClient: httpClient,
+          apiHeaders: apiHeaders,
         );
 
   Future<DirectionsResponse> directions(
-    origin,
-    destination, {
-    TravelMode travelMode,
-    List<Waypoint> waypoints,
-    bool alternatives,
-    @deprecated RouteType avoid,
-    List<RouteType> avoids,
-    String language,
-    Unit units,
-    String region,
-    arrivalTime,
-    departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
+    Object /*Location|String*/ origin,
+    Object /*Location|String*/ destination, {
+    TravelMode? travelMode,
+    List<Waypoint> waypoints = const [],
+    bool alternatives = false,
+    @deprecated RouteType? avoid,
+    List<RouteType> avoids = const [],
+    String? language,
+    Unit? units,
+    String? region,
+    Object? /*DateTime|num*/ arrivalTime,
+    Object? /*DateTime|num|String('now')*/ departureTime,
+    List<TransitMode> transitMode = const [],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
   }) async {
     final url = buildUrl(
       origin: origin,
@@ -44,7 +49,6 @@ class GoogleMapsDirections extends GoogleWebService {
       travelMode: travelMode,
       waypoints: waypoints,
       alternatives: alternatives,
-      avoid: avoid,
       avoids: avoids,
       language: language,
       units: units,
@@ -55,58 +59,25 @@ class GoogleMapsDirections extends GoogleWebService {
       trafficModel: trafficModel,
       transitRoutingPreference: transitRoutingPreference,
     );
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   Future<DirectionsResponse> directionsWithLocation(
     Location origin,
     Location destination, {
-    TravelMode travelMode,
-    List<Waypoint> waypoints,
-    bool alternatives,
-    @deprecated RouteType avoid,
-    List<RouteType> avoids,
-    String language,
-    Unit units,
-    String region,
-    arrivalTime,
-    departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
-  }) async {
-    return directions(origin, destination,
-        travelMode: travelMode,
-        waypoints: waypoints,
-        alternatives: alternatives,
-        avoid: avoid,
-        avoids: avoids,
-        language: language,
-        units: units,
-        region: region,
-        arrivalTime: arrivalTime,
-        departureTime: departureTime,
-        transitMode: transitMode,
-        trafficModel: trafficModel,
-        transitRoutingPreference: transitRoutingPreference);
-  }
-
-  Future<DirectionsResponse> directionsWithAddress(
-    String origin,
-    String destination, {
-    TravelMode travelMode,
-    List<Waypoint> waypoints,
-    bool alternatives,
-    @deprecated RouteType avoid,
-    List<RouteType> avoids,
-    String language,
-    Unit units,
-    String region,
-    arrivalTime,
-    departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
+    TravelMode? travelMode,
+    List<Waypoint> waypoints = const [],
+    bool alternatives = false,
+    @deprecated RouteType? avoid,
+    List<RouteType> avoids = const [],
+    String? language,
+    Unit? units,
+    String? region,
+    Object? /*DateTime|num*/ arrivalTime,
+    Object? /*DateTime|num|String('now')*/ departureTime,
+    List<TransitMode> transitMode = const [],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
   }) async {
     return directions(
       origin,
@@ -114,7 +85,41 @@ class GoogleMapsDirections extends GoogleWebService {
       travelMode: travelMode,
       waypoints: waypoints,
       alternatives: alternatives,
-      avoid: avoid,
+      avoids: avoids,
+      language: language,
+      units: units,
+      region: region,
+      arrivalTime: arrivalTime,
+      departureTime: departureTime,
+      transitMode: transitMode,
+      trafficModel: trafficModel,
+      transitRoutingPreference: transitRoutingPreference,
+    );
+  }
+
+  Future<DirectionsResponse> directionsWithAddress(
+    String origin,
+    String destination, {
+    TravelMode? travelMode,
+    List<Waypoint> waypoints = const [],
+    bool alternatives = false,
+    @deprecated RouteType? avoid,
+    List<RouteType> avoids = const [],
+    String? language,
+    Unit? units,
+    String? region,
+    Object? /*DateTime|num*/ arrivalTime,
+    Object? /*DateTime|num|String('now')*/ departureTime,
+    List<TransitMode> transitMode = const [],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
+  }) async {
+    return directions(
+      origin,
+      destination,
+      travelMode: travelMode,
+      waypoints: waypoints,
+      alternatives: alternatives,
       avoids: avoids,
       language: language,
       units: units,
@@ -128,144 +133,172 @@ class GoogleMapsDirections extends GoogleWebService {
   }
 
   String buildUrl({
-    origin,
-    destination,
-    TravelMode travelMode,
-    List<Waypoint> waypoints,
-    bool alternatives,
-    @deprecated RouteType avoid,
-    List<RouteType> avoids,
-    String language,
-    Unit units,
-    String region,
-    arrivalTime,
-    departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
+    required Object /*Location|String*/ origin,
+    required Object /*Location|String*/ destination,
+    TravelMode? travelMode,
+    List<Waypoint> waypoints = const <Waypoint>[],
+    bool alternatives = false,
+    @deprecated RouteType? avoid,
+    List<RouteType> avoids = const <RouteType>[],
+    String? language,
+    Unit? units,
+    String? region,
+    Object? /*DateTime|num*/ arrivalTime,
+    Object? /*DateTime|num|String('now')*/ departureTime,
+    List<TransitMode> transitMode = const <TransitMode>[],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
   }) {
+    final params = <String, String>{};
+
     if (origin is! Location && origin is! String) {
       throw ArgumentError("'origin' must be a '$String' or a '$Location'");
     }
+    params['origin'] = origin.toString();
+
     if (destination is! Location && destination is! String) {
       throw ArgumentError("'destination' must be a '$String' or a '$Location'");
     }
-    if (departureTime != null &&
-        departureTime is! DateTime &&
-        departureTime is! num &&
-        departureTime != 'now') {
-      throw ArgumentError("'departureTime' must be a '$num' or a '$DateTime'");
-    }
-    if (arrivalTime != null &&
-        arrivalTime is! DateTime &&
-        arrivalTime is! num) {
-      throw ArgumentError("'arrivalTime' must be a '$num' or a '$DateTime'");
+    params['destination'] = destination.toString();
+
+    if (departureTime != null) {
+      if (departureTime is! DateTime &&
+          departureTime is! num &&
+          departureTime != 'now') {
+        throw ArgumentError(
+            "'departureTime' must be a '$num' or a '$DateTime'");
+      }
+
+      params['departure_time'] = departureTime is DateTime
+          ? (departureTime.millisecondsSinceEpoch ~/ 1000).toString()
+          : departureTime.toString();
     }
 
-    if (waypoints?.isNotEmpty == true && alternatives == true) {
-      throw ArgumentError(
-        "'alternatives' is only available for requests without intermediate waypoints",
-      );
+    if (arrivalTime != null) {
+      if (arrivalTime is! DateTime && arrivalTime is! num) {
+        throw ArgumentError("'arrivalTime' must be a '$num' or a '$DateTime'");
+      }
+
+      params['arrival_time'] = arrivalTime is DateTime
+          ? (arrivalTime.millisecondsSinceEpoch ~/ 1000).toString()
+          : arrivalTime.toString();
     }
 
-    final params = {
-      'origin': origin != null && origin is String
-          ? Uri.encodeComponent(origin)
-          : origin,
-      'destination': destination != null && destination is String
-          ? Uri.encodeComponent(destination)
-          : destination,
-      'mode': travelModeToString(travelMode),
-      'waypoints': waypoints,
-      'alternatives': alternatives,
-      'avoid': avoids?.map(routeTypeToString)?.join('|') ?? routeTypeToString(avoid),
-      'language': language,
-      'units': unitToString(units),
-      'region': region,
-      'arrival_time': arrivalTime is DateTime
-          ? arrivalTime.millisecondsSinceEpoch ~/ 1000
-          : arrivalTime,
-      'departure_time': departureTime is DateTime
-          ? departureTime.millisecondsSinceEpoch ~/ 1000
-          : departureTime,
-      'traffic_model': trafficModelToString(trafficModel),
-      'transit_mode': transitMode?.map(transitModeToString)?.join('|'),
-      'transit_routing_preference':
-          transitRoutingPreferencesToString(transitRoutingPreference)
-    };
+    if (waypoints.isNotEmpty == true) {
+      if (alternatives == true) {
+        throw ArgumentError(
+          "'alternatives' is only available for requests without intermediate waypoints",
+        );
+      }
+
+      params['waypoints'] = waypoints.join('|');
+    }
+
+    if (travelMode != null) {
+      params['mode'] = travelMode.toApiString();
+    }
+
+    if (alternatives) {
+      params['alternatives'] = alternatives.toString();
+    }
+
+    if (avoid != null) {
+      avoids = [
+        ...avoids,
+        avoid,
+      ];
+    }
+
+    if (avoids.isNotEmpty) {
+      params['avoid'] = avoids.map((t) => t.toApiString()).join('|');
+    }
+
+    if (language != null) {
+      params['language'] = language;
+    }
+
+    if (units != null) {
+      params['units'] = units.toApiString();
+    }
+
+    if (region != null) {
+      params['region'] = region;
+    }
+
+    if (trafficModel != null) {
+      params['traffic_model'] = trafficModel.toApiString();
+    }
+
+    if (transitMode.isNotEmpty) {
+      params['transit_mode'] =
+          transitMode.map((t) => t.toApiString()).join('|');
+    }
+
+    if (transitRoutingPreference != null) {
+      params['transit_routing_preference'] =
+          transitRoutingPreference.toApiString();
+    }
 
     if (apiKey != null) {
-      params.putIfAbsent('key', () => apiKey);
+      params['key'] = apiKey!;
     }
 
-    return '$url?${buildQuery(params)}';
+    return url.replace(queryParameters: params).toString();
   }
 
   DirectionsResponse _decode(Response res) =>
       DirectionsResponse.fromJson(json.decode(res.body));
 }
 
+@JsonSerializable()
 class DirectionsResponse extends GoogleResponseStatus {
   /// JSON geocoded_waypos
+  @JsonKey(defaultValue: <GeocodedWaypoint>[])
   final List<GeocodedWaypoint> geocodedWaypoints;
 
+  @JsonKey(defaultValue: <Route>[])
   final List<Route> routes;
 
-  DirectionsResponse(
-    String status,
-    String errorMessage,
-    this.geocodedWaypoints,
-    this.routes,
-  ) : super(status, errorMessage);
+  DirectionsResponse({
+    required String status,
+    String? errorMessage,
+    required this.geocodedWaypoints,
+    required this.routes,
+  }) : super(status: status, errorMessage: errorMessage);
 
-  factory DirectionsResponse.fromJson(Map json) => DirectionsResponse(
-      json['status'],
-      json['error_message'],
-      json['geocoded_waypoints']
-          ?.map((r) {
-            return GeocodedWaypoint.fromJson(r);
-          })
-          ?.toList()
-          ?.cast<GeocodedWaypoint>(),
-      json['routes']
-          ?.map((r) {
-            return Route.fromJson(r);
-          })
-          ?.toList()
-          ?.cast<Route>());
-
-  @override
-  Map<String, dynamic> toJson() {
-    Map map = super.toJson();
-    map['status'] = status;
-    map['error_message'] = errorMessage;
-    map['geocoded_waypoints'] = geocodedWaypoints;
-    map['routes'] = routes;
-    return map;
-  }
+  factory DirectionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$DirectionsResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$DirectionsResponseToJson(this);
 }
 
+@JsonSerializable()
 class Waypoint {
   final String value;
 
-  Waypoint(this.value);
+  Waypoint({required this.value});
 
-  static Waypoint fromAddress(String address) => Waypoint(address);
+  static Waypoint fromAddress(String address) => Waypoint(value: address);
 
   static Waypoint fromLocation(Location location) =>
-      Waypoint(location.toString());
+      Waypoint(value: location.toString());
 
-  static Waypoint fromPlaceId(String placeId) => Waypoint('place_id:$placeId');
+  static Waypoint fromPlaceId(String placeId) =>
+      Waypoint(value: 'place_id:$placeId');
 
   static Waypoint fromEncodedPolyline(String polyline) =>
-      Waypoint('enc:$polyline:');
+      Waypoint(value: 'enc:$polyline:');
 
-  static Waypoint optimize() => Waypoint('optimize:true');
+  static Waypoint optimize() => Waypoint(value: 'optimize:true');
 
   @override
   String toString() => value;
+
+  factory Waypoint.fromJson(Map<String, dynamic> json) =>
+      _$WaypointFromJson(json);
+  Map<String, dynamic> toJson() => _$WaypointToJson(this);
 }
 
+@JsonSerializable()
 class GeocodedWaypoint {
   /// JSON geocoder_status
   final String geocoderStatus;
@@ -273,37 +306,32 @@ class GeocodedWaypoint {
   /// JSON place_id
   final String placeId;
 
+  @JsonKey(defaultValue: <String>[])
   final List<String> types;
 
   /// JSON partial_match
+  @JsonKey(defaultValue: false)
   final bool partialMatch;
 
-  GeocodedWaypoint(
-    this.geocoderStatus,
-    this.placeId,
-    this.types,
-    this.partialMatch,
-  );
+  GeocodedWaypoint({
+    required this.geocoderStatus,
+    required this.placeId,
+    this.types = const <String>[],
+    this.partialMatch = false,
+  });
 
-  factory GeocodedWaypoint.fromJson(Map json) => GeocodedWaypoint(
-      json['geocoder_status'],
-      json['place_id'],
-      (json['types'] as List)?.cast<String>(),
-      json['partial_match']);
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['geocoder_status'] = geocoderStatus;
-    map['place_id'] = placeId;
-    map['types'] = types;
-    map['partial_match'] = partialMatch;
-    return map;
-  }
+  factory GeocodedWaypoint.fromJson(Map<String, dynamic> json) =>
+      _$GeocodedWaypointFromJson(json);
+  Map<String, dynamic> toJson() => _$GeocodedWaypointToJson(this);
 }
 
+@JsonSerializable()
 class Route {
   final String summary;
+
+  @JsonKey(defaultValue: <Leg>[])
   final List<Leg> legs;
+
   final String copyrights;
 
   /// JSON overview_polyline
@@ -312,52 +340,26 @@ class Route {
   final List warnings;
 
   /// JSON waypoint_order
+  @JsonKey(defaultValue: <num>[])
   final List<num> waypointOrder;
 
   final Bounds bounds;
 
-  final Fare fare;
+  final Fare? fare;
 
-  Route(
-    this.summary,
-    this.legs,
-    this.copyrights,
-    this.overviewPolyline,
-    this.warnings,
-    this.waypointOrder,
-    this.bounds,
+  Route({
+    required this.summary,
+    required this.legs,
+    required this.copyrights,
+    required this.overviewPolyline,
+    required this.warnings,
+    required this.waypointOrder,
+    required this.bounds,
     this.fare,
-  );
+  });
 
-  factory Route.fromJson(Map json) => json != null
-      ? Route(
-          json['summary'],
-          json['legs']
-              ?.map((r) {
-                return Leg.fromJson(r);
-              })
-              ?.toList()
-              ?.cast<Leg>(),
-          json['copyrights'],
-          Polyline.fromJson(json['overview_polyline']),
-          json['warnings'] as List,
-          (json['waypoint_order'] as List)?.cast<num>(),
-          Bounds.fromJson(json['bounds']),
-          Fare.fromJson(json['fare']))
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['summary'] = summary;
-    map['legs'] = legs;
-    map['copyrights'] = copyrights;
-    map['overview_polyline'] = overviewPolyline;
-    map['warnings'] = warnings;
-    map['waypointOrder'] = waypointOrder;
-    map['bounds'] = bounds.toJson();
-    map['fare'] = fare;
-    return map;
-  }
+  factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
+  Map<String, dynamic> toJson() => _$RouteToJson(this);
 }
 
 abstract class _Step {
@@ -371,15 +373,17 @@ abstract class _Step {
 
   final Value distance;
 
-  _Step(
-    this.startLocation,
-    this.endLocation,
-    this.duration,
-    this.distance,
-  );
+  _Step({
+    required this.startLocation,
+    required this.endLocation,
+    required this.duration,
+    required this.distance,
+  });
 }
 
+@JsonSerializable()
 class Leg extends _Step {
+  @JsonKey(defaultValue: <Step>[])
   final List<Step> steps;
 
   /// JSON start_address
@@ -389,194 +393,118 @@ class Leg extends _Step {
   final String endAddress;
 
   /// JSON duration_in_traffic
-  final Value durationInTraffic;
+  final Value? durationInTraffic;
 
   /// JSON arrival_time
-  final Time arrivalTime;
+  final Time? arrivalTime;
 
   /// JSON departure_time
-  final Time departureTime;
+  final Time? departureTime;
 
-  Leg(
-    this.steps,
-    this.startAddress,
-    this.endAddress,
+  Leg({
+    required this.steps,
+    required this.startAddress,
+    required this.endAddress,
     this.durationInTraffic,
     this.arrivalTime,
     this.departureTime,
-    Location startLocation,
-    Location endLocation,
-    Value duration,
-    Value distance,
-  ) : super(
-          startLocation,
-          endLocation,
-          duration,
-          distance,
+    required Location startLocation,
+    required Location endLocation,
+    required Value duration,
+    required Value distance,
+  }) : super(
+          startLocation: startLocation,
+          endLocation: endLocation,
+          duration: duration,
+          distance: distance,
         );
 
-  factory Leg.fromJson(Map json) => json != null
-      ? Leg(
-          json['steps']
-              ?.map((r) {
-                return Step.fromJson(r);
-              })
-              ?.toList()
-              ?.cast<Step>(),
-          json['start_address'],
-          json['end_address'],
-          Value.fromJson(json['duration_in_traffic']),
-          Time.fromJson(json['arrival_time']),
-          Time.fromJson(json['departure_time']),
-          Location.fromJson(json['start_location']),
-          Location.fromJson(json['end_location']),
-          Value.fromJson(json['duration']),
-          Value.fromJson(json['distance']))
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['steps'] = steps;
-    map['start_address'] = startAddress;
-    map['end_address'] = endAddress;
-    map['duration_in_traffic'] =
-        (durationInTraffic != null) ? durationInTraffic.toJson() : null;
-    map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
-    map['departure_time'] =
-        (departureTime != null) ? departureTime.toJson() : null;
-    map['start_location'] = startLocation.toJson();
-    map['end_location'] = endLocation.toJson();
-    map['duration'] = (duration != null) ? duration.toJson() : null;
-    map['distance'] = (distance != null) ? distance.toJson() : null;
-    return map;
-  }
+  factory Leg.fromJson(Map<String, dynamic> json) => _$LegFromJson(json);
+  Map<String, dynamic> toJson() => _$LegToJson(this);
 }
 
+@JsonSerializable()
 class Step extends _Step {
   /// JSON travel_mode
   final TravelMode travelMode;
 
   /// JSON html_instructions
   final String htmlInstructions;
-  final String maneuver;
+  final String? maneuver;
   final Polyline polyline;
 
   /// JSON transit_details
-  final TransitDetails transitDetails;
+  final TransitDetails? transitDetails;
 
-  Step(
-    this.travelMode,
-    this.htmlInstructions,
-    this.maneuver,
-    this.polyline,
+  Step({
+    required this.travelMode,
+    required this.htmlInstructions,
+    required this.polyline,
+    required Location startLocation,
+    required Location endLocation,
+    required Value duration,
+    required Value distance,
     this.transitDetails,
-    Location startLocation,
-    Location endLocation,
-    Value duration,
-    Value distance,
-  ) : super(
-          startLocation,
-          endLocation,
-          duration,
-          distance,
+    this.maneuver,
+  }) : super(
+          startLocation: startLocation,
+          endLocation: endLocation,
+          duration: duration,
+          distance: distance,
         );
 
-  factory Step.fromJson(Map json) => json != null
-      ? Step(
-          stringToTravelMode(json['travel_mode']),
-          json['html_instructions'],
-          json['maneuver'],
-          Polyline.fromJson(json['polyline']),
-          TransitDetails.fromJson(json['transit_details']),
-          Location.fromJson(json['start_location']),
-          Location.fromJson(json['end_location']),
-          Value.fromJson(json['duration']),
-          Value.fromJson(json['distance']))
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['travel_mode'] = travelModeToString(travelMode);
-    map['html_instructions'] = htmlInstructions;
-    map['maneuver'] = maneuver;
-    map['polyline'] = (polyline != null) ? polyline.toJson() : null;
-    map['transit_details'] =
-        (transitDetails != null) ? transitDetails.toJson() : null;
-    map['start_location'] =
-        (startLocation != null) ? startLocation.toJson() : null;
-    map['end_location'] = (endLocation != null) ? endLocation.toJson() : null;
-    map['duration'] = (duration != null) ? duration.toJson() : null;
-    map['distance'] = (distance != null) ? distance.toJson() : null;
-    return map;
-  }
+  factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
+  Map<String, dynamic> toJson() => _$StepToJson(this);
 }
 
+@JsonSerializable()
 class Polyline {
   final String points;
 
-  Polyline(this.points);
+  Polyline({required this.points});
 
-  factory Polyline.fromJson(Map json) =>
-      json != null ? Polyline(json['points']) : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['points'] = points;
-    return map;
-  }
+  factory Polyline.fromJson(Map<String, dynamic> json) =>
+      _$PolylineFromJson(json);
+  Map<String, dynamic> toJson() => _$PolylineToJson(this);
 }
 
+@JsonSerializable()
 class Value {
   final num value;
   final String text;
 
-  Value(this.value, this.text);
+  Value({required this.value, required this.text});
 
-  factory Value.fromJson(Map json) =>
-      json != null ? Value(json['value'], json['text']) : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['value'] = value;
-    map['text'] = text;
-    return map;
-  }
+  factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
+  Map<String, dynamic> toJson() => _$ValueToJson(this);
 }
 
+@JsonSerializable()
 class Fare extends Value {
   final String currency;
 
-  Fare(this.currency, num value, String text) : super(value, text);
+  Fare({required this.currency, required num value, required String text})
+      : super(value: value, text: text);
 
-  factory Fare.fromJson(Map json) =>
-      json != null ? Fare(json['currency'], json['value'], json['text']) : null;
-
+  factory Fare.fromJson(Map<String, dynamic> json) => _$FareFromJson(json);
   @override
-  Map<String, dynamic> toJson() {
-    Map map = super.toJson();
-    map['currency'] = currency;
-    return map;
-  }
+  Map<String, dynamic> toJson() => _$FareToJson(this);
 }
 
+@JsonSerializable()
 class Time extends Value {
   /// JSON time_zone
   final String timeZone;
 
-  Time(this.timeZone, num value, String text) : super(value, text);
+  Time({required this.timeZone, required num value, required String text})
+      : super(value: value, text: text);
 
-  factory Time.fromJson(Map json) => json != null
-      ? Time(json['time_zone'], json['value'], json['text'])
-      : null;
-
+  factory Time.fromJson(Map<String, dynamic> json) => _$TimeFromJson(json);
   @override
-  Map<String, dynamic> toJson() {
-    Map map = super.toJson();
-    map['time_zone'] = timeZone;
-    return map;
-  }
+  Map<String, dynamic> toJson() => _$TimeToJson(this);
 }
 
+@JsonSerializable()
 class TransitDetails {
   /// JSON arrival_stop
   final Stop arrivalStop;
@@ -597,60 +525,33 @@ class TransitDetails {
   /// JSON num_stops
   final num numStops;
 
-  TransitDetails(
-    this.arrivalStop,
-    this.departureStop,
-    this.arrivalTime,
-    this.departureTime,
-    this.headsign,
-    this.headway,
-    this.numStops,
-  );
+  TransitDetails({
+    required this.arrivalStop,
+    required this.departureStop,
+    required this.arrivalTime,
+    required this.departureTime,
+    required this.headsign,
+    required this.headway,
+    required this.numStops,
+  });
 
-  factory TransitDetails.fromJson(Map json) => json != null
-      ? TransitDetails(
-          Stop.fromJson(json['arrival_stop']),
-          Stop.fromJson(json['departure_stop']),
-          Time.fromJson(json['arrival_time']),
-          Time.fromJson(json['departure_time']),
-          json['headsign'],
-          json['headway'],
-          json['num_stops'])
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['arrival_stop'] = (arrivalStop != null) ? arrivalStop.toJson() : null;
-    map['departure_stop'] =
-        (departureStop != null) ? departureStop.toJson() : null;
-    map['arrival_time'] = (arrivalTime != null) ? arrivalTime.toJson() : null;
-    map['departure_time'] =
-        (departureTime != null) ? departureTime.toJson() : null;
-    map['headsign'] = headsign;
-    map['headway'] = headway;
-    map['num_stops'] = numStops;
-    return map;
-  }
+  factory TransitDetails.fromJson(Map<String, dynamic> json) =>
+      _$TransitDetailsFromJson(json);
+  Map<String, dynamic> toJson() => _$TransitDetailsToJson(this);
 }
 
+@JsonSerializable()
 class Stop {
   final String name;
   final Location location;
 
-  Stop(this.name, this.location);
+  Stop({required this.name, required this.location});
 
-  factory Stop.fromJson(Map json) => json != null
-      ? Stop(json['name'], Location.fromJson(json['location']))
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['location'] = (location != null) ? location.toJson() : null;
-    return map;
-  }
+  factory Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
+  Map<String, dynamic> toJson() => _$StopToJson(this);
 }
 
+@JsonSerializable()
 class Line {
   final String name;
 
@@ -670,63 +571,39 @@ class Line {
 
   final VehicleType vehicle;
 
-  Line(
-    this.name,
-    this.shortName,
-    this.color,
-    this.agencies,
-    this.url,
-    this.icon,
-    this.textColor,
-    this.vehicle,
-  );
+  Line({
+    required this.name,
+    required this.shortName,
+    required this.color,
+    required this.agencies,
+    required this.url,
+    required this.icon,
+    required this.textColor,
+    required this.vehicle,
+  });
 
-  factory Line.fromJson(Map json) => json != null
-      ? Line(
-          json['name'],
-          json['short_name'],
-          json['color'],
-          json['agencies']?.map((a) => TransitAgency.fromJson(a))?.toList(),
-          json['url'],
-          json['icon'],
-          json['text_color'],
-          VehicleType.fromJson(json['vehicle']))
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['short_name'] = shortName;
-    map['color'] = color;
-    map['agencies'] = agencies;
-    map['url'] = url;
-    map['icon'] = icon;
-    map['text_color'] = textColor;
-    map['vehicle'] = (vehicle != null) ? vehicle.toJson() : null;
-    return map;
-  }
+  factory Line.fromJson(Map<String, dynamic> json) => _$LineFromJson(json);
+  Map<String, dynamic> toJson() => _$LineToJson(this);
 }
 
+@JsonSerializable()
 class TransitAgency {
   final String name;
   final String url;
   final String phone;
 
-  TransitAgency(this.name, this.url, this.phone);
+  TransitAgency({
+    required this.name,
+    required this.url,
+    required this.phone,
+  });
 
-  factory TransitAgency.fromJson(Map json) => json != null
-      ? TransitAgency(json['name'], json['url'], json['phone'])
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['url'] = url;
-    map['phone'] = phone;
-    return map;
-  }
+  factory TransitAgency.fromJson(Map<String, dynamic> json) =>
+      _$TransitAgencyFromJson(json);
+  Map<String, dynamic> toJson() => _$TransitAgencyToJson(this);
 }
 
+@JsonSerializable()
 class VehicleType {
   final String name;
   final String type;
@@ -735,26 +612,16 @@ class VehicleType {
   /// JSON local_icon
   final String localIcon;
 
-  VehicleType(
-    this.name,
-    this.type,
-    this.icon,
-    this.localIcon,
-  );
+  VehicleType({
+    required this.name,
+    required this.type,
+    required this.icon,
+    required this.localIcon,
+  });
 
-  factory VehicleType.fromJson(Map json) => json != null
-      ? VehicleType(
-          json['name'], json['type'], json['icon'], json['local_icon'])
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['name'] = name;
-    map['type'] = type;
-    map['icon'] = icon;
-    map['local_icon'] = localIcon;
-    return map;
-  }
+  factory VehicleType.fromJson(Map<String, dynamic> json) =>
+      _$VehicleTypeFromJson(json);
+  Map<String, dynamic> toJson() => _$VehicleTypeToJson(this);
 
   bool isType(String type) => type.toLowerCase() == this.type.toLowerCase();
 

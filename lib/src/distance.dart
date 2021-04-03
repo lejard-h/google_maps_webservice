@@ -1,41 +1,45 @@
-library google_maps_webservice.distance.src;
-
 import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'core.dart';
 import 'utils.dart';
+
+part 'distance.g.dart';
 
 const _distanceUrl = '/distancematrix/json';
 
 ///https://developers.google.com/maps/documentation/distance-matrix/intro
 class GoogleDistanceMatrix extends GoogleWebService {
   GoogleDistanceMatrix({
-    String apiKey,
-    String baseUrl,
-    Client httpClient,
+    String? apiKey,
+    String? baseUrl,
+    Client? httpClient,
+    Map<String, String>? apiHeaders,
   }) : super(
-            apiKey: apiKey,
-            baseUrl: baseUrl,
-            url: _distanceUrl,
-            httpClient: httpClient);
+          apiKey: apiKey,
+          baseUrl: baseUrl,
+          apiPath: _distanceUrl,
+          httpClient: httpClient,
+          apiHeaders: apiHeaders,
+        );
 
   Future<DistanceResponse> _distance(
-    List<dynamic> origin,
-    List<dynamic> destination, {
-    TravelMode travelMode,
-    String languageCode,
-    bool alternative,
-    String region,
-    RouteType avoid,
-    Unit unit,
+    List<Object /*Location|String*/ > origin,
+    List<Object /*Location|String*/ > destination, {
+    TravelMode? travelMode,
+    String? languageCode,
+    bool alternative = false,
+    String? region,
+    List<RouteType> avoids = const <RouteType>[],
+    Unit? unit,
     arrivalTime,
     departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
+    List<TransitMode> transitMode = const [],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
   }) async {
     final url = buildUrl(
       origin: origin,
@@ -44,7 +48,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
       languageCode: languageCode,
       alternative: alternative,
       region: region,
-      routeType: avoid,
+      avoids: avoids,
       unit: unit,
       arrivalTime: arrivalTime,
       departureTime: departureTime,
@@ -53,24 +57,32 @@ class GoogleDistanceMatrix extends GoogleWebService {
       transitRoutingPreference: transitRoutingPreference,
     );
 
-    return _decode(await doGet(url));
+    return _decode(await doGet(url, headers: apiHeaders));
   }
 
   Future<DistanceResponse> distanceWithLocation(
     List<Location> origin,
     List<Location> destination, {
-    TravelMode travelMode,
-    String languageCode,
-    bool alternative,
-    String region,
-    RouteType avoid,
-    Unit unit,
-    arrivalTime,
-    departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
+    TravelMode? travelMode,
+    String? languageCode,
+    bool alternative = false,
+    String? region,
+    @deprecated RouteType? avoid,
+    List<RouteType> avoids = const <RouteType>[],
+    Unit? unit,
+    Object? /*DateTime|num*/ arrivalTime,
+    Object? /*DateTime|num|String('now')*/ departureTime,
+    List<TransitMode> transitMode = const [],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
   }) {
+    if (avoid != null) {
+      avoids = [
+        ...avoids,
+        avoid,
+      ];
+    }
+
     return _distance(
       origin,
       destination,
@@ -78,7 +90,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
       languageCode: languageCode,
       alternative: alternative,
       region: region,
-      avoid: avoid,
+      avoids: avoids,
       unit: unit,
       arrivalTime: arrivalTime,
       departureTime: departureTime,
@@ -91,18 +103,26 @@ class GoogleDistanceMatrix extends GoogleWebService {
   Future<DistanceResponse> distanceWithAddress(
     List<String> origin,
     List<String> destination, {
-    TravelMode travelMode,
-    String languageCode,
-    bool alternative,
-    String region,
-    RouteType avoid,
-    Unit unit,
-    arrivalTime,
-    departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
+    TravelMode? travelMode,
+    String? languageCode,
+    bool alternative = false,
+    String? region,
+    @deprecated RouteType? avoid,
+    List<RouteType> avoids = const <RouteType>[],
+    Unit? unit,
+    Object? /*DateTime|num*/ arrivalTime,
+    Object? /*DateTime|num|String('now')*/ departureTime,
+    List<TransitMode> transitMode = const [],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
   }) async {
+    if (avoid != null) {
+      avoids = [
+        ...avoids,
+        avoid,
+      ];
+    }
+
     return _distance(
       origin,
       destination,
@@ -110,7 +130,7 @@ class GoogleDistanceMatrix extends GoogleWebService {
       languageCode: languageCode,
       alternative: alternative,
       region: region,
-      avoid: avoid,
+      avoids: avoids,
       unit: unit,
       arrivalTime: arrivalTime,
       departureTime: departureTime,
@@ -121,23 +141,32 @@ class GoogleDistanceMatrix extends GoogleWebService {
   }
 
   String buildUrl({
-    List<dynamic> origin,
-    List<dynamic> destination,
-    TravelMode travelMode,
-    String languageCode,
-    bool alternative,
-    String region,
-    RouteType routeType,
-    Unit unit,
-    arrivalTime,
-    departureTime,
-    List<TransitMode> transitMode,
-    TrafficModel trafficModel,
-    TransitRoutingPreferences transitRoutingPreference,
+    required List<Object /*Location|String*/ > origin,
+    required List<Object /*Location|String*/ > destination,
+    TravelMode? travelMode,
+    String? languageCode,
+    bool alternative = false,
+    String? region,
+    List<RouteType> avoids = const <RouteType>[],
+    Unit? unit,
+    Object? /*DateTime|num*/ arrivalTime,
+    Object? /*DateTime|num|String('now')*/ departureTime,
+    List<TransitMode> transitMode = const [],
+    TrafficModel? trafficModel,
+    TransitRoutingPreferences? transitRoutingPreference,
   }) {
+    final params = <String, String>{};
+
     if (origin is! List<Location> && origin is! List<String>) {
       throw ArgumentError("'origin' must be a '$String' or a '$Location'");
     }
+    params['origins'] = origin.join('|');
+
+    if (destination is! List<Location> && destination is! List<String>) {
+      throw ArgumentError("'destination' must be a '$String' or a '$Location'");
+    }
+    params['destinations'] = destination.join('|');
+
     if (destination is! List<Location> && destination is! List<String>) {
       throw ArgumentError("'destination' must be a '$String' or a '$Location'");
     }
@@ -153,108 +182,149 @@ class GoogleDistanceMatrix extends GoogleWebService {
       throw ArgumentError("'arrivalTime' must be a '$num' or a '$DateTime'");
     }
 
-    final params = {
-      'origins': origin != null && origin is List<String>
-          ? origin?.map(Uri.encodeComponent)?.join('|')
-          : origin,
-      'destinations': destination != null && destination is List<String>
-          ? destination?.map(Uri.encodeComponent)?.join('|')
-          : destination,
-      'mode': travelModeToString(travelMode),
-      'language': languageCode,
-      'alternative': alternative,
-      'region': region,
-      'avoid': routeTypeToString(routeType),
-      'units': unitToString(unit),
-      'arrival_time': arrivalTime is DateTime
-          ? arrivalTime.millisecondsSinceEpoch ~/ 1000
-          : arrivalTime,
-      'departure_time': departureTime is DateTime
-          ? departureTime.millisecondsSinceEpoch ~/ 1000
-          : departureTime,
-      'traffic_model': trafficModelToString(trafficModel),
-      'transit_mode': transitMode?.map(transitModeToString)?.join('|'),
-      'transit_routing_preference':
-          transitRoutingPreferencesToString(transitRoutingPreference)
-    };
+    if (departureTime != null) {
+      if (departureTime is! DateTime &&
+          departureTime is! num &&
+          departureTime != 'now') {
+        throw ArgumentError(
+            "'departureTime' must be a '$num' or a '$DateTime'");
+      }
 
-    if (apiKey != null) {
-      params.putIfAbsent('key', () => apiKey);
+      params['departure_time'] = departureTime is DateTime
+          ? (departureTime.millisecondsSinceEpoch ~/ 1000).toString()
+          : departureTime.toString();
     }
 
-    return '$url?${buildQuery(params)}';
+    if (arrivalTime != null) {
+      if (arrivalTime is! DateTime && arrivalTime is! num) {
+        throw ArgumentError("'arrivalTime' must be a '$num' or a '$DateTime'");
+      }
+
+      params['arrival_time'] = arrivalTime is DateTime
+          ? (arrivalTime.millisecondsSinceEpoch ~/ 1000).toString()
+          : arrivalTime.toString();
+    }
+
+    if (travelMode != null) {
+      params['mode'] = travelMode.toApiString();
+    }
+
+    if (alternative) {
+      params['alternative'] = alternative.toString();
+    }
+
+    if (avoids.isNotEmpty) {
+      params['avoid'] = avoids.map((t) => t.toApiString()).join('|');
+    }
+
+    if (languageCode != null) {
+      params['language'] = languageCode;
+    }
+
+    if (unit != null) {
+      params['units'] = unit.toApiString();
+    }
+
+    if (region != null) {
+      params['region'] = region;
+    }
+
+    if (trafficModel != null) {
+      params['traffic_model'] = trafficModel.toApiString();
+    }
+
+    if (transitMode.isNotEmpty) {
+      params['transit_mode'] =
+          transitMode.map((t) => t.toApiString()).join('|');
+    }
+
+    if (transitRoutingPreference != null) {
+      params['transit_routing_preference'] =
+          transitRoutingPreference.toApiString();
+    }
+
+    if (apiKey != null) {
+      params['key'] = apiKey!;
+    }
+
+    return url.replace(queryParameters: params).toString();
   }
 
   DistanceResponse _decode(Response res) =>
       DistanceResponse.fromJson(json.decode(res.body));
 }
 
+@JsonSerializable()
 class DistanceResponse extends GoogleResponseStatus {
-  final List<String> originAddress;
-  final List<String> destinationAddress;
-  final List<Row> results;
+  @JsonKey(defaultValue: <String>[])
+  final List<String> originAddresses;
 
-  DistanceResponse(
-    String status,
-    String errorMsg,
-    this.originAddress,
-    this.destinationAddress,
-    this.results,
-  ) : super(
-          status,
-          errorMsg,
+  @JsonKey(defaultValue: <String>[])
+  final List<String> destinationAddresses;
+
+  @JsonKey(defaultValue: <Row>[])
+  final List<Row> rows;
+
+  @Deprecated('use `rows` ')
+  List<Row> get results => rows;
+
+  @Deprecated('use `originAddresses`')
+  List<String> get originAddress => originAddresses;
+
+  @Deprecated('use `destinationAddresses`')
+  List<String> get destinationAddress => destinationAddresses;
+
+  DistanceResponse({
+    required String status,
+    String? errorMessage,
+    required this.originAddresses,
+    required this.destinationAddresses,
+    required this.rows,
+  }) : super(
+          status: status,
+          errorMessage: errorMessage,
         );
 
-  factory DistanceResponse.fromJson(Map json) => DistanceResponse(
-      json['status'],
-      json['error_message'],
-      (json['origin_addresses'] as List)?.cast<String>(),
-      (json['destination_addresses'] as List)?.cast<String>(),
-      json['rows']
-          ?.map((row) {
-            return Row.fromJson(row);
-          })
-          ?.toList()
-          ?.cast<Row>());
+  factory DistanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$DistanceResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$DistanceResponseToJson(this);
 }
 
+@JsonSerializable()
 class Row {
+  @JsonKey(defaultValue: <Element>[])
   final List<Element> elements;
 
-  Row(this.elements);
+  Row({required this.elements});
 
-  factory Row.fromJson(Map json) => json != null
-      ? Row(json['elements']
-          ?.map((element) {
-            return Element.fromJson(element);
-          })
-          ?.toList()
-          ?.cast<Element>())
-      : null;
+  factory Row.fromJson(Map<String, dynamic> json) => _$RowFromJson(json);
+  Map<String, dynamic> toJson() => _$RowToJson(this);
 }
 
+@JsonSerializable()
 class Element {
   final Value distance;
   final Value duration;
-  final String elementStatus;
+  final String? elementStatus;
 
-  Element(this.distance, this.duration, this.elementStatus);
+  Element({
+    required this.distance,
+    required this.duration,
+    this.elementStatus,
+  });
 
-  factory Element.fromJson(Map json) => json != null
-      ? Element(
-          Value.fromJson(json['distance']),
-          Value.fromJson(json['duration']),
-          json['status'],
-        )
-      : null;
+  factory Element.fromJson(Map<String, dynamic> json) =>
+      _$ElementFromJson(json);
+  Map<String, dynamic> toJson() => _$ElementToJson(this);
 }
 
+@JsonSerializable()
 class Value {
   final num value;
   final String text;
 
-  Value(this.value, this.text);
+  Value({required this.value, required this.text});
 
-  factory Value.fromJson(Map json) =>
-      json != null ? Value(json['value'], json['text']) : null;
+  factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
+  Map<String, dynamic> toJson() => _$ValueToJson(this);
 }

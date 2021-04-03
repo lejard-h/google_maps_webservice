@@ -10,12 +10,12 @@ final GoogleDistanceMatrix distanceMatrix =
 
 Future<void> main() async {
   var origins = [
-    Location(23.721160, 90.394435),
-    Location(23.732322, 90.385142),
+    Location(lat: 23.721160, lng: 90.394435),
+    Location(lat: 23.732322, lng: 90.385142),
   ];
   var destinations = [
-    Location(23.726346, 90.377117),
-    Location(23.748519, 90.403121),
+    Location(lat: 23.726346, lng: 90.377117),
+    Location(lat: 23.748519, lng: 90.403121),
   ];
 
   var responseForLocation = await distanceMatrix.distanceWithLocation(
@@ -27,8 +27,8 @@ Future<void> main() async {
     print('response ${responseForLocation.status}');
 
     if (responseForLocation.isOkay) {
-      print(responseForLocation.destinationAddress.length);
-      for (var row in responseForLocation.results) {
+      print(responseForLocation.destinationAddresses.length);
+      for (var row in responseForLocation.rows) {
         for (var element in row.elements) {
           print(
               'distance ${element.distance.text} duration ${element.duration.text}');

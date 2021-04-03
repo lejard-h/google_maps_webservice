@@ -1,86 +1,64 @@
-library google_maps_webservice.core;
+import 'package:json_annotation/json_annotation.dart';
 
+part 'core.g.dart';
+
+@JsonSerializable()
 class Location {
   final double lat;
   final double lng;
 
-  Location(this.lat, this.lng);
+  Location({
+    required this.lat,
+    required this.lng,
+  });
 
-  factory Location.fromJson(Map json) => json != null
-      ? Location(
-          (json['lat'] as num).toDouble(),
-          (json['lng'] as num).toDouble(),
-        )
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['lat'] = lat;
-    map['lng'] = lng;
-    return map;
-  }
+  factory Location.fromJson(Map<String, dynamic> json) =>
+      _$LocationFromJson(json);
+  Map<String, dynamic> toJson() => _$LocationToJson(this);
 
   @override
   String toString() => '$lat,$lng';
 }
 
+@JsonSerializable()
 class Geometry {
   final Location location;
 
   /// JSON location_type
-  final String locationType;
+  final String? locationType;
 
-  final Bounds viewport;
+  final Bounds? viewport;
 
-  final Bounds bounds;
+  final Bounds? bounds;
 
-  Geometry(
-    this.location,
+  Geometry({
+    required this.location,
     this.locationType,
     this.viewport,
     this.bounds,
-  );
+  });
 
-  factory Geometry.fromJson(Map json) => json != null
-      ? Geometry(
-          Location.fromJson(json['location']),
-          json['location_type'],
-          Bounds.fromJson(json['viewport']),
-          Bounds.fromJson(json['bounds']),
-        )
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['location'] = (location != null) ? location.toJson() : null;
-    map['location_type'] = locationType;
-    map['viewport'] = (viewport != null) ? viewport.toJson() : null;
-    map['bounds'] = (bounds != null) ? bounds.toJson() : null;
-    return map;
-  }
+  factory Geometry.fromJson(Map<String, dynamic> json) =>
+      _$GeometryFromJson(json);
+  Map<String, dynamic> toJson() => _$GeometryToJson(this);
 }
 
+@JsonSerializable()
 class Bounds {
   final Location northeast;
   final Location southwest;
 
-  Bounds(this.northeast, this.southwest);
-
-  factory Bounds.fromJson(Map json) => json != null
-      ? Bounds(Location.fromJson(json['northeast']),
-          Location.fromJson(json['southwest']))
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['northeast'] = (northeast != null) ? northeast.toJson() : null;
-    map['southwest'] = (southwest != null) ? southwest.toJson() : null;
-    return map;
-  }
+  Bounds({
+    required this.northeast,
+    required this.southwest,
+  });
 
   @override
   String toString() =>
       '${northeast.lat},${northeast.lng}|${southwest.lat},${southwest.lng}';
+
+  factory Bounds.fromJson(Map<String, dynamic> json) => _$BoundsFromJson(json);
+  Map<String, dynamic> toJson() => _$BoundsToJson(this);
 }
 
 abstract class GoogleResponseStatus {
@@ -94,10 +72,11 @@ abstract class GoogleResponseStatus {
   static const maxWaypointsExceeded = 'MAX_WAYPOINTS_EXCEEDED';
   static const maxRouteLengthExceeded = 'MAX_ROUTE_LENGTH_EXCEEDED';
 
+  // TODO use enum for Response status
   final String status;
 
   /// JSON error_message
-  final String errorMessage;
+  final String? errorMessage;
 
   bool get isOkay => status == okay;
   bool get hasNoResults => status == zeroResults;
@@ -107,31 +86,27 @@ abstract class GoogleResponseStatus {
   bool get unknownError => status == unknownErrorStatus;
   bool get isNotFound => status == notFound;
 
-  GoogleResponseStatus(this.status, this.errorMessage);
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['status'] = status;
-    map['errorMessage'] = errorMessage;
-    return map;
-  }
+  GoogleResponseStatus({required this.status, this.errorMessage});
 }
 
 abstract class GoogleResponseList<T> extends GoogleResponseStatus {
+  @JsonKey(defaultValue: [])
   final List<T> results;
 
-  GoogleResponseList(String status, String errorMessage, this.results)
-      : super(status, errorMessage);
+  GoogleResponseList(String status, String? errorMessage, this.results)
+      : super(status: status, errorMessage: errorMessage);
 }
 
 abstract class GoogleResponse<T> extends GoogleResponseStatus {
   final T result;
 
-  GoogleResponse(String status, String errorMessage, this.result)
-      : super(status, errorMessage);
+  GoogleResponse(String status, String? errorMessage, this.result)
+      : super(status: status, errorMessage: errorMessage);
 }
 
+@JsonSerializable()
 class AddressComponent {
+  @JsonKey(defaultValue: <String>[])
   final List<String> types;
 
   /// JSON long_name
@@ -140,24 +115,15 @@ class AddressComponent {
   /// JSON short_name
   final String shortName;
 
-  AddressComponent(
-    this.types,
-    this.longName,
-    this.shortName,
-  );
+  AddressComponent({
+    required this.types,
+    required this.longName,
+    required this.shortName,
+  });
 
-  factory AddressComponent.fromJson(Map json) => json != null
-      ? AddressComponent((json['types'] as List)?.cast<String>(),
-          json['long_name'], json['short_name'])
-      : null;
-
-  Map<String, dynamic> toJson() {
-    var map = {};
-    map['types'] = types;
-    map['long_name'] = longName;
-    map['short_name'] = shortName;
-    return map;
-  }
+  factory AddressComponent.fromJson(Map<String, dynamic> json) =>
+      _$AddressComponentFromJson(json);
+  Map<String, dynamic> toJson() => _$AddressComponentToJson(this);
 }
 
 class Component {
@@ -173,111 +139,181 @@ class Component {
   Component(this.component, this.value);
 
   @override
-  String toString() => '$component:${Uri.encodeComponent(value)}';
+  String toString() => '$component:$value';
 }
 
-enum TravelMode { driving, walking, bicycling, transit }
-
-TravelMode stringToTravelMode(String mode) {
-  if (mode.toLowerCase() == 'driving') return TravelMode.driving;
-  if (mode.toLowerCase() == 'walking') return TravelMode.walking;
-  if (mode.toLowerCase() == 'bicycling') return TravelMode.bicycling;
-  if (mode.toLowerCase() == 'transit') return TravelMode.transit;
-  return null;
+enum TravelMode {
+  @JsonValue('DRIVING')
+  driving,
+  @JsonValue('WALKING')
+  walking,
+  @JsonValue('BICYCLING')
+  bicycling,
+  @JsonValue('TRANSIT')
+  transit,
 }
 
-String travelModeToString(TravelMode mode) {
-  if (mode == TravelMode.driving) return 'driving';
-  if (mode == TravelMode.walking) return 'walking';
-  if (mode == TravelMode.bicycling) return 'bicycling';
-  if (mode == TravelMode.transit) return 'transit';
-  return null;
+@JsonSerializable()
+class _TravelMode {
+  final TravelMode value;
+
+  _TravelMode(this.value);
+
+  // ignore: unused_element
+  factory _TravelMode.fromJson(Map<String, dynamic> json) =>
+      _$_TravelModeFromJson(json);
+  Map<String, dynamic> toJson() => _$_TravelModeToJson(this);
 }
 
-enum RouteType { tolls, highways, ferries, indoor }
-
-RouteType stringToRouteType(String type) {
-  if (type.toLowerCase() == 'tolls') return RouteType.tolls;
-  if (type.toLowerCase() == 'highways') return RouteType.highways;
-  if (type.toLowerCase() == 'ferries') return RouteType.ferries;
-  if (type.toLowerCase() == 'indoor') return RouteType.indoor;
-  return null;
-}
-
-String routeTypeToString(RouteType type) {
-  if (type == RouteType.tolls) return 'tolls';
-  if (type == RouteType.highways) return 'highways';
-  if (type == RouteType.ferries) return 'ferries';
-  if (type == RouteType.indoor) return 'indoor';
-  return null;
-}
-
-enum Unit { metric, imperial }
-
-Unit stringToUnit(String type) {
-  if (type.toLowerCase() == 'metric') return Unit.metric;
-  if (type.toLowerCase() == 'imperial') return Unit.imperial;
-  return null;
-}
-
-String unitToString(Unit type) {
-  if (type == Unit.metric) return 'metric';
-  if (type == Unit.imperial) return 'imperial';
-  return null;
-}
-
-enum TrafficModel { bestGuess, pessimistic, optimistic }
-
-TrafficModel stringToTrafficModel(String type) {
-  if (type.toLowerCase() == 'best_guess') return TrafficModel.bestGuess;
-  if (type.toLowerCase() == 'pessimistic') return TrafficModel.pessimistic;
-  if (type.toLowerCase() == 'optimistic') return TrafficModel.optimistic;
-  return null;
-}
-
-String trafficModelToString(TrafficModel type) {
-  if (type == TrafficModel.bestGuess) return 'best_guess';
-  if (type == TrafficModel.pessimistic) return 'pessimistic';
-  if (type == TrafficModel.optimistic) return 'optimistic';
-  return null;
-}
-
-enum TransitMode { bus, subway, train, tram, rail }
-
-TransitMode stringToTransitMode(String type) {
-  if (type.toLowerCase() == 'bus') return TransitMode.bus;
-  if (type.toLowerCase() == 'subway') return TransitMode.subway;
-  if (type.toLowerCase() == 'train') return TransitMode.train;
-  if (type.toLowerCase() == 'tram') return TransitMode.tram;
-  if (type.toLowerCase() == 'rail') return TransitMode.rail;
-  return null;
-}
-
-String transitModeToString(TransitMode type) {
-  if (type == TransitMode.bus) return 'bus';
-  if (type == TransitMode.subway) return 'subway';
-  if (type == TransitMode.train) return 'train';
-  if (type == TransitMode.tram) return 'tram';
-  if (type == TransitMode.rail) return 'rail';
-  return null;
-}
-
-enum TransitRoutingPreferences { lessWalking, fewerTransfers }
-
-TransitRoutingPreferences stringToTransitRoutingPreferences(String type) {
-  if (type.toLowerCase() == 'less_walking') {
-    return TransitRoutingPreferences.lessWalking;
+extension TravelModeExt on TravelMode {
+  static TravelMode fromApiString(String mode) {
+    return _$enumDecode(_$TravelModeEnumMap, mode);
   }
-  if (type.toLowerCase() == 'fewer_transfers') {
-    return TransitRoutingPreferences.fewerTransfers;
+
+  String toApiString() {
+    return _$TravelModeEnumMap[this] ?? '';
   }
-  return null;
 }
 
-String transitRoutingPreferencesToString(TransitRoutingPreferences type) {
-  if (type == TransitRoutingPreferences.lessWalking) return 'less_walking';
-  if (type == TransitRoutingPreferences.fewerTransfers) {
-    return 'fewer_transfers';
+enum RouteType {
+  tolls,
+  highways,
+  ferries,
+  indoor,
+}
+
+@JsonSerializable()
+class _RouteType {
+  final RouteType value;
+
+  _RouteType(this.value);
+
+  // ignore: unused_element
+  factory _RouteType.fromJson(Map<String, dynamic> json) =>
+      _$_RouteTypeFromJson(json);
+  Map<String, dynamic> toJson() => _$_RouteTypeToJson(this);
+}
+
+extension RouteTypeExt on RouteType {
+  static RouteType fromApiString(String mode) {
+    return _$enumDecode(_$RouteTypeEnumMap, mode);
   }
-  return null;
+
+  String toApiString() {
+    return _$RouteTypeEnumMap[this] ?? '';
+  }
+}
+
+enum Unit {
+  metric,
+  imperial,
+}
+
+@JsonSerializable()
+class _Unit {
+  final Unit value;
+
+  _Unit(this.value);
+
+  // ignore: unused_element
+  factory _Unit.fromJson(Map<String, dynamic> json) => _$_UnitFromJson(json);
+  Map<String, dynamic> toJson() => _$_UnitToJson(this);
+}
+
+extension UnitExt on Unit {
+  static Unit fromApiString(String mode) {
+    return _$enumDecode(_$UnitEnumMap, mode);
+  }
+
+  String toApiString() {
+    return _$UnitEnumMap[this] ?? '';
+  }
+}
+
+enum TrafficModel {
+  @JsonValue('best_guess')
+  bestGuess,
+  pessimistic,
+  optimistic,
+}
+
+@JsonSerializable()
+class _TrafficModel {
+  final TrafficModel value;
+
+  _TrafficModel(this.value);
+
+  // ignore: unused_element
+  factory _TrafficModel.fromJson(Map<String, dynamic> json) =>
+      _$_TrafficModelFromJson(json);
+  Map<String, dynamic> toJson() => _$_TrafficModelToJson(this);
+}
+
+extension TrafficModelExt on TrafficModel {
+  static TrafficModel fromApiString(String mode) {
+    return _$enumDecode(_$TrafficModelEnumMap, mode);
+  }
+
+  String toApiString() {
+    return _$TrafficModelEnumMap[this] ?? '';
+  }
+}
+
+enum TransitMode {
+  bus,
+  subway,
+  train,
+  tram,
+  rail,
+}
+
+@JsonSerializable()
+class _TransitMode {
+  final TransitMode value;
+
+  _TransitMode(this.value);
+
+  // ignore: unused_element
+  factory _TransitMode.fromJson(Map<String, dynamic> json) =>
+      _$_TransitModeFromJson(json);
+  Map<String, dynamic> toJson() => _$_TransitModeToJson(this);
+}
+
+extension TransitModeExt on TransitMode {
+  static TransitMode fromApiString(String mode) {
+    return _$enumDecode(_$TransitModeEnumMap, mode);
+  }
+
+  String toApiString() {
+    return _$TransitModeEnumMap[this] ?? '';
+  }
+}
+
+enum TransitRoutingPreferences {
+  @JsonValue('less_walking')
+  lessWalking,
+  @JsonValue('fewer_transfers')
+  fewerTransfers,
+}
+
+@JsonSerializable()
+class _TransitRoutingPreferences {
+  final TransitRoutingPreferences value;
+
+  _TransitRoutingPreferences(this.value);
+
+  // ignore: unused_element
+  factory _TransitRoutingPreferences.fromJson(Map<String, dynamic> json) =>
+      _$_TransitRoutingPreferencesFromJson(json);
+  Map<String, dynamic> toJson() => _$_TransitRoutingPreferencesToJson(this);
+}
+
+extension TransitRoutingPreferencesExt on TransitRoutingPreferences {
+  static TransitRoutingPreferences fromApiString(String mode) {
+    return _$enumDecode(_$TransitRoutingPreferencesEnumMap, mode);
+  }
+
+  String toApiString() {
+    return _$TransitRoutingPreferencesEnumMap[this] ?? '';
+  }
 }
