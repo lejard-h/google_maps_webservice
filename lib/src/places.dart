@@ -629,7 +629,7 @@ class PlaceDetails {
   final List<AddressComponent> addressComponents;
 
   /// JSON adr_address
-  final String adrAddress;
+  final String? adrAddress;
 
   /// JSON formatted_address
   final String? formattedAddress;
@@ -682,7 +682,7 @@ class PlaceDetails {
   final Geometry? geometry;
 
   PlaceDetails({
-    required this.adrAddress,
+    this.adrAddress,
     required this.name,
     required this.placeId,
     required this.utcOffset,

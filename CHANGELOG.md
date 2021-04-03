@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.20-nullsafety.3
+
+- Make PlaceDetails.adrAddress nullable
+
 ## 0.0.20-nullsafety.2
 
 - Bug fix on Details by Place ID, 
