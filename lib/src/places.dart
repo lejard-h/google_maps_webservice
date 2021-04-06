@@ -594,7 +594,7 @@ class PlacesSearchResult {
   @JsonKey(defaultValue: false)
   final bool permanentlyClosed;
 
-  final String id;
+  final String? id;
 
   final String reference;
 

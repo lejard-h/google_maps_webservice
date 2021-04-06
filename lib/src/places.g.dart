@@ -34,7 +34,7 @@ Map<String, dynamic> _$PlacesSearchResponseToJson(
 
 PlacesSearchResult _$PlacesSearchResultFromJson(Map<String, dynamic> json) {
   return PlacesSearchResult(
-    id: json['id'] as String,
+    id: json['id'] as String?,
     reference: json['reference'] as String,
     name: json['name'] as String,
     placeId: json['place_id'] as String,
