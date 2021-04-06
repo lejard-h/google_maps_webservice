@@ -662,6 +662,61 @@ Future<void> main() async {
       expect(p1.types, ['locality', 'political', 'geocode']);
     });
   });
+
+  group('Place Search Response', () {
+    test('decode text search response', () {
+      var response = PlacesSearchResponse.fromJson(_textSearchResponseExample);
+
+      expect(response.isOkay, isTrue);
+      expect(response.results, hasLength(equals(1)));
+      expect(
+          response.results.first.geometry?.location.lat, equals(-37.8136276));
+      expect(
+          response.results.first.geometry?.location.lng, equals(144.9630576));
+      expect(
+          response.results.first.icon,
+          equals(
+              'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png'));
+      expect(response.results.first.id, isNull);
+      expect(response.results.first.name, equals('Melbourne'));
+      expect(response.results.first.openingHours, isNull);
+      expect(response.results.first.photos, hasLength(equals(1)));
+      expect(response.results.first.photos.first.height, equals(810));
+      expect(response.results.first.photos.first.width, equals(1080));
+      expect(
+          response.results.first.photos.first.photoReference,
+          equals(
+              'ATtYBwK5nQr4pKVwk0xnAaIV2hj-I4710I5sdXh7eGGBQWFrOD1N7AJgXy7ZnHwsE0Lbk9yNlj42REQM8ZWKm-7HIDj1mrNXEh6lWoNPc9JVywROmrHVCqnOuER3bmbrGQR7JRsF3n2uBilksqdJoSNuvr8BH4S4KJpyD_CiIUhed1JAvoEo'));
+      expect(response.results.first.placeId,
+          equals('ChIJ90260rVG1moRkM2MIXVWBAQ'));
+      expect(response.results.first.scope, isNull);
+      expect(response.results.first.altIds, isEmpty);
+      expect(response.results.first.reference,
+          equals('ChIJ90260rVG1moRkM2MIXVWBAQ'));
+      expect(response.results.first.types,
+          equals(['colloquial_area', 'locality', 'political']));
+      expect(response.results.first.vicinity, isNull);
+    });
+  });
+
+  group('Place details response', () {
+    test('decode place details with null review language', () {
+      final details = PlaceDetails.fromJson(_placeDetailsExample);
+
+      expect(details.id, isNull);
+      expect(details.addressComponents, hasLength(6));
+      expect(details.adrAddress, startsWith('<span class='));
+      expect(details.formattedAddress,
+          equals('Filigudi Ct, Frankston South VIC 3199, Australia'));
+      expect(details.formattedPhoneNumber, equals('0431 887 848'));
+      expect(
+          details.icon,
+          equals(
+              'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png'));
+      expect(details.reviews, hasLength(3));
+      expect(details.reviews.map((e) => e.language), anyElement(isNull));
+    });
+  });
 }
 
 final _searchResponseExample = {
@@ -848,4 +903,188 @@ final _autocompleteResponseExample = {
       'types': ['locality', 'political', 'geocode']
     }
   ]
+};
+
+const _textSearchResponseExample = {
+  'html_attributions': [],
+  'next_page_token':
+      'HLx6WLSSOdkvf0uHaIppbWYqZzx5cSuZa0xMp6nuaCxm7tdUuZa6JT898vAerxj8wRkMIlsYGEjQ9m0d6rQ',
+  'results': [
+    {
+      'formatted_address': 'Melbourne VIC, Australia',
+      'geometry': {
+        'location': {'lat': -37.8136276, 'lng': 144.9630576},
+        'viewport': {
+          'northeast': {'lat': -37.5112736581378, 'lng': 145.512528780816},
+          'southwest': {'lat': -38.43385934606902, 'lng': 144.5937417793496}
+        }
+      },
+      'icon':
+          'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png',
+      'name': 'Melbourne',
+      'photos': [
+        {
+          'height': 810,
+          'html_attributions': [
+            '\u003ca href=\"https://maps.google.com/maps/contrib/107196947767897770095\"\u003eUwe Delau\u003c/a\u003e'
+          ],
+          'photo_reference':
+              'ATtYBwK5nQr4pKVwk0xnAaIV2hj-I4710I5sdXh7eGGBQWFrOD1N7AJgXy7ZnHwsE0Lbk9yNlj42REQM8ZWKm-7HIDj1mrNXEh6lWoNPc9JVywROmrHVCqnOuER3bmbrGQR7JRsF3n2uBilksqdJoSNuvr8BH4S4KJpyD_CiIUhed1JAvoEo',
+          'width': 1080
+        }
+      ],
+      'place_id': 'ChIJ90260rVG1moRkM2MIXVWBAQ',
+      'reference': 'ChIJ90260rVG1moRkM2MIXVWBAQ',
+      'types': ['colloquial_area', 'locality', 'political']
+    }
+  ],
+  'status': 'OK'
+};
+
+const _placeDetailsExample = {
+  'address_components': [
+    {
+      'long_name': 'Filigudi Court',
+      'short_name': 'Filigudi Ct',
+      'types': ['route']
+    },
+    {
+      'long_name': 'Frankston South',
+      'short_name': 'Frankston South',
+      'types': ['locality', 'political']
+    },
+    {
+      'long_name': 'Frankston City',
+      'short_name': 'Frankston',
+      'types': ['administrative_area_level_2', 'political']
+    },
+    {
+      'long_name': 'Victoria',
+      'short_name': 'VIC',
+      'types': ['administrative_area_level_1', 'political']
+    },
+    {
+      'long_name': 'Australia',
+      'short_name': 'AU',
+      'types': ['country', 'political']
+    },
+    {
+      'long_name': '3199',
+      'short_name': '3199',
+      'types': ['postal_code']
+    }
+  ],
+  'adr_address':
+      '<span class=\"street-address\">Filigudi Ct</span>, <span class=\"locality\">Frankston South</span> <span class=\"region\">VIC</span> <span class=\"postal-code\">3199</span>, <span class=\"country-name\">Australia</span>',
+  'business_status': 'OPERATIONAL',
+  'formatted_address': 'Filigudi Ct, Frankston South VIC 3199, Australia',
+  'formatted_phone_number': '0431 887 848',
+  'geometry': {
+    'location': {'lat': -38.1867284, 'lng': 145.1455111},
+    'viewport': {
+      'northeast': {'lat': -38.1853919197085, 'lng': 145.1468263302915},
+      'southwest': {'lat': -38.1880898802915, 'lng': 145.1441283697085}
+    }
+  },
+  'icon':
+      'https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/school-71.png',
+  'international_phone_number': '+61 431 887 848',
+  'name': 'Habitat Surf',
+  'photos': [
+    {
+      'height': 4032,
+      'html_attributions': [
+        '<a href=\"https://maps.google.com/maps/contrib/101246297873069804005\">Habitat Surf</a>'
+      ],
+      'photo_reference':
+          'ATtYBwLH_-MyoefQNFeI_G3WoFTdjI-zTcK6-KhRS2qYdaHvvHPW-80408rIrTOCCV1SAiYNp40x-Ut7hBGrzP6PM0I4c0WrFPGybaF_ftyNOdAD2l7D6LhfXbgqfbv7hMXTZkP-bdEK24i2_SF5Y7tkHErPRzD3Z1EAfz4wKwQ1mmbxLCV1',
+      'width': 2268
+    },
+    {
+      'height': 3557,
+      'html_attributions': [
+        '<a href=\"https://maps.google.com/maps/contrib/101246297873069804005\">Habitat Surf</a>'
+      ],
+      'photo_reference':
+          'ATtYBwJ9LhX8MhRj8lnJnlqmv-6uraUb_5_ozvQxuzRGRyTniZjo0_bzyh-Mi7SXvH9OSyqB8qwIk2EdnBOuHoU6tlsEGs7wCSNUFeWiI20AKGjrYgeu073sTvwVr_Of0Ka7258NKdf1qEdiQx2ZY8P4wcRb9TkyRjaEXZi2-aCGmLEulHke',
+      'width': 3024
+    },
+    {
+      'height': 1024,
+      'html_attributions': [
+        '<a href=\"https://maps.google.com/maps/contrib/101246297873069804005\">Habitat Surf</a>'
+      ],
+      'photo_reference':
+          'ATtYBwIcWzamoiCsqsBSVTYlF4TujnnfK2C8sBSk0fwyrB-tw5D-6KKg7uuRL2l_Ndi-7RnrcYV9otV0l41pu5lEus2tkTyVxkyFWOj_cN-zJiOkyBSleC3II2ozocDsxXiEsWzUhxKiMJjYI1Bsi186kIbzsBMYjLoD64dgBoSfrBQVhG8h',
+      'width': 1024
+    },
+    {
+      'height': 2268,
+      'html_attributions': [
+        '<a href=\"https://maps.google.com/maps/contrib/101246297873069804005\">Habitat Surf</a>'
+      ],
+      'photo_reference':
+          'ATtYBwJiDjV_qKQoxeTMie8lpIatwAGpjpx2oOB_0iQSO5Z87NP5OgPBncLA6ti--yYgXAll17RynG89FlQNSfm7_eua-Qbd7Fyu2-FxIecp60lqIgI9gt-SXSFMRrH_pYxj2SgXVpcIN5ObRFm6-E8V8hARy78dBBBuNAzLKegylJoypikp',
+      'width': 4032
+    },
+    {
+      'height': 2268,
+      'html_attributions': [
+        '<a href=\"https://maps.google.com/maps/contrib/101246297873069804005\">Habitat Surf</a>'
+      ],
+      'photo_reference':
+          'ATtYBwI3Plt0GnRqnTpBil97Ggn7p4Da6-x6RP3My8Mldd0qJFK-gm0khac0VTe4bLIjkbq4dVeqYtnJq9__GQTGjGoO9s1iPI8bjmnwPUXUTRXf_gtU7AGrwPBUfqL5KsmCMq4SUtOWRKVCIZ1IwQclziSg9UCy3ZfJWazI--Be4IYV88PY',
+      'width': 4032
+    }
+  ],
+  'place_id': 'ChIJOaVBtTEL1moR5DB1DK8b_6k',
+  'plus_code': {
+    'compound_code': 'R47W+86 Frankston South VIC, Australia',
+    'global_code': '4RH7R47W+86'
+  },
+  'rating': 5,
+  'reference': 'ChIJOaVBtTEL1moR5DB1DK8b_6k',
+  'reviews': [
+    {
+      'author_name': 'Lara Simpkin',
+      'author_url':
+          'https://www.google.com/maps/contrib/117980375521320943840/reviews',
+      'language': 'en',
+      'profile_photo_url':
+          'https://lh6.googleusercontent.com/-AUyEguuteZ4/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucm0aQ9YcgyecL1MOW2w3irNfj0fBQ/s128-c0x00000000-cc-rp-mo/photo.jpg',
+      'rating': 5,
+      'relative_time_description': '3 weeks ago',
+      'text':
+          'I nabbed one of these boards for our living room as a display. It perfectly compliments our modern coastal aesthetic - we always get compliments on it!',
+      'time': 1615440498
+    },
+    {
+      'author_name': 'David Coyne',
+      'author_url':
+          'https://www.google.com/maps/contrib/112991978235168481824/reviews',
+      'profile_photo_url':
+          'https://lh6.googleusercontent.com/-We_CzC0y0Kg/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckQJRKvgC10HUkNiNzZ2TJRyu2W3A/s128-c0x00000000-cc-rp-mo/photo.jpg',
+      'rating': 5,
+      'relative_time_description': '3 weeks ago',
+      'text': '',
+      'time': 1615428580
+    },
+    {
+      'author_name': 'Dave O',
+      'author_url':
+          'https://www.google.com/maps/contrib/115299138534899794552/reviews',
+      'profile_photo_url':
+          'https://lh3.googleusercontent.com/-vMsKOs0joL4/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucndtNljtuj_7VlO7uH9vCXoXFVw5A/s128-c0x00000000-cc-rp-mo-ba2/photo.jpg',
+      'rating': 5,
+      'relative_time_description': '3 weeks ago',
+      'text': '',
+      'time': 1615427962
+    }
+  ],
+  'types': ['point_of_interest', 'store', 'establishment'],
+  'url': 'https://maps.google.com/?cid=12249539950113272036',
+  'user_ratings_total': 3,
+  'utc_offset': 600,
+  'vicinity': 'Filigudi Court, Frankston South',
+  'website': 'http://habitatsurf.com.au/'
 };
