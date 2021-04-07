@@ -992,7 +992,7 @@ class StructuredFormatting {
 
   @JsonKey(defaultValue: <MatchedSubstring>[])
   final List<MatchedSubstring> mainTextMatchedSubstrings;
-  final String secondaryText;
+  final String? secondaryText;
 
   StructuredFormatting({
     required this.mainText,

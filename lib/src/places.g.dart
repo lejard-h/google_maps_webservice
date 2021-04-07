@@ -423,7 +423,7 @@ StructuredFormatting _$StructuredFormattingFromJson(Map<String, dynamic> json) {
             ?.map((e) => MatchedSubstring.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [],
-    secondaryText: json['secondary_text'] as String,
+    secondaryText: json['secondary_text'] as String?,
   );
 }
 
