@@ -45,9 +45,9 @@ These keys are not to be used individually as Android or iOS API keys, but they 
 ```dart
 import "package:google_maps_webservice/geocoding.dart";
 
-final geocoding = new GoogleMapsGeocoding(apiKey: "<API_KEY>");
-final geocoding = new GoogleMapsGeocoding(apiKey: "<API_KEY>", httpClient: new BrowserClient());
-final geocoding = new GoogleMapsGeocoding(baseUrl: "http://myProxy.com");
+final geocoding = GoogleMapsGeocoding(apiKey: "<API_KEY>");
+final geocoding = GoogleMapsGeocoding(apiKey: "<API_KEY>", httpClient: BrowserClient());
+final geocoding = GoogleMapsGeocoding(baseUrl: "http://myProxy.com");
 
 GeocodingResponse response = await geocoding.searchByAddress("1600 Amphitheatre Parkway, Mountain View, CA");
 ```
@@ -57,12 +57,12 @@ GeocodingResponse response = await geocoding.searchByAddress("1600 Amphitheatre 
 ```dart
 import "package:google_maps_webservice/places.dart";
 
-final places = new GoogleMapsPlaces(apiKey: "<API_KEY>");
-final places = new GoogleMapsPlaces(apiKey: "<API_KEY>", httpClient: new BrowserClient());
-final places = new GoogleMapsPlaces(baseUrl: "http://myProxy.com");
+final places = GoogleMapsPlaces(apiKey: "<API_KEY>");
+final places = GoogleMapsPlaces(apiKey: "<API_KEY>", httpClient: BrowserClient());
+final places = GoogleMapsPlaces(baseUrl: "http://myProxy.com");
 
-PlacesSearchResponse response = await places.searchNearbyWithRadius(new Location(lat: 31.0424, lng: 42.421), 500);
-PlacesSearchResponse response = await places.searchNearbyWithRankby(new Location(lat: 31.0424, lng: 42.421), "distance");
+PlacesSearchResponse response = await places.searchNearbyWithRadius(Location(lat: 31.0424, lng: 42.421), 500);
+PlacesSearchResponse response = await places.searchNearbyWithRankby(Location(lat: 31.0424, lng: 42.421), "distance");
 PlacesSearchResponse response = await places.searchByText("123 Main Street");
 
 PlacesDetailsResponse response = await places.getDetailsByPlaceId("PLACE_ID");
@@ -74,13 +74,13 @@ PlacesDetailsResponse response = await places.getDetailsByReference("REF");
 ```dart
 import "package:google_maps_webservice/timezone.dart";
 
-final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>");
-final timezone = new GoogleMapsTimezone(apiKey: "<API_KEY>", httpClient: new BrowserClient());
-final timezone = new GoogleMapsTimezone(baseUrl: "http://myProxy.com");
+final timezone = GoogleMapsTimezone(apiKey: "<API_KEY>");
+final timezone = GoogleMapsTimezone(apiKey: "<API_KEY>", httpClient: BrowserClient());
+final timezone = GoogleMapsTimezone(baseUrl: "http://myProxy.com");
 
-TimezoneResponse response = await timezone.getByLocation(new Location(lat: 31.0424, lng: 42.421));
-TimezoneResponse response = await timezone.getByLocation(new Location(lat: 31.0424, lng: 42.421), timestamp: DateTime.utc(2019, 4, 24));
-TimezoneResponse response = await timezone.getByLocation(new Location(lat: 31.0424, lng: 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
+TimezoneResponse response = await timezone.getByLocation(Location(lat: 31.0424, lng: 42.421));
+TimezoneResponse response = await timezone.getByLocation(Location(lat: 31.0424, lng: 42.421), timestamp: DateTime.utc(2019, 4, 24));
+TimezoneResponse response = await timezone.getByLocation(Location(lat: 31.0424, lng: 42.421), timestamp: DateTime.utc(2019, 4, 24), language: 'es');
 ```
 
 ### Static Map
