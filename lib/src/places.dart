@@ -594,12 +594,12 @@ class PlacesSearchResult {
   @JsonKey(defaultValue: false)
   final bool permanentlyClosed;
 
-  final String id;
+  final String? id;
 
   final String reference;
 
   PlacesSearchResult({
-    required this.id,
+    this.id,
     required this.reference,
     required this.name,
     required this.placeId,
@@ -847,7 +847,7 @@ class Review {
   /// JSON author_url
   final String authorUrl;
 
-  final String language;
+  final String? language;
 
   /// JSON profile_photo_url
   final String profilePhotoUrl;
