@@ -997,7 +997,7 @@ class StructuredFormatting {
   StructuredFormatting({
     required this.mainText,
     this.mainTextMatchedSubstrings = const <MatchedSubstring>[],
-    required this.secondaryText,
+    this.secondaryText,
   });
 
   factory StructuredFormatting.fromJson(Map<String, dynamic> json) =>
