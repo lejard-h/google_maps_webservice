@@ -88,14 +88,14 @@ DateTime dayTimeToDateTime(int day, String time) {
         "'time' is not a valid string. It must be four integers.");
   }
 
-  final _now = DateTime.now();
-  // Maps is 0-index DO^W
-  final _weekday = _now.weekday - 1;
-  final _mondayOfThisWeek = _now.day - _weekday;
-  final _computedWeekday = _mondayOfThisWeek + day;
+  day = day == 0 ? DateTime.sunday : day;
 
-  final _hour = int.parse(time.substring(0, 2));
-  final _minute = int.parse(time.substring(2));
+  final now = DateTime.now();
+  final mondayOfThisWeek = now.day - now.weekday;
+  final computedWeekday = mondayOfThisWeek + day;
 
-  return DateTime.utc(_now.year, _now.month, _computedWeekday, _hour, _minute);
+  final hour = int.parse(time.substring(0, 2));
+  final minute = int.parse(time.substring(2));
+
+  return DateTime.utc(now.year, now.month, computedWeekday, hour, minute);
 }
