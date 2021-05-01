@@ -685,7 +685,7 @@ class PlaceDetails {
     this.adrAddress,
     required this.name,
     required this.placeId,
-    required this.utcOffset,
+    this.utcOffset,
     this.id,
     this.internationalPhoneNumber,
     this.addressComponents = const [],
