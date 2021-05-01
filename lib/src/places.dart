@@ -672,7 +672,7 @@ class PlaceDetails {
   final String? vicinity;
 
   /// JSON utc_offset
-  final num utcOffset;
+  final num? utcOffset;
 
   final String? website;
 
