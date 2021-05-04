@@ -643,7 +643,7 @@ class PlaceDetails {
 
   final String? icon;
 
-  final String name;
+  final String? name;
 
   /// JSON opening_hours
   final OpeningHoursDetail? openingHours;
