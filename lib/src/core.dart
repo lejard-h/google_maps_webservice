@@ -171,7 +171,7 @@ extension TravelModeExt on TravelMode {
   }
 
   String toApiString() {
-    return _$TravelModeEnumMap[this] ?? '';
+    return (_$TravelModeEnumMap[this] ?? '').toLowerCase();
   }
 }
 
