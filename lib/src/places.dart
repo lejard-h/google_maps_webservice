@@ -554,6 +554,9 @@ class PlacesSearchResponse extends GoogleResponseStatus {
   factory PlacesSearchResponse.fromJson(Map<String, dynamic> json) =>
       _$PlacesSearchResponseFromJson(json);
   Map<String, dynamic> toJson() => _$PlacesSearchResponseToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -620,6 +623,9 @@ class PlacesSearchResult {
   factory PlacesSearchResult.fromJson(Map<String, dynamic> json) =>
       _$PlacesSearchResultFromJson(json);
   Map<String, dynamic> toJson() => _$PlacesSearchResultToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -709,6 +715,9 @@ class PlaceDetails {
   factory PlaceDetails.fromJson(Map<String, dynamic> json) =>
       _$PlaceDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$PlaceDetailsToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -731,6 +740,9 @@ class OpeningHoursDetail {
   factory OpeningHoursDetail.fromJson(Map<String, dynamic> json) =>
       _$OpeningHoursDetailFromJson(json);
   Map<String, dynamic> toJson() => _$OpeningHoursDetailToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -749,6 +761,9 @@ class OpeningHoursPeriodDate {
   factory OpeningHoursPeriodDate.fromJson(Map<String, dynamic> json) =>
       _$OpeningHoursPeriodDateFromJson(json);
   Map<String, dynamic> toJson() => _$OpeningHoursPeriodDateToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -761,6 +776,9 @@ class OpeningHoursPeriod {
   factory OpeningHoursPeriod.fromJson(Map<String, dynamic> json) =>
       _$OpeningHoursPeriodFromJson(json);
   Map<String, dynamic> toJson() => _$OpeningHoursPeriodToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -783,6 +801,9 @@ class Photo {
 
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -797,6 +818,9 @@ class AlternativeId {
   factory AlternativeId.fromJson(Map<String, dynamic> json) =>
       _$AlternativeIdFromJson(json);
   Map<String, dynamic> toJson() => _$AlternativeIdToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 enum PriceLevel {
@@ -837,6 +861,9 @@ class PlacesDetailsResponse extends GoogleResponseStatus {
   factory PlacesDetailsResponse.fromJson(Map<String, dynamic> json) =>
       _$PlacesDetailsResponseFromJson(json);
   Map<String, dynamic> toJson() => _$PlacesDetailsResponseToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -874,6 +901,9 @@ class Review {
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
   Map<String, dynamic> toJson() => _$ReviewToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -893,6 +923,9 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
   factory PlacesAutocompleteResponse.fromJson(Map<String, dynamic> json) =>
       _$PlacesAutocompleteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$PlacesAutocompleteResponseToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -933,6 +966,9 @@ class Prediction {
   factory Prediction.fromJson(Map<String, dynamic> json) =>
       _$PredictionFromJson(json);
   Map<String, dynamic> toJson() => _$PredictionToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -947,6 +983,9 @@ class Term {
 
   factory Term.fromJson(Map<String, dynamic> json) => _$TermFromJson(json);
   Map<String, dynamic> toJson() => _$TermToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 
   @override
   bool operator ==(Object other) =>
@@ -973,6 +1012,9 @@ class MatchedSubstring {
   factory MatchedSubstring.fromJson(Map<String, dynamic> json) =>
       _$MatchedSubstringFromJson(json);
   Map<String, dynamic> toJson() => _$MatchedSubstringToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 
   @override
   bool operator ==(Object other) =>
@@ -1003,4 +1045,7 @@ class StructuredFormatting {
   factory StructuredFormatting.fromJson(Map<String, dynamic> json) =>
       _$StructuredFormattingFromJson(json);
   Map<String, dynamic> toJson() => _$StructuredFormattingToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
