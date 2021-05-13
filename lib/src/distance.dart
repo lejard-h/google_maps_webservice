@@ -288,6 +288,9 @@ class DistanceResponse extends GoogleResponseStatus {
   factory DistanceResponse.fromJson(Map<String, dynamic> json) =>
       _$DistanceResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DistanceResponseToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -299,6 +302,9 @@ class Row {
 
   factory Row.fromJson(Map<String, dynamic> json) => _$RowFromJson(json);
   Map<String, dynamic> toJson() => _$RowToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -316,6 +322,9 @@ class Element {
   factory Element.fromJson(Map<String, dynamic> json) =>
       _$ElementFromJson(json);
   Map<String, dynamic> toJson() => _$ElementToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -327,4 +336,7 @@ class Value {
 
   factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
   Map<String, dynamic> toJson() => _$ValueToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }

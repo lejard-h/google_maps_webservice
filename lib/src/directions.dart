@@ -323,6 +323,9 @@ class GeocodedWaypoint {
   factory GeocodedWaypoint.fromJson(Map<String, dynamic> json) =>
       _$GeocodedWaypointFromJson(json);
   Map<String, dynamic> toJson() => _$GeocodedWaypointToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -360,6 +363,9 @@ class Route {
 
   factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
   Map<String, dynamic> toJson() => _$RouteToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 abstract class _Step {
@@ -421,6 +427,9 @@ class Leg extends _Step {
 
   factory Leg.fromJson(Map<String, dynamic> json) => _$LegFromJson(json);
   Map<String, dynamic> toJson() => _$LegToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -455,6 +464,9 @@ class Step extends _Step {
 
   factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
   Map<String, dynamic> toJson() => _$StepToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -466,6 +478,9 @@ class Polyline {
   factory Polyline.fromJson(Map<String, dynamic> json) =>
       _$PolylineFromJson(json);
   Map<String, dynamic> toJson() => _$PolylineToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -477,6 +492,9 @@ class Value {
 
   factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
   Map<String, dynamic> toJson() => _$ValueToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -489,6 +507,9 @@ class Fare extends Value {
   factory Fare.fromJson(Map<String, dynamic> json) => _$FareFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$FareToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -502,6 +523,9 @@ class Time extends Value {
   factory Time.fromJson(Map<String, dynamic> json) => _$TimeFromJson(json);
   @override
   Map<String, dynamic> toJson() => _$TimeToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -538,6 +562,9 @@ class TransitDetails {
   factory TransitDetails.fromJson(Map<String, dynamic> json) =>
       _$TransitDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$TransitDetailsToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -549,6 +576,9 @@ class Stop {
 
   factory Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
   Map<String, dynamic> toJson() => _$StopToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -584,6 +614,9 @@ class Line {
 
   factory Line.fromJson(Map<String, dynamic> json) => _$LineFromJson(json);
   Map<String, dynamic> toJson() => _$LineToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -601,6 +634,9 @@ class TransitAgency {
   factory TransitAgency.fromJson(Map<String, dynamic> json) =>
       _$TransitAgencyFromJson(json);
   Map<String, dynamic> toJson() => _$TransitAgencyToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -622,6 +658,9 @@ class VehicleType {
   factory VehicleType.fromJson(Map<String, dynamic> json) =>
       _$VehicleTypeFromJson(json);
   Map<String, dynamic> toJson() => _$VehicleTypeToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 
   bool isType(String type) => type.toLowerCase() == this.type.toLowerCase();
 

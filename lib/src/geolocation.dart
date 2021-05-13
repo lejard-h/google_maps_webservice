@@ -137,6 +137,9 @@ class GeolocationError {
   factory GeolocationError.fromJson(Map<String, dynamic> json) =>
       _$GeolocationErrorFromJson(json);
   Map<String, dynamic> toJson() => _$GeolocationErrorToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -156,6 +159,9 @@ class GeolocationErrorResponse {
   factory GeolocationErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$GeolocationErrorResponseFromJson(json);
   Map<String, dynamic> toJson() => _$GeolocationErrorResponseToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -175,6 +181,9 @@ class GeolocationResponse {
   factory GeolocationResponse.fromJson(Map<String, dynamic> json) =>
       _$GeolocationResponseFromJson(json);
   Map<String, dynamic> toJson() => _$GeolocationResponseToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 abstract class _AccessObject {
@@ -205,6 +214,9 @@ class CellTower extends _AccessObject {
   factory CellTower.fromJson(Map<String, dynamic> json) =>
       _$CellTowerFromJson(json);
   Map<String, dynamic> toJson() => _$CellTowerToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
 
 @JsonSerializable()
@@ -227,4 +239,7 @@ class WifiAccessPoint extends _AccessObject {
   factory WifiAccessPoint.fromJson(Map<String, dynamic> json) =>
       _$WifiAccessPointFromJson(json);
   Map<String, dynamic> toJson() => _$WifiAccessPointToJson(this);
+
+  @override
+  String toString() => toJson().toString();
 }
