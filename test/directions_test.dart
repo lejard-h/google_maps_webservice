@@ -133,7 +133,7 @@ Future<void> main() async {
           _uri.replace(queryParameters: {
             'origin': 'Toronto',
             'destination': 'Montreal',
-            'mode': 'BICYCLING',
+            'mode': 'bicycling',
             'key': apiKey,
           }).toString(),
         );
@@ -146,7 +146,7 @@ Future<void> main() async {
           _uri.replace(queryParameters: {
             'origin': 'Toronto',
             'destination': 'Montreal',
-            'mode': 'DRIVING',
+            'mode': 'driving',
             'key': apiKey,
           }).toString(),
         );
@@ -159,7 +159,7 @@ Future<void> main() async {
           _uri.replace(queryParameters: {
             'origin': 'Toronto',
             'destination': 'Montreal',
-            'mode': 'TRANSIT',
+            'mode': 'transit',
             'key': apiKey,
           }).toString(),
         );
@@ -172,7 +172,7 @@ Future<void> main() async {
           _uri.replace(queryParameters: {
             'origin': 'Toronto',
             'destination': 'Montreal',
-            'mode': 'WALKING',
+            'mode': 'walking',
             'key': apiKey,
           }).toString(),
         );

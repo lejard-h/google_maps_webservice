@@ -76,6 +76,7 @@ abstract class GoogleResponseStatus {
   final String status;
 
   /// JSON error_message
+  @JsonValue('error_message')
   final String? errorMessage;
 
   bool get isOkay => status == okay;
@@ -171,7 +172,16 @@ extension TravelModeExt on TravelMode {
   }
 
   String toApiString() {
-    return _$TravelModeEnumMap[this] ?? '';
+    switch (this) {
+      case TravelMode.driving:
+        return 'driving';
+      case TravelMode.walking:
+        return 'walking';
+      case TravelMode.bicycling:
+        return 'bicycling';
+      case TravelMode.transit:
+        return 'transit';
+    }
   }
 }
 
