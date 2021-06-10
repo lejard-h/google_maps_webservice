@@ -266,8 +266,15 @@ class DirectionsResponse extends GoogleResponseStatus {
     required this.routes,
   }) : super(status: status, errorMessage: errorMessage);
 
-  factory DirectionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DirectionsResponseFromJson(json);
+  factory DirectionsResponse.fromJson(Map<String, dynamic> json) {
+    // The response with status 'ZERO_RESULTS' returns a empty json objects for 'geocoded_waypoints'
+    final geocodedWaypoints =
+        json['geocoded_waypoints'] as List<dynamic>? ?? const <dynamic>[];
+    json['geocoded_waypoints'] = geocodedWaypoints.where((gw) {
+      return (gw as Map<dynamic, dynamic>).isNotEmpty;
+    }).toList();
+    return _$DirectionsResponseFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$DirectionsResponseToJson(this);
 }
 

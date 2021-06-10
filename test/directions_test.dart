@@ -538,6 +538,14 @@ Future<void> main() async {
       expect(loc.lat, equals(1.0));
       expect(loc.lng, equals(2.1));
     });
+
+    test('Decode zero result response', () {
+      var response = DirectionsResponse.fromJson(_zeroResultsResponseExample);
+
+      expect(response.hasNoResults, isTrue);
+      expect(response.routes, hasLength(0));
+      expect(response.geocodedWaypoints, hasLength(0));
+    });
   });
 }
 
@@ -600,4 +608,13 @@ final _responseExample = {
       }
     }
   ]
+};
+
+final _zeroResultsResponseExample = {
+  'status': 'ZERO_RESULTS',
+  'geocoded_waypoints': [
+    {},
+    {},
+  ],
+  'routes': [],
 };

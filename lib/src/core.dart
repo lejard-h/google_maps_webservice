@@ -166,23 +166,19 @@ class _TravelMode {
   Map<String, dynamic> toJson() => _$_TravelModeToJson(this);
 }
 
+const _TravelModeEnumMap = <TravelMode, String>{
+  TravelMode.driving: 'driving',
+  TravelMode.walking: 'walking',
+  TravelMode.bicycling: 'bicycling',
+  TravelMode.transit: 'transit',
+};
+
 extension TravelModeExt on TravelMode {
   static TravelMode fromApiString(String mode) {
     return _$enumDecode(_$TravelModeEnumMap, mode);
   }
 
-  String toApiString() {
-    switch (this) {
-      case TravelMode.driving:
-        return 'driving';
-      case TravelMode.walking:
-        return 'walking';
-      case TravelMode.bicycling:
-        return 'bicycling';
-      case TravelMode.transit:
-        return 'transit';
-    }
-  }
+  String toApiString() => _TravelModeEnumMap[this]!;
 }
 
 enum RouteType {

@@ -119,7 +119,7 @@ Future<void> main() async {
             queryParameters: {
               'origins': '23.721017,90.394358',
               'destinations': '23.762488,90.373025',
-              'mode': 'DRIVING',
+              'mode': 'driving',
               'key': apiKey,
             },
           ).toString(),
@@ -134,7 +134,7 @@ Future<void> main() async {
             queryParameters: {
               'origins': '23.721017,90.394358',
               'destinations': '23.762488,90.373025',
-              'mode': 'BICYCLING',
+              'mode': 'bicycling',
               'key': apiKey,
             },
           ).toString(),
@@ -150,7 +150,7 @@ Future<void> main() async {
             queryParameters: {
               'origins': '23.721017,90.394358',
               'destinations': '23.762488,90.373025',
-              'mode': 'WALKING',
+              'mode': 'walking',
               'key': apiKey,
             },
           ).toString(),
@@ -166,7 +166,7 @@ Future<void> main() async {
             queryParameters: {
               'origins': '23.721017,90.394358',
               'destinations': '23.762488,90.373025',
-              'mode': 'TRANSIT',
+              'mode': 'transit',
               'key': apiKey,
             },
           ).toString(),
