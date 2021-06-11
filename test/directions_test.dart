@@ -454,6 +454,8 @@ Future<void> main() async {
     test('decode response', () {
       var response = DirectionsResponse.fromJson(_responseExample);
 
+      print(response.toString());
+
       expect(response.isOkay, isTrue);
       expect(response.routes, hasLength(equals(1)));
       expect(response.geocodedWaypoints, hasLength(equals(4)));
@@ -587,7 +589,48 @@ final _responseExample = {
               'duration': {'value': 19, 'text': '1 min'},
               'html_instructions':
                   'Head \u003cb\u003enorth\u003c/b\u003e on \u003cb\u003eS Morgan St\u003c/b\u003e toward \u003cb\u003eW Cermak Rd\u003c/b\u003e',
-              'distance': {'value': 207, 'text': '0.1 mi'}
+              'distance': {'value': 207, 'text': '0.1 mi'},
+              'transit_details': {
+                'arrival_stop': {
+                  'location': {'lat': 41.41367700000001, 'lng': -87.00156},
+                  'name': 'Arrival name'
+                },
+                'arrival_time': {
+                  'text': '9:56am',
+                  'time_zone': 'Europe/Rome',
+                  'value': 1623398180
+                },
+                'departure_stop': {
+                  'location': {'lat': 41.428268, 'lng': -87.953418},
+                  'name': 'Departure name'
+                },
+                'departure_time': {
+                  'text': '9:47am',
+                  'time_zone': 'Europe/Rome',
+                  'value': 1623397620
+                },
+                'headsign': 'Headsign',
+                'line': {
+                  'agencies': [
+                    {
+                      'name': 'ACTV S.p.a',
+                      'phone': '000 00 000 000',
+                      'url': 'http://www.example.it/'
+                    }
+                  ],
+                  'color': '#393185',
+                  'name': 'Line name',
+                  'short_name': '53E',
+                  'text_color': '#ffffff',
+                  'vehicle': {
+                    'icon':
+                        '//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png',
+                    'name': 'Bus',
+                    'type': 'BUS'
+                  }
+                },
+                'num_stops': 4
+              },
             }
           ],
           'duration': {'value': 74384, 'text': '20 hours 40 mins'},

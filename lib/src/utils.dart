@@ -1,6 +1,7 @@
 library google_maps_webservice.utils;
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
@@ -98,4 +99,13 @@ DateTime dayTimeToDateTime(int day, String time) {
   final minute = int.parse(time.substring(2));
 
   return DateTime.utc(now.year, now.month, computedWeekday, hour, minute);
+}
+
+final _jsonEncoder = JsonEncoder.withIndent(' ');
+
+mixin StringifyJson {
+  Map<String, dynamic> toJson();
+
+  @override
+  String toString() => '$runtimeType ${_jsonEncoder.convert(this)}';
 }

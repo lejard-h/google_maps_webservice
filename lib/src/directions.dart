@@ -275,6 +275,7 @@ class DirectionsResponse extends GoogleResponseStatus {
     }).toList();
     return _$DirectionsResponseFromJson(json);
   }
+  @override
   Map<String, dynamic> toJson() => _$DirectionsResponseToJson(this);
 }
 
@@ -306,7 +307,7 @@ class Waypoint {
 }
 
 @JsonSerializable()
-class GeocodedWaypoint {
+class GeocodedWaypoint with StringifyJson {
   /// JSON geocoder_status
   final String geocoderStatus;
 
@@ -329,11 +330,12 @@ class GeocodedWaypoint {
 
   factory GeocodedWaypoint.fromJson(Map<String, dynamic> json) =>
       _$GeocodedWaypointFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$GeocodedWaypointToJson(this);
 }
 
 @JsonSerializable()
-class Route {
+class Route with StringifyJson {
   final String summary;
 
   @JsonKey(defaultValue: <Leg>[])
@@ -366,10 +368,11 @@ class Route {
   });
 
   factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$RouteToJson(this);
 }
 
-abstract class _Step {
+abstract class _Step with StringifyJson {
   /// JSON start_location
   final Location startLocation;
 
@@ -427,6 +430,7 @@ class Leg extends _Step {
         );
 
   factory Leg.fromJson(Map<String, dynamic> json) => _$LegFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$LegToJson(this);
 }
 
@@ -461,28 +465,31 @@ class Step extends _Step {
         );
 
   factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$StepToJson(this);
 }
 
 @JsonSerializable()
-class Polyline {
+class Polyline with StringifyJson {
   final String points;
 
   Polyline({required this.points});
 
   factory Polyline.fromJson(Map<String, dynamic> json) =>
       _$PolylineFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PolylineToJson(this);
 }
 
 @JsonSerializable()
-class Value {
+class Value with StringifyJson {
   final num value;
   final String text;
 
   Value({required this.value, required this.text});
 
   factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$ValueToJson(this);
 }
 
@@ -512,7 +519,7 @@ class Time extends Value {
 }
 
 @JsonSerializable()
-class TransitDetails {
+class TransitDetails with StringifyJson {
   /// JSON arrival_stop
   final Stop arrivalStop;
 
@@ -527,10 +534,12 @@ class TransitDetails {
 
   final String headsign;
 
-  final num headway;
+  final num? headway;
 
   /// JSON num_stops
   final num numStops;
+
+  final Line line;
 
   TransitDetails({
     required this.arrivalStop,
@@ -540,49 +549,53 @@ class TransitDetails {
     required this.headsign,
     required this.headway,
     required this.numStops,
+    required this.line,
   });
 
   factory TransitDetails.fromJson(Map<String, dynamic> json) =>
       _$TransitDetailsFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$TransitDetailsToJson(this);
 }
 
 @JsonSerializable()
-class Stop {
+class Stop with StringifyJson {
   final String name;
   final Location location;
 
   Stop({required this.name, required this.location});
 
   factory Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$StopToJson(this);
 }
 
 @JsonSerializable()
-class Line {
+class Line with StringifyJson {
   final String name;
 
   /// JSON short_name
   final String shortName;
 
-  final String color;
+  final String? color;
 
+  @JsonKey(defaultValue: <TransitAgency>[])
   final List<TransitAgency> agencies;
 
-  final String url;
+  final String? url;
 
-  final String icon;
+  final String? icon;
 
   /// JSON text_color
-  final String textColor;
+  final String? textColor;
 
-  final VehicleType vehicle;
+  final VehicleType? vehicle;
 
   Line({
     required this.name,
     required this.shortName,
     required this.color,
-    required this.agencies,
+    this.agencies = const <TransitAgency>[],
     required this.url,
     required this.icon,
     required this.textColor,
@@ -590,11 +603,12 @@ class Line {
   });
 
   factory Line.fromJson(Map<String, dynamic> json) => _$LineFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$LineToJson(this);
 }
 
 @JsonSerializable()
-class TransitAgency {
+class TransitAgency with StringifyJson {
   final String name;
   final String url;
   final String phone;
@@ -607,17 +621,18 @@ class TransitAgency {
 
   factory TransitAgency.fromJson(Map<String, dynamic> json) =>
       _$TransitAgencyFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$TransitAgencyToJson(this);
 }
 
 @JsonSerializable()
-class VehicleType {
+class VehicleType with StringifyJson {
   final String name;
   final String type;
   final String icon;
 
   /// JSON local_icon
-  final String localIcon;
+  final String? localIcon;
 
   VehicleType({
     required this.name,
@@ -628,6 +643,7 @@ class VehicleType {
 
   factory VehicleType.fromJson(Map<String, dynamic> json) =>
       _$VehicleTypeFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$VehicleTypeToJson(this);
 
   bool isType(String type) => type.toLowerCase() == this.type.toLowerCase();

@@ -14,6 +14,6 @@ dependencies:
 dev_dependencies:
   test: ^1.16.0
   pedantic: ^1.10.0
-  build_runner: ^1.11.0
-  json_serializable: ^4.0.0
+  build_runner: ^1.12.0
+  json_serializable: ^4.1.0
   coverage: ^1.0.0

@@ -1,3 +1,4 @@
+import 'package:google_maps_webservice/src/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'core.g.dart';
@@ -21,7 +22,7 @@ class Location {
 }
 
 @JsonSerializable()
-class Geometry {
+class Geometry with StringifyJson {
   final Location location;
 
   /// JSON location_type
@@ -40,6 +41,7 @@ class Geometry {
 
   factory Geometry.fromJson(Map<String, dynamic> json) =>
       _$GeometryFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$GeometryToJson(this);
 }
 
@@ -61,7 +63,7 @@ class Bounds {
   Map<String, dynamic> toJson() => _$BoundsToJson(this);
 }
 
-abstract class GoogleResponseStatus {
+abstract class GoogleResponseStatus with StringifyJson {
   static const okay = 'OK';
   static const zeroResults = 'ZERO_RESULTS';
   static const overQueryLimit = 'OVER_QUERY_LIMIT';
@@ -76,7 +78,6 @@ abstract class GoogleResponseStatus {
   final String status;
 
   /// JSON error_message
-  @JsonValue('error_message')
   final String? errorMessage;
 
   bool get isOkay => status == okay;
@@ -106,7 +107,7 @@ abstract class GoogleResponse<T> extends GoogleResponseStatus {
 }
 
 @JsonSerializable()
-class AddressComponent {
+class AddressComponent with StringifyJson {
   @JsonKey(defaultValue: <String>[])
   final List<String> types;
 
@@ -124,6 +125,7 @@ class AddressComponent {
 
   factory AddressComponent.fromJson(Map<String, dynamic> json) =>
       _$AddressComponentFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$AddressComponentToJson(this);
 }
 

@@ -253,8 +253,9 @@ TransitDetails _$TransitDetailsFromJson(Map<String, dynamic> json) {
     departureTime:
         Time.fromJson(json['departure_time'] as Map<String, dynamic>),
     headsign: json['headsign'] as String,
-    headway: json['headway'] as num,
+    headway: json['headway'] as num?,
     numStops: json['num_stops'] as num,
+    line: Line.fromJson(json['line'] as Map<String, dynamic>),
   );
 }
 
@@ -267,6 +268,7 @@ Map<String, dynamic> _$TransitDetailsToJson(TransitDetails instance) =>
       'headsign': instance.headsign,
       'headway': instance.headway,
       'num_stops': instance.numStops,
+      'line': instance.line,
     };
 
 Stop _$StopFromJson(Map<String, dynamic> json) {
@@ -285,14 +287,17 @@ Line _$LineFromJson(Map<String, dynamic> json) {
   return Line(
     name: json['name'] as String,
     shortName: json['short_name'] as String,
-    color: json['color'] as String,
-    agencies: (json['agencies'] as List<dynamic>)
-        .map((e) => TransitAgency.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    url: json['url'] as String,
-    icon: json['icon'] as String,
-    textColor: json['text_color'] as String,
-    vehicle: VehicleType.fromJson(json['vehicle'] as Map<String, dynamic>),
+    color: json['color'] as String?,
+    agencies: (json['agencies'] as List<dynamic>?)
+            ?.map((e) => TransitAgency.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        [],
+    url: json['url'] as String?,
+    icon: json['icon'] as String?,
+    textColor: json['text_color'] as String?,
+    vehicle: json['vehicle'] == null
+        ? null
+        : VehicleType.fromJson(json['vehicle'] as Map<String, dynamic>),
   );
 }
 
@@ -327,7 +332,7 @@ VehicleType _$VehicleTypeFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     type: json['type'] as String,
     icon: json['icon'] as String,
-    localIcon: json['local_icon'] as String,
+    localIcon: json['local_icon'] as String?,
   );
 }
 

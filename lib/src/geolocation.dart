@@ -123,7 +123,7 @@ class GoogleMapsGeolocation extends GoogleWebService {
 }
 
 @JsonSerializable()
-class GeolocationError {
+class GeolocationError with StringifyJson {
   final String domain;
   final String reason;
   final String message;
@@ -136,11 +136,12 @@ class GeolocationError {
 
   factory GeolocationError.fromJson(Map<String, dynamic> json) =>
       _$GeolocationErrorFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$GeolocationErrorToJson(this);
 }
 
 @JsonSerializable()
-class GeolocationErrorResponse {
+class GeolocationErrorResponse with StringifyJson {
   @JsonKey(defaultValue: <GeolocationError>[])
   final List<GeolocationError> errors;
 
@@ -155,6 +156,7 @@ class GeolocationErrorResponse {
 
   factory GeolocationErrorResponse.fromJson(Map<String, dynamic> json) =>
       _$GeolocationErrorResponseFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$GeolocationErrorResponseToJson(this);
 }
 
@@ -177,7 +179,7 @@ class GeolocationResponse {
   Map<String, dynamic> toJson() => _$GeolocationResponseToJson(this);
 }
 
-abstract class _AccessObject {
+abstract class _AccessObject with StringifyJson {
   final num? age;
   final num? signalStrength;
 
@@ -204,6 +206,7 @@ class CellTower extends _AccessObject {
 
   factory CellTower.fromJson(Map<String, dynamic> json) =>
       _$CellTowerFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$CellTowerToJson(this);
 }
 
@@ -226,5 +229,6 @@ class WifiAccessPoint extends _AccessObject {
 
   factory WifiAccessPoint.fromJson(Map<String, dynamic> json) =>
       _$WifiAccessPointFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$WifiAccessPointToJson(this);
 }

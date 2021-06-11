@@ -165,11 +165,12 @@ class GeocodingResponse extends GoogleResponseStatus {
 
   factory GeocodingResponse.fromJson(Map<String, dynamic> json) =>
       _$GeocodingResponseFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$GeocodingResponseToJson(this);
 }
 
 @JsonSerializable()
-class GeocodingResult {
+class GeocodingResult with StringifyJson {
   @JsonKey(defaultValue: <String>[])
   final List<String> types;
 
@@ -205,11 +206,12 @@ class GeocodingResult {
 
   factory GeocodingResult.fromJson(Map<String, dynamic> json) =>
       _$GeocodingResultFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$GeocodingResultToJson(this);
 }
 
 @JsonSerializable()
-class StreetAddress {
+class StreetAddress with StringifyJson {
   final Geometry? geometry;
   final String? addressLine;
   final String? countryName;
@@ -279,5 +281,6 @@ class StreetAddress {
 
   factory StreetAddress.fromJson(Map<String, dynamic> json) =>
       _$StreetAddressFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$StreetAddressToJson(this);
 }

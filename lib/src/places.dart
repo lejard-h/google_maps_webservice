@@ -553,11 +553,12 @@ class PlacesSearchResponse extends GoogleResponseStatus {
 
   factory PlacesSearchResponse.fromJson(Map<String, dynamic> json) =>
       _$PlacesSearchResponseFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PlacesSearchResponseToJson(this);
 }
 
 @JsonSerializable()
-class PlacesSearchResult {
+class PlacesSearchResult with StringifyJson {
   final String? icon;
   final Geometry? geometry;
   final String name;
@@ -619,11 +620,12 @@ class PlacesSearchResult {
 
   factory PlacesSearchResult.fromJson(Map<String, dynamic> json) =>
       _$PlacesSearchResultFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PlacesSearchResultToJson(this);
 }
 
 @JsonSerializable()
-class PlaceDetails {
+class PlaceDetails with StringifyJson {
   /// JSON address_components
   @JsonKey(defaultValue: <AddressComponent>[])
   final List<AddressComponent> addressComponents;
@@ -708,11 +710,12 @@ class PlaceDetails {
 
   factory PlaceDetails.fromJson(Map<String, dynamic> json) =>
       _$PlaceDetailsFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PlaceDetailsToJson(this);
 }
 
 @JsonSerializable()
-class OpeningHoursDetail {
+class OpeningHoursDetail with StringifyJson {
   @JsonKey(defaultValue: false)
   final bool openNow;
 
@@ -730,11 +733,12 @@ class OpeningHoursDetail {
 
   factory OpeningHoursDetail.fromJson(Map<String, dynamic> json) =>
       _$OpeningHoursDetailFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$OpeningHoursDetailToJson(this);
 }
 
 @JsonSerializable()
-class OpeningHoursPeriodDate {
+class OpeningHoursPeriodDate with StringifyJson {
   final int day;
   final String time;
 
@@ -748,11 +752,12 @@ class OpeningHoursPeriodDate {
 
   factory OpeningHoursPeriodDate.fromJson(Map<String, dynamic> json) =>
       _$OpeningHoursPeriodDateFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$OpeningHoursPeriodDateToJson(this);
 }
 
 @JsonSerializable()
-class OpeningHoursPeriod {
+class OpeningHoursPeriod with StringifyJson {
   final OpeningHoursPeriodDate? open;
   final OpeningHoursPeriodDate? close;
 
@@ -760,11 +765,12 @@ class OpeningHoursPeriod {
 
   factory OpeningHoursPeriod.fromJson(Map<String, dynamic> json) =>
       _$OpeningHoursPeriodFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$OpeningHoursPeriodToJson(this);
 }
 
 @JsonSerializable()
-class Photo {
+class Photo with StringifyJson {
   /// JSON photo_reference
   final String photoReference;
   final num height;
@@ -782,11 +788,12 @@ class Photo {
   });
 
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
 }
 
 @JsonSerializable()
-class AlternativeId {
+class AlternativeId with StringifyJson {
   /// JSON place_id
   final String placeId;
 
@@ -796,6 +803,7 @@ class AlternativeId {
 
   factory AlternativeId.fromJson(Map<String, dynamic> json) =>
       _$AlternativeIdFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$AlternativeIdToJson(this);
 }
 
@@ -836,11 +844,12 @@ class PlacesDetailsResponse extends GoogleResponseStatus {
 
   factory PlacesDetailsResponse.fromJson(Map<String, dynamic> json) =>
       _$PlacesDetailsResponseFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PlacesDetailsResponseToJson(this);
 }
 
 @JsonSerializable()
-class Review {
+class Review with StringifyJson {
   /// JSON author_name
   final String authorName;
 
@@ -873,6 +882,7 @@ class Review {
   });
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$ReviewToJson(this);
 }
 
@@ -892,11 +902,12 @@ class PlacesAutocompleteResponse extends GoogleResponseStatus {
 
   factory PlacesAutocompleteResponse.fromJson(Map<String, dynamic> json) =>
       _$PlacesAutocompleteResponseFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PlacesAutocompleteResponseToJson(this);
 }
 
 @JsonSerializable()
-class Prediction {
+class Prediction with StringifyJson {
   final String? description;
   final String? id;
 
@@ -932,11 +943,12 @@ class Prediction {
 
   factory Prediction.fromJson(Map<String, dynamic> json) =>
       _$PredictionFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PredictionToJson(this);
 }
 
 @JsonSerializable()
-class Term {
+class Term with StringifyJson {
   final num offset;
   final String value;
 
@@ -946,6 +958,7 @@ class Term {
   });
 
   factory Term.fromJson(Map<String, dynamic> json) => _$TermFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$TermToJson(this);
 
   @override
@@ -961,7 +974,7 @@ class Term {
 }
 
 @JsonSerializable()
-class MatchedSubstring {
+class MatchedSubstring with StringifyJson {
   final num offset;
   final num length;
 
@@ -972,6 +985,7 @@ class MatchedSubstring {
 
   factory MatchedSubstring.fromJson(Map<String, dynamic> json) =>
       _$MatchedSubstringFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$MatchedSubstringToJson(this);
 
   @override
@@ -987,7 +1001,7 @@ class MatchedSubstring {
 }
 
 @JsonSerializable()
-class StructuredFormatting {
+class StructuredFormatting with StringifyJson {
   final String mainText;
 
   @JsonKey(defaultValue: <MatchedSubstring>[])
@@ -1002,5 +1016,6 @@ class StructuredFormatting {
 
   factory StructuredFormatting.fromJson(Map<String, dynamic> json) =>
       _$StructuredFormattingFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$StructuredFormattingToJson(this);
 }
