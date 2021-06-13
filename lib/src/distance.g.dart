@@ -49,8 +49,12 @@ Map<String, dynamic> _$RowToJson(Row instance) => <String, dynamic>{
 
 Element _$ElementFromJson(Map<String, dynamic> json) {
   return Element(
-    distance: Value.fromJson(json['distance'] as Map<String, dynamic>),
-    duration: Value.fromJson(json['duration'] as Map<String, dynamic>),
+    distance: json['distance'] == null
+        ? null
+        : Value.fromJson(json['distance'] as Map<String, dynamic>),
+    duration: json['duration'] == null
+        ? null
+        : Value.fromJson(json['duration'] as Map<String, dynamic>),
     elementStatus: json['element_status'] as String?,
   );
 }
