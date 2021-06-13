@@ -493,12 +493,28 @@ Future<void> main() async {
         expect(response.destinationAddresses.first,
             equals('Rd 11, Dhaka 1212, Bangladesh'));
         expect(response.rows.first.elements, hasLength(1));
-        expect(response.rows.first.elements.first.duration.text,
+        expect(response.rows.first.elements.first.duration?.text,
             equals('29 mins'));
-        expect(response.rows.first.elements.first.duration.value, equals(1725));
+        expect(response.rows.first.elements.first.duration?.value, equals(1725));
         expect(
-            response.rows.first.elements.first.distance.text, equals('9.2 km'));
-        expect(response.rows.first.elements.first.distance.value, equals(9247));
+            response.rows.first.elements.first.distance?.text, equals('9.2 km'));
+        expect(response.rows.first.elements.first.distance?.value, equals(9247));
+      });
+
+      test('decode NOT_FOUND response', () {
+        var response = DistanceResponse.fromJson(_notFoundResponseExample);
+
+        expect(response.isOkay, isTrue);
+        expect(response.rows, hasLength(1));
+        expect(response.originAddresses, hasLength(1));
+        expect(response.originAddresses.first,
+            equals('Bakshi Bazar Road, Dhaka, Bangladesh'));
+        expect(response.destinationAddresses, hasLength(1));
+        expect(response.destinationAddresses.first,
+            equals(''));
+        expect(response.rows.first.elements, hasLength(1));
+        expect(response.rows.first.elements.first.duration, null);
+        expect(response.rows.first.elements.first.distance, null);
       });
     });
   });
@@ -514,6 +530,21 @@ final _responseExample = {
           'distance': {'text': '9.2 km', 'value': 9247},
           'duration': {'text': '29 mins', 'value': 1725},
           'status': 'OK'
+        }
+      ]
+    }
+  ],
+  'status': 'OK'
+};
+
+final _notFoundResponseExample = {
+  'destination_addresses': [''],
+  'origin_addresses': ['Bakshi Bazar Road, Dhaka, Bangladesh'],
+  'rows': [
+    {
+      'elements': [
+        {
+          'status': 'NOT_FOUND'
         }
       ]
     }
