@@ -572,10 +572,10 @@ class Stop with StringifyJson {
 
 @JsonSerializable()
 class Line with StringifyJson {
-  final String name;
+  final String? name;
 
   /// JSON short_name
-  final String shortName;
+  final String? shortName;
 
   final String? color;
 
@@ -610,8 +610,8 @@ class Line with StringifyJson {
 @JsonSerializable()
 class TransitAgency with StringifyJson {
   final String name;
-  final String url;
-  final String phone;
+  final String? url;
+  final String? phone;
 
   TransitAgency({
     required this.name,

@@ -285,8 +285,8 @@ Map<String, dynamic> _$StopToJson(Stop instance) => <String, dynamic>{
 
 Line _$LineFromJson(Map<String, dynamic> json) {
   return Line(
-    name: json['name'] as String,
-    shortName: json['short_name'] as String,
+    name: json['name'] as String?,
+    shortName: json['short_name'] as String?,
     color: json['color'] as String?,
     agencies: (json['agencies'] as List<dynamic>?)
             ?.map((e) => TransitAgency.fromJson(e as Map<String, dynamic>))
@@ -315,8 +315,8 @@ Map<String, dynamic> _$LineToJson(Line instance) => <String, dynamic>{
 TransitAgency _$TransitAgencyFromJson(Map<String, dynamic> json) {
   return TransitAgency(
     name: json['name'] as String,
-    url: json['url'] as String,
-    phone: json['phone'] as String,
+    url: json['url'] as String?,
+    phone: json['phone'] as String?,
   );
 }
 
