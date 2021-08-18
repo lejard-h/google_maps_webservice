@@ -195,7 +195,7 @@ class GoogleMapsDirections extends GoogleWebService {
     }
 
     if (travelMode != null) {
-      params['mode'] = travelMode.toApiString();
+      params['mode'] = travelMode.toString().split('.').last;
     }
 
     if (alternatives) {
