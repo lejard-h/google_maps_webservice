@@ -560,7 +560,7 @@ class PlacesSearchResponse extends GoogleResponseStatus {
 class PlacesSearchResult {
   final String? icon;
   final Geometry? geometry;
-  final String name;
+  final String? name;
 
   /// JSON opening_hours
   final OpeningHoursDetail? openingHours;
@@ -643,7 +643,7 @@ class PlaceDetails {
 
   final String? icon;
 
-  final String name;
+  final String? name;
 
   /// JSON opening_hours
   final OpeningHoursDetail? openingHours;
@@ -652,7 +652,7 @@ class PlaceDetails {
   final List<Photo> photos;
 
   /// JSON place_id
-  final String placeId;
+  final String? placeId;
 
   /// JSON international_phone_number
   final String? internationalPhoneNumber;

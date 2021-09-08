@@ -135,7 +135,7 @@ PlaceDetails _$PlaceDetailsFromJson(Map<String, dynamic> json) {
   return PlaceDetails(
     adrAddress: json['adr_address'] as String?,
     name: json['name'] as String,
-    placeId: json['place_id'] as String,
+    placeId: json['place_id'] as String?,
     utcOffset: json['utc_offset'] as num?,
     id: json['id'] as String?,
     internationalPhoneNumber: json['international_phone_number'] as String?,
