@@ -26,7 +26,7 @@ class StaticMap {
   final String? zoom;
   final String size;
   final String? center;
-  final bool scale;
+  final int scale;
   final Path? path;
   final String mapType;
 
@@ -37,7 +37,7 @@ class StaticMap {
     this.zoom,
     this.size = '580x267',
     this.center,
-    this.scale = false,
+    this.scale = 1,
     this.path,
     this.mapType = 'roadmap',
   }) : assert(
@@ -58,7 +58,7 @@ class StaticMap {
       params['zoom'] = z;
     }
 
-    if (scale) {
+    if (scale != 1) {
       params['scale'] = scale.toString();
     }
 
