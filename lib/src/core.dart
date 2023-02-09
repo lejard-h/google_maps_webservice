@@ -98,7 +98,7 @@ abstract class GoogleResponseList<T> extends GoogleResponseStatus {
 }
 
 abstract class GoogleResponse<T> extends GoogleResponseStatus {
-  final T result;
+  final T? result;
 
   GoogleResponse(String status, String? errorMessage, this.result)
       : super(status: status, errorMessage: errorMessage);

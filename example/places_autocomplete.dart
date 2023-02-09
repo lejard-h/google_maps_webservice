@@ -26,9 +26,9 @@ Future<void> main() async {
     );
 
     print('\nDetails :');
-    print(details.result.formattedAddress);
-    print(details.result.formattedPhoneNumber);
-    print(details.result.url);
+    print(details.result!.formattedAddress);
+    print(details.result!.formattedPhoneNumber);
+    print(details.result!.url);
   } else {
     print(res.errorMessage);
   }
