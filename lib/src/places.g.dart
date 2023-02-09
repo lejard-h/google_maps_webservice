@@ -291,7 +291,7 @@ PlacesDetailsResponse _$PlacesDetailsResponseFromJson(
   return PlacesDetailsResponse(
     status: json['status'] as String,
     errorMessage: json['error_message'] as String?,
-    result: PlaceDetails.fromJson(json['result'] as Map<String, dynamic>),
+    result: json['status'] == 'OK' ? PlaceDetails.fromJson(json['result'] as Map<String, dynamic>) : null,
     htmlAttributions: (json['html_attributions'] as List<dynamic>?)
             ?.map((e) => e as String)
             .toList() ??
