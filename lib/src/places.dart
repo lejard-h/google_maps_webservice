@@ -681,6 +681,44 @@ class PlaceDetails {
 
   final Geometry? geometry;
 
+  final PlusCode? plusCode;
+
+  final bool? reservable;
+
+  final bool? servesBeer;
+
+  final bool? servesBreakfast;
+
+  final bool? servesBrunch;
+
+  final bool? servesDinner;
+
+  final bool? servesLunch;
+
+  final bool? servesVegetarianFood;
+
+  final bool? servesWine;
+
+  final bool? takeout;
+
+  final int? userRatingsTotal;
+
+  final bool? wheelChairAccessibleEntrance;
+
+  final String? businessStatus;
+
+  final bool? curbsidePickup;
+
+  final bool? delivery;
+
+  final bool? dineIn; 
+
+  final PlaceEditorialSummary? editorialSummary;
+
+  final String? iconBackgroundColor;
+  
+  final String? iconMaskBaseUri;
+
   PlaceDetails({
     this.adrAddress,
     required this.name,
@@ -704,6 +742,25 @@ class PlaceDetails {
     this.vicinity,
     this.website,
     this.geometry,
+    this.businessStatus,
+    this.curbsidePickup,
+    this.delivery,
+    this.dineIn,
+    this.editorialSummary,
+    this.iconBackgroundColor,
+    this.iconMaskBaseUri,
+    this.plusCode,
+    this.reservable,
+    this.servesBeer,
+    this.servesBreakfast,
+    this.servesBrunch,
+    this.servesDinner,
+    this.servesLunch,
+    this.servesVegetarianFood,
+    this.servesWine,
+    this.takeout,
+    this.userRatingsTotal,
+    this.wheelChairAccessibleEntrance,
   });
 
   factory PlaceDetails.fromJson(Map<String, dynamic> json) =>
@@ -731,6 +788,36 @@ class OpeningHoursDetail {
   factory OpeningHoursDetail.fromJson(Map<String, dynamic> json) =>
       _$OpeningHoursDetailFromJson(json);
   Map<String, dynamic> toJson() => _$OpeningHoursDetailToJson(this);
+}
+
+@JsonSerializable()
+class PlaceEditorialSummary {
+  final String? language;
+  final String? overview;
+
+  PlaceEditorialSummary({
+    this.language,
+    this.overview,
+  });
+
+  factory PlaceEditorialSummary.fromJson(Map<String, dynamic> json) =>
+      _$PlaceEditorialSummaryFromJson(json);
+  Map<String, dynamic> toJson() => _$PlaceEditorialSummaryToJson(this);
+}
+
+@JsonSerializable()
+class PlusCode {
+  final String globalCode;
+  final String? compoundCode;
+
+  PlusCode({
+    required this.globalCode,
+    this.compoundCode,
+  });
+
+  factory PlusCode.fromJson(Map<String, dynamic> json) =>
+      _$PlusCodeFromJson(json);
+  Map<String, dynamic> toJson() => _$PlusCodeToJson(this);
 }
 
 @JsonSerializable()
