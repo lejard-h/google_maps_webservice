@@ -31,7 +31,7 @@ Future<void> main() async {
       for (var row in responseForLocation.rows) {
         for (var element in row.elements) {
           print(
-              'distance ${element.distance.text} duration ${element.duration.text}');
+              'distance ${element.distance?.text} duration ${element.duration?.text}');
         }
       }
     } else {
