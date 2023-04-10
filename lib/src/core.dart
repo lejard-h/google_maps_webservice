@@ -167,7 +167,7 @@ class _TravelMode {
 
 extension TravelModeExt on TravelMode {
   static TravelMode fromApiString(String mode) {
-    return _$enumDecode(_$TravelModeEnumMap, mode);
+    return $enumDecode(_$TravelModeEnumMap, mode);
   }
 
   String toApiString() {
@@ -196,7 +196,7 @@ class _RouteType {
 
 extension RouteTypeExt on RouteType {
   static RouteType fromApiString(String mode) {
-    return _$enumDecode(_$RouteTypeEnumMap, mode);
+    return $enumDecode(_$RouteTypeEnumMap, mode);
   }
 
   String toApiString() {
@@ -222,7 +222,7 @@ class _Unit {
 
 extension UnitExt on Unit {
   static Unit fromApiString(String mode) {
-    return _$enumDecode(_$UnitEnumMap, mode);
+    return $enumDecode(_$UnitEnumMap, mode);
   }
 
   String toApiString() {
@@ -251,7 +251,7 @@ class _TrafficModel {
 
 extension TrafficModelExt on TrafficModel {
   static TrafficModel fromApiString(String mode) {
-    return _$enumDecode(_$TrafficModelEnumMap, mode);
+    return $enumDecode(_$TrafficModelEnumMap, mode);
   }
 
   String toApiString() {
@@ -281,7 +281,7 @@ class _TransitMode {
 
 extension TransitModeExt on TransitMode {
   static TransitMode fromApiString(String mode) {
-    return _$enumDecode(_$TransitModeEnumMap, mode);
+    return $enumDecode(_$TransitModeEnumMap, mode);
   }
 
   String toApiString() {
@@ -310,7 +310,7 @@ class _TransitRoutingPreferences {
 
 extension TransitRoutingPreferencesExt on TransitRoutingPreferences {
   static TransitRoutingPreferences fromApiString(String mode) {
-    return _$enumDecode(_$TransitRoutingPreferencesEnumMap, mode);
+    return $enumDecode(_$TransitRoutingPreferencesEnumMap, mode);
   }
 
   String toApiString() {
