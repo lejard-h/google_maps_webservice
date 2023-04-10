@@ -304,7 +304,7 @@ class GeocodedWaypoint {
   final String geocoderStatus;
 
   /// JSON place_id
-  final String placeId;
+  final String? placeId;
 
   @JsonKey(defaultValue: <String>[])
   final List<String> types;

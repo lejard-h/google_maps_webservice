@@ -303,13 +303,13 @@ class Row {
 
 @JsonSerializable()
 class Element {
-  final Value distance;
-  final Value duration;
+  final Value? distance;
+  final Value? duration;
   final String? elementStatus;
 
   Element({
-    required this.distance,
-    required this.duration,
+    this.distance,
+    this.duration,
     this.elementStatus,
   });
 
