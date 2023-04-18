@@ -90,8 +90,8 @@ Leg _$LegFromJson(Map<String, dynamic> json) => Leg(
               ?.map((e) => Step.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      startAddress: json['start_address'] as String,
-      endAddress: json['end_address'] as String,
+      startAddress: json['start_address'] as String?,
+      endAddress: json['end_address'] as String?,
       durationInTraffic: json['duration_in_traffic'] == null
           ? null
           : Value.fromJson(json['duration_in_traffic'] as Map<String, dynamic>),

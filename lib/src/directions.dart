@@ -387,10 +387,10 @@ class Leg extends _Step {
   final List<Step> steps;
 
   /// JSON start_address
-  final String startAddress;
+  final String? startAddress;
 
   /// JSON end_address
-  final String endAddress;
+  final String? endAddress;
 
   /// JSON duration_in_traffic
   final Value? durationInTraffic;
@@ -403,8 +403,8 @@ class Leg extends _Step {
 
   Leg({
     required this.steps,
-    required this.startAddress,
-    required this.endAddress,
+    this.startAddress,
+    this.endAddress,
     this.durationInTraffic,
     this.arrivalTime,
     this.departureTime,
